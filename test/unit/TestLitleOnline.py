@@ -6,7 +6,7 @@ class TestLitleOnline(unittest.TestCase):
     def setUp(self):
         self.seq = range(10)
 
-    def test_shuffle(self):
+    def test_auth(self):
         # make sure the shuffled sequence does not lose any elements
         random.shuffle(self.seq)
         self.seq.sort()
@@ -15,11 +15,11 @@ class TestLitleOnline(unittest.TestCase):
         # should raise an exception for an immutable sequence
         self.assertRaises(TypeError, random.shuffle, (1,2,3))
 
-    def test_choice(self):
+    def test_capture(self):
         element = random.choice(self.seq)
         self.assertTrue(element in self.seq)
 
-    def test_sample(self):
+    def test_capture_given_auth(self):
         with self.assertRaises(ValueError):
             random.sample(self.seq, 20)
         for element in random.sample(self.seq, 5):
