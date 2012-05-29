@@ -2,35 +2,44 @@ import litleXmlFields
 from litleXmlFields import authorization, sale, captureGivenAuth, authentication,\
     litleOnlineRequest
 import pyxb
-#authentication = litleXmlFields.authorization
-#authentication
-#litleXmlFields.authentication;
-#lor = litleXmlFields.litleOnlineRequest()
-#litleOnlineRequest.
-#auth = litleXmlFields.authentication()
-ttwrg =litleXmlFields.transactionTypeWithReportGroup()
-auth = litleXmlFields.authentication()
-litleXmlFields.Namespace = 'litle'
-#auth  = litleXmlFields.authorization.__init__(
+import httplib
 
-
-lor = litleXmlFields.litleOnlineRequest()
-ttwrg.reportGroup = 'Planets'
-print ttwrg.toxml()
-lor.customerId = '123'
-#print lor
-authorization = litleXmlFields.authorization()
-authentication  = litleXmlFields.CTD_ANON_22()
+authentication = litleXmlFields.authentication()
 authentication.user = 'PHXMLTEST'
 authentication.password = 'certpass'
-authentication.name = 'authorization'
-#litleOnlineRequest.abstract()
+authentication.name = '321'
+#print authentication.toxml()
+#print authentication.password
 card = litleXmlFields.cardType()
 card.number = "42424242424242424242"
 card.expDate = "0912"
 card.cardValidationNum = '123'
 card.type = 'VI'
-print card.toxml()
-litleXmlFields.authorization = pyxb.BIND()
-ttwrg = litleXmlFields.transactionTypeWithReportGroup()
-#order = litleXmlFields.CreateFromDocument(xml_text, default_namespace, location_base)
+#print card.toxml()
+#print card
+
+litleOnline = litleXmlFields.litleOnlineRequest()
+litleOnline.authentication = authentication
+litleOnline.merchantId = '101'
+litleOnline.version = 8.10
+
+authorizationx = litleXmlFields.authorization()
+authorizationx.orderId = '123'
+authorizationx.reportGroup='planets'
+authorizationx.amount = 123
+authorizationx.orderSource = 'ecommerce'
+authorizationx.card = card
+litleOnline.transaction = authorizationx
+postData = litleOnline.toxml()
+#voidx = litleXmlFields.void()
+#voidx.litleTxnId = 123213213213123123
+#print voidx.toxml()
+#bds = pyxb.utils.domutils.BindingDOMSupport(namespace_prefix_map={litleXmlFields.Namespace : ''})
+temp= litleOnline.toxml()
+temp= temp.replace('ns1:','')
+print temp.replace(':ns1','')
+conn = httplib.HTTPConnection("cert.litle.com")
+conn.request("POST", '/vap/communicator/online',postData )#card.toxml()
+response = conn.getresponse()
+print response.status, response.reason, response.msg 
+conn.close()
