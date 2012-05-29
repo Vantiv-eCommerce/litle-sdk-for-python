@@ -1,4 +1,4 @@
-import litleXmlFileds
+from 7 lib.litleXmlFields import litleXmlFields
 import pyxb
 import unittest
 
