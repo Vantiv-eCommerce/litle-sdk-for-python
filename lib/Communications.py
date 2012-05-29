@@ -30,59 +30,33 @@
 # URL and proxy server settings are derived from the configuration file
 #
 
-import httplib
-import litleXmlFields
-
-config_hash = {
-               'proxy_addr': 'smoothproxy',
-               'proxy_port': '8080',
-               'url': 'https://www.testlitle.com/sandbox/communicator/online'
-               }
+from litleOnline import *
 
 
 class Communications:
     ##For http or https post with or without a proxy
-    def http_post(self,post_data,config_hash):
-      proxy_addr = config_hash['proxy_addr']
-      proxy_port = config_hash['proxy_port']
-      litle_url = config_hash['url']
+    def http_post(self,post_data):
+#      config_hash = {
+#               'proxy_addr': 'smoothproxy',
+#               'proxy_port': '8080',
+#               'url': 'https://www.testlitle.com/sandbox/communicator/online'
+#               }
+#
+#
+#      proxy_addr = config_hash['proxy_addr']
+#      proxy_port = config_hash['proxy_port']
+#      litle_url = config_hash['url']
   
       # setup https or http post
       #url = URI.parse(litle_url)
   
       #response_xml = nil    
       #https = Net::HTTP.new(url.host, url.port, proxy_addr, proxy_port)
-      https = httplib.HTTPSConnection("www.testlitle.com/sandbox/communicator/online")
-      https.request("POST", "www.testlitle.com/sandbox/communicator/online", "")
+      https = httplib.HTTPSConnection("cert.litle.com")
+      https.request("POST", "/vap/communicator/online",post_data)
       response = https.getresponse()
-      response_xml= response
+
       https.close()
-      print response
-      
-      print response_xml
-
-com = Communications()      
-com.http_post("aaa", config_hash)
-    
-  
-
-
-#=begin
-# NOTES ON HTTP TIMEOUT
-#
-#  Litle & Co. optimizes our systems to ensure the return of responses as quickly as possible, some portions of the process are beyond our control.
-#  The round-trip time of an Authorization can be broken down into three parts, as follows:
-#    1.  Transmission time (across the internet) to Litle & Co. and back to the merchant
-#    2.  Processing time by the authorization provider
-#    3.  Processing time by Litle 
-#  Under normal operating circumstances, the transmission time to and from Litle does not exceed 0.6 seconds 
-#  and processing overhead by Litle occurs in 0.1 seconds. 
-#  Typically, the processing time by the card association or authorization provider can take between 0.5 and 3 seconds,
-#  but some percentage of transactions may take significantly longer.
-# 
-#  Because the total processing time can vary due to a number of factors, Litle & Co. recommends using a minimum timeout setting of
-#  60 seconds to accomodate Sale transactions and 30 seconds if you are not utilizing Sale tranactions.
-#
-#  These settings should ensure that you do not frequently disconnect prior to receiving a valid authorization causing dropped orders 
-#  and/or re-auths and duplicate auths.
-#=end
+     # print response.status, response.reason, response.msg
+      responseXml = response.read()
+      return responseXml

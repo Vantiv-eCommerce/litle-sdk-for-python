@@ -1,4 +1,5 @@
 import litleXmlFields
+from Communications import *
 
 class litleOnlineRequest:
     
@@ -9,10 +10,11 @@ class litleOnlineRequest:
     
     def litleXmlMapper(self,transaction):
         litleOnline = self.createTxn(transaction)
-        return self.litleToXml(litleOnline)
-       # self.communications
+        #self.litleToXml(litleOnline)
+        comm = Communications()
+        responseXml = comm.http_post(self.litleToXml(litleOnline))
+        return responseXml
        # response = self.ToDom
-        #return response
     
     def createTxn(self,transaction):
         litleOnline = litleXmlFields.litleOnlineRequest()
