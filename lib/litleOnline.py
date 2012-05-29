@@ -4,4 +4,4 @@ from litleXmlFields import authorization, sale, captureGivenAuth, authentication
 import pyxb
 import httplib
 import os
-from litleXmlMapper import *
+from litleOnlineRequest import *

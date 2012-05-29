@@ -22,8 +22,8 @@ authorizationx.reportGroup='planets'
 authorizationx.amount = 123
 authorizationx.orderSource = 'ecommerce'
 authorizationx.card = card
-litleOnline.transaction = authorizationx
 
-litleXml =  litleXmlMapper()
-print litleXml.litleToXml(litleOnline)
+
+litleXml =  litleOnlineRequest()
+print litleXml.litleXmlMapper(authorizationx)
 
