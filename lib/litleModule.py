@@ -1,36 +1,29 @@
-import litleXmlFields
-from litleXmlFields import authorization, sale, captureGivenAuth, authentication,\
-    litleOnlineRequest
-import pyxb
-#authentication = litleXmlFields.authorization
-#authentication
-#litleXmlFields.authentication;
-#lor = litleXmlFields.litleOnlineRequest()
-#litleOnlineRequest.
-#auth = litleXmlFields.authentication()
-ttwrg =litleXmlFields.transactionTypeWithReportGroup()
-auth = litleXmlFields.authentication()
-litleXmlFields.Namespace = 'litle'
-#auth  = litleXmlFields.authorization.__init__(
+from litleOnline import *
 
+litleOnline = litleXmlFields.litleOnlineRequest()
+litleOnline.merchantId = '101'
+litleOnline.version = 8.10
 
-lor = litleXmlFields.litleOnlineRequest()
-ttwrg.reportGroup = 'Planets'
-print ttwrg.toxml()
-lor.customerId = '123'
-#print lor
-authorization = litleXmlFields.authorization()
-authentication  = litleXmlFields.CTD_ANON_22()
+authentication = litleXmlFields.authentication()
 authentication.user = 'PHXMLTEST'
 authentication.password = 'certpass'
-authentication.name = 'authorization'
-#litleOnlineRequest.abstract()
+authentication.name = '321'
+litleOnline.authentication = authentication
+
 card = litleXmlFields.cardType()
 card.number = "42424242424242424242"
 card.expDate = "0912"
 card.cardValidationNum = '123'
 card.type = 'VI'
-print card.toxml()
-litleXmlFields.authorization = pyxb.BIND()
-ttwrg = litleXmlFields.transactionTypeWithReportGroup()
-#order = litleXmlFields.CreateFromDocument(xml_text, default_namespace, location_base)
+
+authorizationx = litleXmlFields.authorization()
+authorizationx.orderId = '123'
+authorizationx.reportGroup='planets'
+authorizationx.amount = 123
+authorizationx.orderSource = 'ecommerce'
+authorizationx.card = card
+
+
+litleXml =  litleOnlineRequest()
+print litleXml.litleXmlMapper(authorizationx)
+
