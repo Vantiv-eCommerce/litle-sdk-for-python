@@ -1,4 +1,4 @@
-import os
+from litleOnline import *
 
 class Configuration:
     _Litle_SDK_CONFIG = ".litle_SDK_config.properties"

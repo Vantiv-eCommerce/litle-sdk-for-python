@@ -1,8 +1,4 @@
-import litleXmlFields
-from litleXmlFields import authorization, sale, captureGivenAuth, authentication,\
-    litleOnlineRequest
-import pyxb
-import httplib
+from litleOnline import *
 
 authentication = litleXmlFields.authentication()
 authentication.user = 'PHXMLTEST'
