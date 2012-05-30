@@ -15,5 +15,8 @@ authorization.orderSource = 'ecommerce'
 authorization.card = card
 
 litleXml =  litleOnlineRequest()
-print litleXml.litleXmlMapper(authorization)
-
+response = litleXml.litleXmlMapper(authorization)
+print 'Litle transaction ID: %s' %  (response.transactionResponse.litleTxnId)
+print 'Litle Message %s' %response.transactionResponse.message
+print 'Litle Version %s' %response.version
+print 'Litle Fraud AvS Result %s' %response.transactionResponse.fraudResult.avsResult

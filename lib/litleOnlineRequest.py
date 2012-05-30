@@ -1,22 +1,22 @@
 import litleXmlFields
+from litleXmlFields import litleOnlineResponse
 from Communications import *
+from xml.dom.minidom import parseString
 
 class litleOnlineRequest:
     
-    def litleToXml(self,litleOnline):
+    def _litleToXml(self,litleOnline):
         temp =litleOnline.toxml()
         temp= temp.replace('ns1:','')
         return temp.replace(':ns1','')
     
     def litleXmlMapper(self,transaction):
-        litleOnline = self.createTxn(transaction)
-        #self.litleToXml(litleOnline)
+        litleOnline = self._createTxn(transaction)
         comm = Communications()
-        responseXml = comm.http_post(self.litleToXml(litleOnline))
-        return responseXml
-       # response = self.ToDom
+        responseXml = comm.http_post(self._litleToXml(litleOnline))
+        return self._processResponse(responseXml)
     
-    def createTxn(self,transaction):
+    def _createTxn(self,transaction):
         litleOnline = litleXmlFields.litleOnlineRequest()
         litleOnline.merchantId = '101'
         litleOnline.version = 8.10
@@ -28,3 +28,8 @@ class litleOnlineRequest:
         litleOnline.authentication = authentication
         litleOnline.transaction = transaction
         return litleOnline
+    
+    def _processResponse(self,responseXml):
+         temp = responseXml.replace(' response=',' xmlns="http://www.litle.com/schema" response=')
+         return litleXmlFields.CreateFromDocument(temp) 
+      

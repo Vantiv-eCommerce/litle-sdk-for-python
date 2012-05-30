@@ -52,12 +52,12 @@ class Communications:
   
       #response_xml = nil    
       #https = Net::HTTP.new(url.host, url.port, proxy_addr, proxy_port)
-      https = httplib.HTTPConnection("smoothproxy:8080")
+      https = httplib.HTTPSConnection("cert.litle.com")
       headers = {"Content-type": "text/xml"}
-      https.request("POST", "https://www.testlitle.com/sandbox/communicator/online",post_data, headers)
+      https.request("POST", "/vap/communicator/online",post_data)
       response = https.getresponse()
-
+      
       https.close()
-     # print response.status, response.reason, response.msg
+      #print response.status, response.reason, response.msg
       responseXml = response.read()
       return responseXml
