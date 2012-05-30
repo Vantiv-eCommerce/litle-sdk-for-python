@@ -31,7 +31,7 @@
 #
 
 
-from litleOnline import *
+#from litleOnline import *
 import urllib2
 
 class Communications:

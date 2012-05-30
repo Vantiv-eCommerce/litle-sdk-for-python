@@ -25,7 +25,7 @@ class litleOnlineRequest:
     def _createTxn(self,transaction):
         litleOnline = litleXmlFields.litleOnlineRequest()
         litleOnline.merchantId = self.merchantId
-        litleOnline.version = CONST_VERSION
+        litleOnline.version = 8.10
 
         authentication = litleXmlFields.authentication()
         authentication.user = self.user
@@ -34,7 +34,12 @@ class litleOnlineRequest:
         litleOnline.transaction = transaction
         return litleOnline
     
+    def _addNamespace(self,responseXml):
+        if (responseXml.count('xmlns="http://www.litle.com/schema') == 0):
+            return responseXml.replace(' response=',' xmlns="http://www.litle.com/schema" response=')    
+        return responseXml
+    
     def _processResponse(self,responseXml):
-         temp = responseXml.replace(' response=',' xmlns="http://www.litle.com/schema" response=')
-         return litleXmlFields.CreateFromDocument(temp) 
+        temp = self._addNamespace(responseXml)
+        return litleXmlFields.CreateFromDocument(responseXml) 
       
