@@ -1,6 +1,3 @@
-#import litleXmlFields
-#from litleXmlFields import litleOnlineResponse
-#from Communications import *
 from litleOnline import *
 
 class litleOnlineRequest:
@@ -14,7 +11,10 @@ class litleOnlineRequest:
         self.reportGroup = Configuration.getReportGroup()
         
     def _litleToXml(self,litleOnline):
-        temp =litleOnline.toxml()
+        try:
+            temp =litleOnline.toxml()
+        except:
+            raise Exception("Missing Required Field")
         # TODO 
         temp= temp.replace('ns1:','')
         return temp.replace(':ns1','')
@@ -45,5 +45,5 @@ class litleOnlineRequest:
     
     def _processResponse(self,responseXml):
         temp = self._addNamespace(responseXml)
-        return litleXmlFields.CreateFromDocument(temp) 
+        return litleXmlFields.CreateFromDocument(temp)
       

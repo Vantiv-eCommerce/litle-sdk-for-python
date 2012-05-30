@@ -1,4 +1,3 @@
-
 import urllib2
 
 class Communications:
@@ -9,18 +8,20 @@ class Communications:
         
     def http_post(self,post_data):
        
-       if (self.proxy != None) :  
-         proxy_handler = urllib2.ProxyHandler({'https': self.proxy}) 
-         opener = urllib2.build_opener(proxy_handler)
-
-         req = urllib2.Request(url= self.url, data=post_data)
-         req.add_header('Content-type', 'text/xml')
-         response = opener.open(req, timeout=self.timeout)
-       else:
-         req = urllib2.Request(url= self.url, data=post_data)
-         req.add_header('Content-type', 'text/xml')
-         response = urllib2.urlopen(req, timeout=self.timeout)
-         
-       responseXml = response.read()
-       return responseXml
+        req = urllib2.Request(url= self.url, data=post_data)
+        req.add_header('Content-type', 'text/xml')
+            
+        try: 
+            if (self.proxy != None) :  
+                proxy_handler = urllib2.ProxyHandler({'https': self.proxy}) 
+                opener = urllib2.build_opener(proxy_handler)
+                response = opener.open(req, timeout=self.timeout)
+            else:
+                response = urllib2.urlopen(req, timeout=self.timeout)
+                
+        except:
+            raise Exception("Error with Https Request, Please Check Proxy and Url configuration")
+        
+        responseXml = response.read()
+        return responseXml
 
