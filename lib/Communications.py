@@ -8,7 +8,6 @@ class Communications:
         self.url = Configuration.getUrl()
         
     def http_post(self,post_data):
-     
        
        if (self.proxy != None) :  
          proxy_handler = urllib2.ProxyHandler({'https': self.proxy}) 

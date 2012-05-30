@@ -5,8 +5,8 @@ config.setPassword('certpass')
 config.setUser('PHXMLTEST')
 config.setMerchantId('101')
 config.setReportGroup('Planets')
-#config.setProxy('smoothproxy:8080')
-config.setUrl('https://cert.litle.com/vap/communicator/online')
+config.setProxy('smoothproxy:8080')
+config.setUrl('Sandbox')
 
 authorization = litleXmlFields.authorization()
 authorization.orderId = '123'
