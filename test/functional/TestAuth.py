@@ -1,29 +1,32 @@
-from 7 lib.litleXmlFields import litleXmlFields
-import pyxb
+from SetupTest import *
 import unittest
 
 class TestAuth:
-
-    litle = litleXmlFields.litleOnlineRequest()
-    def setUp():
-        #something
-        1+1;
     
-    def simpleAuthWithCard(self):
-        newAuthorization = authorization()
-        newAuthorization.setReportGroup("Planets")
-        newAuthorization.setOrderId("12344")
-        newAuthorization.setAmount(106L)
-        newAuthorization.setOrderSource(OrderSourceType.ECOMMERCE)
-        
+    def test_auth(self):
+        authorization = litleXmlFields.authorization()
+        authorization.orderId = '123'
+        authorization.amount = 123
+        authorization.orderSource = 'ecommerce'
+    
         card = litleXmlFields.cardType()
-        card.setExpDate("1210")
-        card.setNumber("4100000000000001")
-        card.setType("VI")
-        authorize.setCard(card);
-        
-        assertEquals(true)
+        card.number = "42424242424242424242"
+        card.expDate = "0912"
+        card.cardValidationNum = '123'
+        card.type = 'VI'
     
+        authorization.card = card
+    
+        litleXml =  litleOnlineRequest(config)
+        response = litleXml.litleXmlMapper(authorization)
+            
+        self.assertEquals(response.message, "Approve")
+        
+if __name__ == '__main__':
+    unittest.main()        
+        
+
+
 #    def simpleAuthWithPaypal():
 #        newAuthorization = authorization()
 #        authorization.setReportGroup("Planets");
@@ -73,4 +76,4 @@ class TestAuth:
 #        authorization.setCard(card);
 #        
 #        AuthorizationResponse response = litle.authorize(authorization);
-#        assertEquals("4100100000000000", response.getAccountUpdater().getOriginalCardInfo().getNumber());
+#        assertEquals("4100100000000000", response.getAccountUpdater().getOriginalCardInfo().getNumber())
