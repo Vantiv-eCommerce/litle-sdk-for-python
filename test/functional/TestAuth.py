@@ -1,7 +1,7 @@
 from SetupTest import *
 import unittest
 
-class TestAuth:
+class TestAuth(unittest.TestCase):
     
     def test_auth(self):
         authorization = litleXmlFields.authorization()
@@ -20,7 +20,7 @@ class TestAuth:
         litleXml =  litleOnlineRequest(config)
         response = litleXml.litleXmlMapper(authorization)
             
-        self.assertEquals(response.message, "Approve")
+        self.assertEquals(response.message, "Approved")
         
 if __name__ == '__main__':
     unittest.main()        
