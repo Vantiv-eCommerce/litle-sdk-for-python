@@ -1,12 +1,18 @@
-import litleXmlFields
-from litleXmlFields import litleOnlineResponse
-from Communications import *
-from xml.dom.minidom import parseString
+#import litleXmlFields
+#from litleXmlFields import litleOnlineResponse
+#from Communications import *
+from litleOnline import *
 
 class litleOnlineRequest:
-    
+        
+    def __init__(self,Configuration):
+        self.user = Configuration.getUser()
+        self.merchantId = Configuration.getMerchantId()
+        self.password = Configuration.getPassword()
+        
     def _litleToXml(self,litleOnline):
         temp =litleOnline.toxml()
+        # TODO 
         temp= temp.replace('ns1:','')
         return temp.replace(':ns1','')
     
@@ -18,13 +24,12 @@ class litleOnlineRequest:
     
     def _createTxn(self,transaction):
         litleOnline = litleXmlFields.litleOnlineRequest()
-        litleOnline.merchantId = '101'
-        litleOnline.version = 8.10
+        litleOnline.merchantId = self.merchantId
+        litleOnline.version = CONST_VERSION
 
         authentication = litleXmlFields.authentication()
-        authentication.user = 'PHXMLTEST'
-        authentication.password = 'certpass'
-        authentication.name = '321'
+        authentication.user = self.user
+        authentication.password =  self.password 
         litleOnline.authentication = authentication
         litleOnline.transaction = transaction
         return litleOnline
