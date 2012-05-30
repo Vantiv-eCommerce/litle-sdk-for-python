@@ -4,7 +4,7 @@ config = Configuration()
 config.setPassword('certpass')
 config.setUser('PHXMLTEST')
 config.setMerchantId('101')
-#config.setVersion(8.2)
+config.setVersion(8.2)
 
 authorization = litleXmlFields.authorization()
 authorization.orderId = '123'

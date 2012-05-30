@@ -30,7 +30,9 @@
 # URL and proxy server settings are derived from the configuration file
 #
 
-import httplib
+
+from litleOnline import *
+import urllib2
 
 class Communications:
     ##For http or https post with or without a proxy
@@ -46,17 +48,14 @@ class Communications:
 #      proxy_port = config_hash['proxy_port']
 #      litle_url = config_hash['url']
   
-      # setup https or http post
-      #url = URI.parse(litle_url)
-  
-      #response_xml = nil    
-      #https = Net::HTTP.new(url.host, url.port, proxy_addr, proxy_port)
-      https = httplib.HTTPSConnection("cert.litle.com")
-      headers = {"Content-type": "text/xml"}
-      https.request("POST", "/vap/communicator/online",post_data)
-      response = https.getresponse()
+
       
-      https.close()
-      #print response.status, response.reason, response.msg
+      proxy_handler = urllib2.ProxyHandler({'https': 'smoothproxy:8080'})
+      opener = urllib2.build_opener(proxy_handler)
+
+      req = urllib2.Request(url='https://www.testlitle.com/sandbox/communicator/online', data=post_data)
+      req.add_header('Content-type', 'text/xml')
+      response = opener.open(req)
+
       responseXml = response.read()
       return responseXml

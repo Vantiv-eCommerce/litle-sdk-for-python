@@ -6,8 +6,8 @@ from litleOnline import *
 class litleOnlineRequest:
         
     def __init__(self,Configuration):
-        self.user = Configuration.getUser()
         self.merchantId = Configuration.getMerchantId()
+        self.user = Configuration.getUser()
         self.password = Configuration.getPassword()
         
     def _litleToXml(self,litleOnline):
