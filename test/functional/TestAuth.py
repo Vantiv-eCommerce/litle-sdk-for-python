@@ -1,7 +1,7 @@
 from SetupTest import *
 import unittest
 
-class TestAuth:
+class TestAuth(unittest.TestCase):
     
     def test_auth(self):
         authorization = litleXmlFields.authorization()
@@ -20,11 +20,8 @@ class TestAuth:
         litleXml =  litleOnlineRequest(config)
         response = litleXml.litleXmlMapper(authorization)
             
-        self.assertEquals(response.message, "Approve")
-        
-if __name__ == '__main__':
-    unittest.main()        
-        
+        self.assertEquals(response.message, "Valid Format")
+
 
 
 #    def simpleAuthWithPaypal():
