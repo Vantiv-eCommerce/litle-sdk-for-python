@@ -30,8 +30,7 @@
 # URL and proxy server settings are derived from the configuration file
 #
 
-from litleOnline import *
-
+import httplib
 
 class Communications:
     ##For http or https post with or without a proxy
