@@ -48,7 +48,7 @@ class Communications:
 #      proxy_port = config_hash['proxy_port']
 #      litle_url = config_hash['url']
   
-    
+
       
       proxy_handler = urllib2.ProxyHandler({'https': 'smoothproxy:8080'})
       opener = urllib2.build_opener(proxy_handler)
