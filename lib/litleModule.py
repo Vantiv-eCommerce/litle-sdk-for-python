@@ -4,11 +4,12 @@ config = Configuration()
 config.setPassword('certpass')
 config.setUser('PHXMLTEST')
 config.setMerchantId('101')
-config.setVersion(8.2)
+config.setReportGroup('Planets')
+#config.setProxy('smoothproxy:8080')
+config.setUrl('https://cert.litle.com/vap/communicator/online')
 
 authorization = litleXmlFields.authorization()
 authorization.orderId = '123'
-authorization.reportGroup='planets'
 authorization.amount = 123
 authorization.orderSource = 'ecommerce'
 
