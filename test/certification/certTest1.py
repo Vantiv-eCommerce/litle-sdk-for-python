@@ -1,7 +1,7 @@
 from SetupTest import *
 import unittest
 
-class TestAuth(unittest.TestCase):
+class certTest1(unittest.TestCase):
     
     def test1_auth(self):
         
