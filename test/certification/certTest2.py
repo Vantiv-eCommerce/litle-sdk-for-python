@@ -402,6 +402,3 @@ class certTest2(unittest.TestCase):
         self.assertEquals("010",response.transactionResponse.response)
         self.assertEquals("Partially Approved",response.transactionResponse.message)
         self.assertEquals(18699, response.transactionResponse.approvedAmount)
-
-if __name__ == '__main__':
-    unittest.main()        
