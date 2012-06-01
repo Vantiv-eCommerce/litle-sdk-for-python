@@ -7144,7 +7144,7 @@ CTD_ANON_3._GroupModel = pyxb.binding.content.GroupAll(
     pyxb.binding.content.ParticleModel(CTD_ANON_3._UseForTag(pyxb.namespace.ExpandedName(Namespace, u'litleTxnId')), min_occurs=1, max_occurs=1),
     pyxb.binding.content.ParticleModel(CTD_ANON_3._UseForTag(pyxb.namespace.ExpandedName(Namespace, u'response')), min_occurs=1, max_occurs=1),
     pyxb.binding.content.ParticleModel(CTD_ANON_3._UseForTag(pyxb.namespace.ExpandedName(Namespace, u'responseTime')), min_occurs=1, max_occurs=1),
-    pyxb.binding.content.ParticleModel(CTD_ANON_3._UseForTag(pyxb.namespace.ExpandedName(Namespace, u'postDate')), min_occurs=1, max_occurs=1),
+    pyxb.binding.content.ParticleModel(CTD_ANON_3._UseForTag(pyxb.namespace.ExpandedName(Namespace, u'postDate')), min_occurs=0L, max_occurs=1),
     pyxb.binding.content.ParticleModel(CTD_ANON_3._UseForTag(pyxb.namespace.ExpandedName(Namespace, u'message')), min_occurs=1, max_occurs=1)
     )
 CTD_ANON_3._ContentModel = pyxb.binding.content.ParticleModel(CTD_ANON_3._GroupModel, min_occurs=1, max_occurs=1)
@@ -8516,7 +8516,7 @@ CTD_ANON_39._GroupModel = pyxb.binding.content.GroupAll(
     pyxb.binding.content.ParticleModel(CTD_ANON_39._UseForTag(pyxb.namespace.ExpandedName(Namespace, u'litleTxnId')), min_occurs=1, max_occurs=1),
     pyxb.binding.content.ParticleModel(CTD_ANON_39._UseForTag(pyxb.namespace.ExpandedName(Namespace, u'response')), min_occurs=1, max_occurs=1),
     pyxb.binding.content.ParticleModel(CTD_ANON_39._UseForTag(pyxb.namespace.ExpandedName(Namespace, u'responseTime')), min_occurs=1, max_occurs=1),
-    pyxb.binding.content.ParticleModel(CTD_ANON_39._UseForTag(pyxb.namespace.ExpandedName(Namespace, u'postDate')), min_occurs=1, max_occurs=1),
+    pyxb.binding.content.ParticleModel(CTD_ANON_39._UseForTag(pyxb.namespace.ExpandedName(Namespace, u'postDate')), min_occurs=0L, max_occurs=1),
     pyxb.binding.content.ParticleModel(CTD_ANON_39._UseForTag(pyxb.namespace.ExpandedName(Namespace, u'message')), min_occurs=1, max_occurs=1)
     )
 CTD_ANON_39._ContentModel = pyxb.binding.content.ParticleModel(CTD_ANON_39._GroupModel, min_occurs=1, max_occurs=1)
