@@ -39,7 +39,7 @@ class litleOnlineRequest:
         return litleOnline
     
     def _addNamespace(self,responseXml):
-        if (responseXml.count("xmlns='http://www.litle.com/schema'") == 0):
+        if ((responseXml.count("xmlns='http://www.litle.com/schema'") == 0) and (responseXml.count('xmlns="http://www.litle.com/schema"') == 0)):
             return responseXml.replace(' response=',' xmlns="http://www.litle.com/schema" response=')    
         return responseXml
     
