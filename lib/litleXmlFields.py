@@ -5667,15 +5667,15 @@ class CTD_ANON_36 (transactionTypeWithReportGroup):
 
     _ElementMap = transactionTypeWithReportGroup._ElementMap.copy()
     _ElementMap.update({
-        __litleTxnId.name() : __litleTxnId,
+        __litleTxnId.name() : __litleTxnId, __amount.name() : __amount, __verify.name() : __verify,
         __orderSource.name() : __orderSource,
         __shipToAddress.name() : __shipToAddress,
-        __amount.name() : __amount,
+        
         __billToAddress.name() : __billToAddress,
         __customBilling.name() : __customBilling,
         __orderId.name() : __orderId,
         __echeckOrEcheckToken.name() : __echeckOrEcheckToken,
-        __verify.name() : __verify,
+        
         __merchantData.name() : __merchantData
     })
     _AttributeMap = transactionTypeWithReportGroup._AttributeMap.copy()
