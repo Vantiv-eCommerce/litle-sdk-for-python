@@ -1,0 +1,1 @@
+__all__ = ["bin", "lib", "test"]
