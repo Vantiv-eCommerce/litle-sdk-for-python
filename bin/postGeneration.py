@@ -53,30 +53,22 @@ sys.path.append(lib_path)
 #
 #            # close the file
 #            write_file.close()
-#def cregex(find, replace, currentline, xfile):
-#    f = re.sub(tx, tx2 + ' ' + am2 + ' ' + ve2, currentline)
-#    print '\n' + xfile
-#    print '- ' + currentline ,
-#    if currentline[-1:]!='\n': print '\n' ,
-#    print '+ ' + f
-#    if f[-1:]!='\n': print '\n' ,
-#    print 'adding lines'
-#    readlines[listindex] = f
-#    write_file=open(xfile,'w') 
-#    for line in readlines:
-#        write_file.write(line)
-#    write_file.close()
+
+def cregex(find, replace, currentline, xfile, listindex, readlines):
+    f = re.sub(find, replace, currentline)
+    print '\n' + xfile
+    print '- ' + currentline ,
+    if currentline[-1:]!='\n': print '\n' ,
+    print '+ ' + f
+    if f[-1:]!='\n': print '\n' ,
+    readlines[listindex] = f
+    write_file=open(xfile,'w') 
+    for line in readlines:
+        write_file.write(line)
+    write_file.close()
 
 
 def fixecheckSale(xfile):
-#    find class CTD_ANON_36 (transactionTypeWithReportGroup):
-#
-#    find __litleTxnId.name() : __litleTxnId,
-#    add on next line    __amount.name() : __amount,
-#    add on next line    __verify.name() : __verify,
-#    delete next   __amount.name() : __amount,
-#    delete next    __verify.name() : __verify,
-
     tx = "__litleTxnId.name\(\) : __litleTxnId,"
     am = "__amount.name\(\) : __amount,"
     ve = '__verify.name\(\) : __verify,'
@@ -102,50 +94,14 @@ def fixecheckSale(xfile):
             # if the regexp is found
             if ((not echeckFlag) and echeck.search(currentline)):
                 echeckFlag=1
-                print 'got in echeck'
             elif (echeckFlag and (not txnFlag) and txnid.search(currentline)):
                 txnFlag=1
-                f = re.sub(tx, tx2 + ' ' + am2 + ' ' + ve2, currentline)
-                print listindex
-                print '\n' + xfile
-                print '- ' + currentline ,
-                if currentline[-1:]!='\n': print '\n' ,
-                print '+ ' + f
-                if f[-1:]!='\n': print '\n' ,
-                print 'adding lines'
-                readlines[listindex] = f
-                write_file=open(xfile,'w') 
-                for line in readlines:
-                    write_file.write(line)
-                write_file.close()
+                cregex(tx, tx2 + ' ' + am2 + ' ' + ve2, currentline, xfile, listindex, readlines)
             elif (txnFlag and amount.search(currentline)):
-                g = re.sub(am,'',currentline)
-                print '\n' + xfile
-                print '- ' + currentline ,
-                if currentline[-1:]!='\n': print '\n' ,
-                print '+ ' + g
-                if  g[-1:]!='\n': print '\n' ,
-                readlines[listindex] = g
-                write_file=open(xfile,'w') 
-                for line in readlines:
-                    write_file.write(line)
-                write_file.close()
-                print 'removing am'
+                cregex(am, '', currentline, xfile, listindex, readlines)
             elif (txnFlag and verify.search(currentline)):
-                h = re.sub(ve,'',currentline)
-                print '\n' + xfile
-                print '- ' + currentline ,
-                if currentline[-1:]!='\n': print '\n' ,
-                print '+ ' + h
-                if  h[-1:]!='\n': print '\n' ,
-                readlines[listindex] = h
-                write_file=open(xfile,'w') 
-                for line in readlines:
-                    write_file.write(line)
-                write_file.close()
-                print 'removing ve'
+                cregex(ve, '', currentline, xfile, listindex, readlines)
                 echeckFlag = 0
                 txnFlag = 0
                 
 fixecheckSale(lib_path)
-print 'hello'
