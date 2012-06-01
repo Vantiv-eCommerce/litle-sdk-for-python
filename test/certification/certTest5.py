@@ -96,9 +96,9 @@ class certTest5(unittest.TestCase):
         response = litleXml.litleXmlMapper(auth)
         self.assertEquals( "000",response.transactionResponse.response)
         self.assertEquals("Approved",response.transactionResponse.message)
-        self.assertEquals("801", response.transactionResponse.tokenReponse.tokenResponseCode)
+        self.assertEquals("801", response.transactionResponse.tokenResponse.tokenResponseCode)
         self.assertEquals("Account number was successfully registered", response.transactionResponse.tokenResponse.tokenMessage)
-        self.assertEquals('EC', response.transactionResponse.tokenResponse.type)
+        self.assertEquals('MC', response.transactionResponse.tokenResponse.type)
         self.assertEquals("543510", response.transactionResponse.tokenResponse.bin)
         
         
@@ -140,124 +140,124 @@ class certTest5(unittest.TestCase):
         response = litleXml.litleXmlMapper(auth)
         self.assertEquals( "000",response.transactionResponse.response)
         self.assertEquals("Approved",response.transactionResponse.message)
-        self.assertEquals("802", response.transactionResponse.tokenReponse.tokenResponseCode)
+        self.assertEquals("802", response.transactionResponse.tokenResponse.tokenResponseCode)
         self.assertEquals("Account number was previously registered", response.transactionResponse.tokenResponse.tokenMessage)
         self.assertEquals('MC', response.transactionResponse.tokenResponse.type)
         self.assertEquals("543510", response.transactionResponse.tokenResponse.bin)
         
         
-#    def test59(self):
-#        
-#        auth = litleXmlFields.authorization()
-#        auth.orderId = "59"
-#        auth.amount = 15000
-#        auth.orderSource = 'ecommerce'
-#        
-#        token = litleXmlFields.cardTokenType()
-#        token.litleToken = "1712990000040196"
-#        token.expDate = "1112"
-#        auth.token = token
-#        
-#        litleXml =  litleOnlineRequest(config)
-#        response = litleXml.litleXmlMapper(auth)
-#        self.assertEquals("822", response.transactionResponse.response)
-#        self.assertEquals("Token was not found", response.transactionResponse.message)
-#        
-#        
-#    def test60(self):
-#        
-#        auth = litleXmlFields.authorization()
-#        auth.orderId = "60"
-#        auth.amount = 15000
-#        auth.orderSource = 'ecommerce'
-#        
-#        token = litleXmlFields.cardTokenType()
-#        token.litleToken = "1712999999999999"
-#        token.expDate = "1112"
-#        auth.token = token
-#        
-#        litleXml =  litleOnlineRequest(config)
-#        response = litleXml.litleXmlMapper(auth)
-#        self.assertEquals("823", response.transactionResponse.response)
-#        self.assertEquals("Token was invalid", response.transactionResponse.message)
-#
-#    def test61(self):
-#        
-#        sale = litleXmlFields.echeckSale()
-#        sale.orderId = "61"
-#        sale.amount = 15000
-#        sale.orderSource = 'ecommerce'
-#        
-#        billtoaddress = litleXmlFields.contact()
-#        billtoaddress.firstName = "Tom"
-#        billtoaddress.lastName = "Black"
-#        sale.billToAddress = billtoaddress
-#        
-#        echeck = litleXmlFields.echeck()
-#        echeck.accNum = "1099999003"
-#        echeck.accType = 'Checking'
-#        echeck.routingNum = "114567895"
-#        sale.echeckOrEcheckToken = echeck
-#        
-#        litleXml =  litleOnlineRequest(config)
-#        response = litleXml.litleXmlMapper(sale)
-#        self.assertEquals("801", response.transactionResponse.tokenReponse.tokenResponseCode)
-#        self.assertEquals("Account number was successfully registered", response.transactionResponse.tokenResponse.tokenMessage)
-#        self.assertEquals('EC', response.transactionResponse.tokenResponse.type)
-#        self.assertEquals("111922223333444999", response.transactionResponse.tokenResponse.litleToken)
-#        
-#        
-#    def test62(self):
-#        
-#        sale = litleXmlFields.echeckSale()
-#        sale.orderId = "62"
-#        sale.amount = 15000
-#        sale.orderSource = 'ecommerce'
-#        
-#        billtoaddress = litleXmlFields.contact()
-#        billtoaddress.firstName = "Tom"
-#        billtoaddress.lastName = "Black"
-#        sale.billToAddress = billtoaddress
-#        
-#        echeck = litleXmlFields.echeck()
-#        echeck.accNum = "1099999999"
-#        echeck.accType = 'Checking'
-#        echeck.routingNum = "114567895"
-#        sale.echeckOrEcheckToken = echeck
-#        
-#        litleXml =  litleOnlineRequest(config)
-#        response = litleXml.litleXmlMapper(sale)
-#        self.assertEquals("801", response.transactionResponse.tokenReponse.tokenResponseCode)
-#        self.assertEquals("Account number was successfully registered", response.transactionResponse.tokenResponse.tokenMessage)
-#        self.assertEquals('EC', response.transactionResponse.tokenResponse.type)
-#        self.assertEquals("999", response.transactionResponse.tokenResponse.eCheckAccountSuffix)
-#        self.assertEquals("111922223333444999", response.transactionResponse.tokenResponse.litleToken)
-##        
-#    def test63(self):
-#        
-#        sale = litleXmlFields.echeckSale()
-#        sale.orderId = "63"
-#        sale.amount = 15000
-#        sale.orderSource = 'ecommerce'
-#        
-#        billtoaddress = litleXmlFields.contact()
-#        billtoaddress.firstName = "Tom"
-#        billtoaddress.lastName = "Black"
-#        sale.billToAddress = billtoaddress
-#        
-#        echeck = litleXmlFields.echeck()
-#        echeck.accNum = "1099999999"
-#        echeck.accType = 'Checking'
-#        echeck.routingNum = "214567892"
-#        sale.echeckOrEcheckToken = echeck
-#        
-#        litleXml =  litleOnlineRequest(config)
-#        response = litleXml.litleXmlMapper(sale)
-#        self.assertEquals("801", response.transactionResponse.tokenReponse.tokenResponseCode)
-#        self.assertEquals("Account number was successfully registered", response.transactionResponse.tokenResponse.tokenMessage)
-#        self.assertEquals('EC', response.transactionResponse.tokenResponse.type)
-#        self.assertEquals("999", response.transactionResponse.tokenResponse.eCheckAccountSuffix)
-#        self.assertEquals("111922223333555999", response.transactionResponse.tokenResponse.litleToken)
+    def test59(self):
+        
+        auth = litleXmlFields.authorization()
+        auth.orderId = "59"
+        auth.amount = 15000
+        auth.orderSource = 'ecommerce'
+        
+        token = litleXmlFields.cardTokenType()
+        token.litleToken = "1712990000040196"
+        token.expDate = "1112"
+        auth.token = token
+        
+        litleXml =  litleOnlineRequest(config)
+        response = litleXml.litleXmlMapper(auth)
+        self.assertEquals("822", response.transactionResponse.response)
+        self.assertEquals("Token was not found", response.transactionResponse.message)
+        
+        
+    def test60(self):
+        
+        auth = litleXmlFields.authorization()
+        auth.orderId = "60"
+        auth.amount = 15000
+        auth.orderSource = 'ecommerce'
+        
+        token = litleXmlFields.cardTokenType()
+        token.litleToken = "1712999999999999"
+        token.expDate = "1112"
+        auth.token = token
+        
+        litleXml =  litleOnlineRequest(config)
+        response = litleXml.litleXmlMapper(auth)
+        self.assertEquals("823", response.transactionResponse.response)
+        self.assertEquals("Token was invalid", response.transactionResponse.message)
+
+    def test61(self):
+        
+        sale = litleXmlFields.echeckSale()
+        sale.orderId = "61"
+        sale.amount = 15000
+        sale.orderSource = 'ecommerce'
+        
+        billtoaddress = litleXmlFields.contact()
+        billtoaddress.firstName = "Tom"
+        billtoaddress.lastName = "Black"
+        sale.billToAddress = billtoaddress
+        
+        echeck = litleXmlFields.echeck()
+        echeck.accNum = "1099999003"
+        echeck.accType = 'Checking'
+        echeck.routingNum = "114567895"
+        sale.echeckOrEcheckToken = echeck
+        
+        litleXml =  litleOnlineRequest(config)
+        response = litleXml.litleXmlMapper(sale)
+        self.assertEquals("801", response.transactionResponse.tokenResponse.tokenResponseCode)
+        self.assertEquals("Account number was successfully registered", response.transactionResponse.tokenResponse.tokenMessage)
+        self.assertEquals('EC', response.transactionResponse.tokenResponse.type)
+        self.assertEquals("111922223333444003", response.transactionResponse.tokenResponse.litleToken)
+        
+        
+    def test62(self):
+        
+        sale = litleXmlFields.echeckSale()
+        sale.orderId = "62"
+        sale.amount = 15000
+        sale.orderSource = 'ecommerce'
+        
+        billtoaddress = litleXmlFields.contact()
+        billtoaddress.firstName = "Tom"
+        billtoaddress.lastName = "Black"
+        sale.billToAddress = billtoaddress
+        
+        echeck = litleXmlFields.echeck()
+        echeck.accNum = "1099999999"
+        echeck.accType = 'Checking'
+        echeck.routingNum = "114567895"
+        sale.echeckOrEcheckToken = echeck
+        
+        litleXml =  litleOnlineRequest(config)
+        response = litleXml.litleXmlMapper(sale)
+        self.assertEquals("801", response.transactionResponse.tokenResponse.tokenResponseCode)
+        self.assertEquals("Account number was successfully registered", response.transactionResponse.tokenResponse.tokenMessage)
+        self.assertEquals('EC', response.transactionResponse.tokenResponse.type)
+        self.assertEquals("999", response.transactionResponse.tokenResponse.eCheckAccountSuffix)
+        self.assertEquals("111922223333444999", response.transactionResponse.tokenResponse.litleToken)
+        
+    def test63(self):
+        
+        sale = litleXmlFields.echeckSale()
+        sale.orderId = "63"
+        sale.amount = 15000
+        sale.orderSource = 'ecommerce'
+        
+        billtoaddress = litleXmlFields.contact()
+        billtoaddress.firstName = "Tom"
+        billtoaddress.lastName = "Black"
+        sale.billToAddress = billtoaddress
+        
+        echeck = litleXmlFields.echeck()
+        echeck.accNum = "1099999999"
+        echeck.accType = 'Checking'
+        echeck.routingNum = "214567892"
+        sale.echeckOrEcheckToken = echeck
+        
+        litleXml =  litleOnlineRequest(config)
+        response = litleXml.litleXmlMapper(sale)
+        self.assertEquals("801", response.transactionResponse.tokenResponse.tokenResponseCode)
+        self.assertEquals("Account number was successfully registered", response.transactionResponse.tokenResponse.tokenMessage)
+        self.assertEquals('EC', response.transactionResponse.tokenResponse.type)
+        self.assertEquals("999", response.transactionResponse.tokenResponse.eCheckAccountSuffix)
+        self.assertEquals("111922223333555999", response.transactionResponse.tokenResponse.litleToken)
 
 
         
