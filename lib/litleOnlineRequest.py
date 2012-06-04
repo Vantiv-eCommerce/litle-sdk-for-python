@@ -19,7 +19,7 @@ class litleOnlineRequest:
         temp= temp.replace('ns1:','')
         return temp.replace(':ns1','')
         
-    def litleXmlMapper(self,transaction,user = None, password = None, version = None,  merchantId = None,reportGroup = None, timeout = None,url = None, proxy = None):
+    def sendRequest(self,transaction,user = None, password = None, version = None,  merchantId = None,reportGroup = None, timeout = None,url = None, proxy = None):
         if (user != None):
             self.User = user
         if (password != None):

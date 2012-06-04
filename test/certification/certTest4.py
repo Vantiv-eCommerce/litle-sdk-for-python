@@ -21,7 +21,7 @@ class certTest4(unittest.TestCase):
         verification.echeckOrEcheckToken = echeck
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(verification)
+        response = litleXml.sendRequest(verification)
         self.assertEquals("301", response.transactionResponse.response)
         self.assertEquals("Invalid Account Number", response.transactionResponse.message)
     
@@ -44,7 +44,7 @@ class certTest4(unittest.TestCase):
         verification.echeckOrEcheckToken = echeck
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(verification)
+        response = litleXml.sendRequest(verification)
         self.assertEquals("000", response.transactionResponse.response)
         self.assertEquals("Approved", response.transactionResponse.message)
         
@@ -68,7 +68,7 @@ class certTest4(unittest.TestCase):
         verification.echeckOrEcheckToken = echeck
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(verification)
+        response = litleXml.sendRequest(verification)
         self.assertEquals("950", response.transactionResponse.response)
         self.assertEquals("Declined - Negative Information on File", response.transactionResponse.message)
         
@@ -92,7 +92,7 @@ class certTest4(unittest.TestCase):
         verification.echeckOrEcheckToken = echeck
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(verification)
+        response = litleXml.sendRequest(verification)
         self.assertEquals("951", response.transactionResponse.response)
         self.assertEquals("Absolute Decline", response.transactionResponse.message)
         
@@ -115,7 +115,7 @@ class certTest4(unittest.TestCase):
         sale.echeckOrEcheckToken = echeck
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(sale)
+        response = litleXml.sendRequest(sale)
         self.assertEquals("301", response.transactionResponse.response)
         self.assertEquals("Invalid Account Number", response.transactionResponse.message)
         
@@ -137,7 +137,7 @@ class certTest4(unittest.TestCase):
         sale.echeckOrEcheckToken = echeck
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(sale)
+        response = litleXml.sendRequest(sale)
         self.assertEquals("000", response.transactionResponse.response)
         self.assertEquals("Approved", response.transactionResponse.message)
         
@@ -160,7 +160,7 @@ class certTest4(unittest.TestCase):
         sale.echeckOrEcheckToken = echeck
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(sale)
+        response = litleXml.sendRequest(sale)
         self.assertEquals("000", response.transactionResponse.response)
         self.assertEquals("Approved", response.transactionResponse.message)
         
@@ -183,7 +183,7 @@ class certTest4(unittest.TestCase):
         sale.echeckOrEcheckToken = echeck
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(sale)
+        response = litleXml.sendRequest(sale)
         self.assertEquals("900", response.transactionResponse.response)
         self.assertEquals("Invalid Bank Routing Number", response.transactionResponse.message)
         
@@ -205,7 +205,7 @@ class certTest4(unittest.TestCase):
         credit.echeckOrEcheckToken = echeck
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(credit)
+        response = litleXml.sendRequest(credit)
         self.assertEquals("301", response.transactionResponse.response)
         self.assertEquals("Invalid Account Number", response.transactionResponse.message)
         
@@ -228,7 +228,7 @@ class certTest4(unittest.TestCase):
         credit.echeckOrEcheckToken = echeck
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(credit)
+        response = litleXml.sendRequest(credit)
         self.assertEquals("000", response.transactionResponse.response)
         self.assertEquals("Approved", response.transactionResponse.message)
         
@@ -251,7 +251,7 @@ class certTest4(unittest.TestCase):
         credit.echeckOrEcheckToken = echeck
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(credit)
+        response = litleXml.sendRequest(credit)
         self.assertEquals("000", response.transactionResponse.response)
         self.assertEquals("Approved", response.transactionResponse.message)
 #        
@@ -260,7 +260,7 @@ class certTest4(unittest.TestCase):
         credit.litleTxnId = 430000000000000001
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(credit)
+        response = litleXml.sendRequest(credit)
         self.assertEquals("000", response.transactionResponse.response)
         self.assertEquals("Approved", response.transactionResponse.message)
         
@@ -269,6 +269,6 @@ class certTest4(unittest.TestCase):
         credit.litleTxnId = 2
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(credit)
+        response = litleXml.sendRequest(credit)
         self.assertEquals("360", response.transactionResponse.response)
         self.assertEquals("No transaction found with specified litleTxnId", response.transactionResponse.message)

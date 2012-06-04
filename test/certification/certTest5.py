@@ -10,7 +10,7 @@ class certTest5(unittest.TestCase):
         token.accountNumber = "4457119922390123"
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(token)
+        response = litleXml.sendRequest(token)
         self.assertEquals("445711",response.transactionResponse.bin)
         self.assertEquals( "VI",response.transactionResponse.type)
         self.assertEquals( "801",response.transactionResponse.response)
@@ -25,7 +25,7 @@ class certTest5(unittest.TestCase):
         token.accountNumber = "4457119999999999"
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(token)
+        response = litleXml.sendRequest(token)
         self.assertEquals( "820",response.transactionResponse.response)
         self.assertEquals("Credit card number was invalid",response.transactionResponse.message)
         
@@ -37,7 +37,7 @@ class certTest5(unittest.TestCase):
         token.accountNumber = "4457119922390123"
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(token)
+        response = litleXml.sendRequest(token)
         self.assertEquals("445711",response.transactionResponse.bin)
         self.assertEquals( "VI",response.transactionResponse.type)
         self.assertEquals( "802",response.transactionResponse.response)
@@ -55,7 +55,7 @@ class certTest5(unittest.TestCase):
         token.echeckForToken = echeck
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(token)
+        response = litleXml.sendRequest(token)
         self.assertEquals("998",response.transactionResponse.eCheckAccountSuffix)
         self.assertEquals( "EC",response.transactionResponse.type)
         self.assertEquals( "801",response.transactionResponse.response)
@@ -73,7 +73,7 @@ class certTest5(unittest.TestCase):
         token.echeckForToken = echeck
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(token)
+        response = litleXml.sendRequest(token)
         self.assertEquals( "900",response.transactionResponse.response)
         self.assertEquals("Invalid bank routing number",response.transactionResponse.message)
         
@@ -93,7 +93,7 @@ class certTest5(unittest.TestCase):
         auth.card = card
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(auth)
+        response = litleXml.sendRequest(auth)
         self.assertEquals( "000",response.transactionResponse.response)
         self.assertEquals("Approved",response.transactionResponse.message)
         self.assertEquals("801", response.transactionResponse.tokenResponse.tokenResponseCode)
@@ -117,7 +117,7 @@ class certTest5(unittest.TestCase):
         auth.card = card
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(auth)
+        response = litleXml.sendRequest(auth)
         self.assertEquals( "301",response.transactionResponse.response)
         self.assertEquals("Invalid account number",response.transactionResponse.message)
         
@@ -137,7 +137,7 @@ class certTest5(unittest.TestCase):
         auth.card = card
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(auth)
+        response = litleXml.sendRequest(auth)
         self.assertEquals( "000",response.transactionResponse.response)
         self.assertEquals("Approved",response.transactionResponse.message)
         self.assertEquals("802", response.transactionResponse.tokenResponse.tokenResponseCode)
@@ -159,7 +159,7 @@ class certTest5(unittest.TestCase):
         auth.token = token
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(auth)
+        response = litleXml.sendRequest(auth)
         self.assertEquals("822", response.transactionResponse.response)
         self.assertEquals("Token was not found", response.transactionResponse.message)
         
@@ -177,7 +177,7 @@ class certTest5(unittest.TestCase):
         auth.token = token
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(auth)
+        response = litleXml.sendRequest(auth)
         self.assertEquals("823", response.transactionResponse.response)
         self.assertEquals("Token was invalid", response.transactionResponse.message)
 
@@ -200,7 +200,7 @@ class certTest5(unittest.TestCase):
         sale.echeckOrEcheckToken = echeck
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(sale)
+        response = litleXml.sendRequest(sale)
         self.assertEquals("801", response.transactionResponse.tokenResponse.tokenResponseCode)
         self.assertEquals("Account number was successfully registered", response.transactionResponse.tokenResponse.tokenMessage)
         self.assertEquals('EC', response.transactionResponse.tokenResponse.type)
@@ -226,7 +226,7 @@ class certTest5(unittest.TestCase):
         sale.echeckOrEcheckToken = echeck
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(sale)
+        response = litleXml.sendRequest(sale)
         self.assertEquals("801", response.transactionResponse.tokenResponse.tokenResponseCode)
         self.assertEquals("Account number was successfully registered", response.transactionResponse.tokenResponse.tokenMessage)
         self.assertEquals('EC', response.transactionResponse.tokenResponse.type)
@@ -252,7 +252,7 @@ class certTest5(unittest.TestCase):
         sale.echeckOrEcheckToken = echeck
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(sale)
+        response = litleXml.sendRequest(sale)
         self.assertEquals("801", response.transactionResponse.tokenResponse.tokenResponseCode)
         self.assertEquals("Account number was successfully registered", response.transactionResponse.tokenResponse.tokenMessage)
         self.assertEquals('EC', response.transactionResponse.tokenResponse.type)

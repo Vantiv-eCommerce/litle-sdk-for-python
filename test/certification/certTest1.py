@@ -28,7 +28,7 @@ class certTest1(unittest.TestCase):
         authorization.card = card
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(authorization)
+        response = litleXml.sendRequest(authorization)
         self.assertEquals( "000",response.transactionResponse.response)
         self.assertEquals("Approved",response.transactionResponse.message)
         self.assertEquals("11111 ",response.transactionResponse.authCode)
@@ -37,19 +37,19 @@ class certTest1(unittest.TestCase):
         
         capture = litleXmlFields.capture()
         capture.litleTxnId = response.transactionResponse.litleTxnId
-        captureresponse = litleXml.litleXmlMapper(capture)
+        captureresponse = litleXml.sendRequest(capture)
         self.assertEquals( "000",captureresponse.transactionResponse.response)
         self.assertEquals("Approved",captureresponse.transactionResponse.message)
         
         credit = litleXmlFields.credit()
         credit.litleTxnId = captureresponse.transactionResponse.litleTxnId
-        creditresponse = litleXml.litleXmlMapper(credit)
+        creditresponse = litleXml.sendRequest(credit)
         self.assertEquals( "000",creditresponse.transactionResponse.response)
         self.assertEquals("Approved",creditresponse.transactionResponse.message)
         
         void = litleXmlFields.void()
         void.litleTxnId = creditresponse.transactionResponse.litleTxnId
-        voidresponse = litleXml.litleXmlMapper(void)
+        voidresponse = litleXml.sendRequest(void)
         self.assertEquals( "000",voidresponse.transactionResponse.response)
         self.assertEquals("Approved",voidresponse.transactionResponse.message)
         
@@ -78,7 +78,7 @@ class certTest1(unittest.TestCase):
         authorization.card = card
             
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(authorization)
+        response = litleXml.sendRequest(authorization)
         self.assertEquals( "000",response.transactionResponse.response)
         self.assertEquals("Approved",response.transactionResponse.message)
         self.assertEquals("11111 ",response.transactionResponse.authCode)
@@ -110,7 +110,7 @@ class certTest1(unittest.TestCase):
         sale.card = card
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(sale)
+        response = litleXml.sendRequest(sale)
         self.assertEquals( "000",response.transactionResponse.response)
         self.assertEquals("Approved",response.transactionResponse.message)
         self.assertEquals("11111 ",response.transactionResponse.authCode)
@@ -119,13 +119,13 @@ class certTest1(unittest.TestCase):
        
         credit = litleXmlFields.credit()
         credit.litleTxnId = response.transactionResponse.litleTxnId
-        creditresponse = litleXml.litleXmlMapper(credit)
+        creditresponse = litleXml.sendRequest(credit)
         self.assertEquals( "000",creditresponse.transactionResponse.response)
         self.assertEquals("Approved",creditresponse.transactionResponse.message)
         
         void = litleXmlFields.void()
         void.litleTxnId = creditresponse.transactionResponse.litleTxnId
-        voidresponse = litleXml.litleXmlMapper(void)
+        voidresponse = litleXml.sendRequest(void)
         self.assertEquals( "000",voidresponse.transactionResponse.response)
         self.assertEquals("Approved",voidresponse.transactionResponse.message)
         
@@ -159,7 +159,7 @@ class certTest1(unittest.TestCase):
         authorization.cardholderAuthentication = authenticationvalue
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(authorization)
+        response = litleXml.sendRequest(authorization)
         self.assertEquals( "000",response.transactionResponse.response)
         self.assertEquals("Approved",response.transactionResponse.message)
         self.assertEquals("22222",response.transactionResponse.authCode)
@@ -168,19 +168,19 @@ class certTest1(unittest.TestCase):
         
         capture = litleXmlFields.capture()
         capture.litleTxnId = response.transactionResponse.litleTxnId
-        captureresponse = litleXml.litleXmlMapper(capture)
+        captureresponse = litleXml.sendRequest(capture)
         self.assertEquals( "000",captureresponse.transactionResponse.response)
         self.assertEquals("Approved",captureresponse.transactionResponse.message)
         
         credit = litleXmlFields.credit()
         credit.litleTxnId = captureresponse.transactionResponse.litleTxnId
-        creditresponse = litleXml.litleXmlMapper(credit)
+        creditresponse = litleXml.sendRequest(credit)
         self.assertEquals( "000",creditresponse.transactionResponse.response)
         self.assertEquals("Approved",creditresponse.transactionResponse.message)
         
         void = litleXmlFields.void()
         void.litleTxnId = creditresponse.transactionResponse.litleTxnId
-        voidresponse = litleXml.litleXmlMapper(void)
+        voidresponse = litleXml.sendRequest(void)
         self.assertEquals( "000",voidresponse.transactionResponse.response)
         self.assertEquals("Approved",voidresponse.transactionResponse.message)
         
@@ -215,7 +215,7 @@ class certTest1(unittest.TestCase):
         authorization.cardholderAuthentication = authenticationvalue
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(authorization)
+        response = litleXml.sendRequest(authorization)
         self.assertEquals( "000",response.transactionResponse.response)
         self.assertEquals("Approved",response.transactionResponse.message)
         self.assertEquals("22222",response.transactionResponse.authCode)
@@ -250,10 +250,10 @@ class certTest1(unittest.TestCase):
         
         authenticationvalue = litleXmlFields.fraudCheckType()
         authenticationvalue.authenticationValue= "BwABBJQ1AgAAAAAgJDUCAAAAAAA="
-        sale.cardholderAuthentication = authenticationvalue
+        sale.fraudCheck = authenticationvalue
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(sale)
+        response = litleXml.sendRequest(sale)
         self.assertEquals( "000",response.transactionResponse.response)
         self.assertEquals("Approved",response.transactionResponse.message)
         self.assertEquals("22222",response.transactionResponse.authCode)
@@ -262,13 +262,13 @@ class certTest1(unittest.TestCase):
         
         credit = litleXmlFields.credit()
         credit.litleTxnId = response.transactionResponse.litleTxnId
-        creditresponse = litleXml.litleXmlMapper(credit)
+        creditresponse = litleXml.sendRequest(credit)
         self.assertEquals( "000",creditresponse.transactionResponse.response)
         self.assertEquals("Approved",creditresponse.transactionResponse.message)
         
         void = litleXmlFields.void()
         void.litleTxnId = creditresponse.transactionResponse.litleTxnId
-        voidresponse = litleXml.litleXmlMapper(void)
+        voidresponse = litleXml.sendRequest(void)
         self.assertEquals( "000",voidresponse.transactionResponse.response)
         self.assertEquals("Approved",voidresponse.transactionResponse.message)    
         
@@ -298,7 +298,7 @@ class certTest1(unittest.TestCase):
         authorization.card = card
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(authorization)
+        response = litleXml.sendRequest(authorization)
         self.assertEquals( "000",response.transactionResponse.response)
         self.assertEquals("Approved",response.transactionResponse.message)
         self.assertEquals("33333",response.transactionResponse.authCode)
@@ -307,19 +307,19 @@ class certTest1(unittest.TestCase):
         
         capture = litleXmlFields.capture()
         capture.litleTxnId = response.transactionResponse.litleTxnId
-        captureresponse = litleXml.litleXmlMapper(capture)
+        captureresponse = litleXml.sendRequest(capture)
         self.assertEquals( "000",captureresponse.transactionResponse.response)
         self.assertEquals("Approved",captureresponse.transactionResponse.message)
         
         credit = litleXmlFields.credit()
         credit.litleTxnId = captureresponse.transactionResponse.litleTxnId
-        creditresponse = litleXml.litleXmlMapper(credit)
+        creditresponse = litleXml.sendRequest(credit)
         self.assertEquals( "000",creditresponse.transactionResponse.response)
         self.assertEquals("Approved",creditresponse.transactionResponse.message)
         
         void = litleXmlFields.void()
         void.litleTxnId = creditresponse.transactionResponse.litleTxnId
-        voidresponse = litleXml.litleXmlMapper(void)
+        voidresponse = litleXml.sendRequest(void)
         self.assertEquals( "000",voidresponse.transactionResponse.response)
         self.assertEquals("Approved",voidresponse.transactionResponse.message)
         
@@ -349,7 +349,7 @@ class certTest1(unittest.TestCase):
         authorization.card = card
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(authorization)
+        response = litleXml.sendRequest(authorization)
         self.assertEquals( "000",response.transactionResponse.response)
         self.assertEquals("Approved",response.transactionResponse.message)
         self.assertEquals("33333",response.transactionResponse.authCode)
@@ -381,7 +381,7 @@ class certTest1(unittest.TestCase):
         sale.card = card
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(sale)
+        response = litleXml.sendRequest(sale)
         self.assertEquals( "000",response.transactionResponse.response)
         self.assertEquals("Approved",response.transactionResponse.message)
         self.assertEquals("33333",response.transactionResponse.authCode)
@@ -390,13 +390,13 @@ class certTest1(unittest.TestCase):
         
         credit = litleXmlFields.credit()
         credit.litleTxnId = response.transactionResponse.litleTxnId
-        creditresponse = litleXml.litleXmlMapper(credit)
+        creditresponse = litleXml.sendRequest(credit)
         self.assertEquals( "000",creditresponse.transactionResponse.response)
         self.assertEquals("Approved",creditresponse.transactionResponse.message)
         
         void = litleXmlFields.void()
         void.litleTxnId = creditresponse.transactionResponse.litleTxnId
-        voidresponse = litleXml.litleXmlMapper(void)
+        voidresponse = litleXml.sendRequest(void)
         self.assertEquals( "000",voidresponse.transactionResponse.response)
         self.assertEquals("Approved",voidresponse.transactionResponse.message)
         
@@ -426,7 +426,7 @@ class certTest1(unittest.TestCase):
         authorization.card = card
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(authorization)
+        response = litleXml.sendRequest(authorization)
         self.assertEquals( "000",response.transactionResponse.response)
         self.assertEquals("Approved",response.transactionResponse.message)
         self.assertEquals("44444",response.transactionResponse.authCode)
@@ -434,19 +434,19 @@ class certTest1(unittest.TestCase):
         
         capture = litleXmlFields.capture()
         capture.litleTxnId = response.transactionResponse.litleTxnId
-        captureresponse = litleXml.litleXmlMapper(capture)
+        captureresponse = litleXml.sendRequest(capture)
         self.assertEquals( "000",captureresponse.transactionResponse.response)
         self.assertEquals("Approved",captureresponse.transactionResponse.message)
         
         credit = litleXmlFields.credit()
         credit.litleTxnId = captureresponse.transactionResponse.litleTxnId
-        creditresponse = litleXml.litleXmlMapper(credit)
+        creditresponse = litleXml.sendRequest(credit)
         self.assertEquals( "000",creditresponse.transactionResponse.response)
         self.assertEquals("Approved",creditresponse.transactionResponse.message)
         
         void = litleXmlFields.void()
         void.litleTxnId = creditresponse.transactionResponse.litleTxnId
-        voidresponse = litleXml.litleXmlMapper(void)
+        voidresponse = litleXml.sendRequest(void)
         self.assertEquals( "000",voidresponse.transactionResponse.response)
         self.assertEquals("Approved",voidresponse.transactionResponse.message)
         
@@ -476,7 +476,7 @@ class certTest1(unittest.TestCase):
         authorization.card = card
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(authorization)
+        response = litleXml.sendRequest(authorization)
         self.assertEquals( "000",response.transactionResponse.response)
         self.assertEquals("Approved",response.transactionResponse.message)
         self.assertEquals("44444",response.transactionResponse.authCode)
@@ -508,7 +508,7 @@ class certTest1(unittest.TestCase):
         sale.card = card
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(sale)
+        response = litleXml.sendRequest(sale)
         self.assertEquals( "000",response.transactionResponse.response)
         self.assertEquals("Approved",response.transactionResponse.message)
         self.assertEquals("44444",response.transactionResponse.authCode)
@@ -516,13 +516,13 @@ class certTest1(unittest.TestCase):
         
         credit = litleXmlFields.credit()
         credit.litleTxnId = response.transactionResponse.litleTxnId
-        creditresponse = litleXml.litleXmlMapper(credit)
+        creditresponse = litleXml.sendRequest(credit)
         self.assertEquals( "000",creditresponse.transactionResponse.response)
         self.assertEquals("Approved",creditresponse.transactionResponse.message)
         
         void = litleXmlFields.void()
         void.litleTxnId = creditresponse.transactionResponse.litleTxnId
-        voidresponse = litleXml.litleXmlMapper(void)
+        voidresponse = litleXml.sendRequest(void)
         self.assertEquals( "000",voidresponse.transactionResponse.response)
         self.assertEquals("Approved",voidresponse.transactionResponse.message)
         
@@ -547,7 +547,7 @@ class certTest1(unittest.TestCase):
         authorization.cardholderAuthentication = authenticationvalue
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(authorization)
+        response = litleXml.sendRequest(authorization)
         self.assertEquals( "000",response.transactionResponse.response)
         self.assertEquals("Approved",response.transactionResponse.message)
         self.assertEquals("55555 ",response.transactionResponse.authCode)
@@ -556,19 +556,19 @@ class certTest1(unittest.TestCase):
         
         capture = litleXmlFields.capture()
         capture.litleTxnId = response.transactionResponse.litleTxnId
-        captureresponse = litleXml.litleXmlMapper(capture)
+        captureresponse = litleXml.sendRequest(capture)
         self.assertEquals( "000",captureresponse.transactionResponse.response)
         self.assertEquals("Approved",captureresponse.transactionResponse.message)
         
         credit = litleXmlFields.credit()
         credit.litleTxnId = captureresponse.transactionResponse.litleTxnId
-        creditresponse = litleXml.litleXmlMapper(credit)
+        creditresponse = litleXml.sendRequest(credit)
         self.assertEquals( "000",creditresponse.transactionResponse.response)
         self.assertEquals("Approved",creditresponse.transactionResponse.message)
         
         void = litleXmlFields.void()
         void.litleTxnId = creditresponse.transactionResponse.litleTxnId
-        voidresponse = litleXml.litleXmlMapper(void)
+        voidresponse = litleXml.sendRequest(void)
         self.assertEquals( "000",voidresponse.transactionResponse.response)
         self.assertEquals("Approved",voidresponse.transactionResponse.message)
         
@@ -593,7 +593,7 @@ class certTest1(unittest.TestCase):
         authorization.cardholderAuthentication = authenticationvalue
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(authorization)
+        response = litleXml.sendRequest(authorization)
         self.assertEquals( "000",response.transactionResponse.response)
         self.assertEquals("Approved",response.transactionResponse.message)
         self.assertEquals("55555 ",response.transactionResponse.authCode)
@@ -621,7 +621,7 @@ class certTest1(unittest.TestCase):
         authorization.cardholderAuthentication = authenticationvalue
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(authorization)
+        response = litleXml.sendRequest(authorization)
         self.assertEquals( "000",response.transactionResponse.response)
         self.assertEquals("Approved",response.transactionResponse.message)
         self.assertEquals("55555 ",response.transactionResponse.authCode)
@@ -630,13 +630,13 @@ class certTest1(unittest.TestCase):
         
         credit = litleXmlFields.credit()
         credit.litleTxnId = response.transactionResponse.litleTxnId
-        creditresponse = litleXml.litleXmlMapper(credit)
+        creditresponse = litleXml.sendRequest(credit)
         self.assertEquals( "000",creditresponse.transactionResponse.response)
         self.assertEquals("Approved",creditresponse.transactionResponse.message)
         
         void = litleXmlFields.void()
         void.litleTxnId = creditresponse.transactionResponse.litleTxnId
-        voidresponse = litleXml.litleXmlMapper(void)
+        voidresponse = litleXml.sendRequest(void)
         self.assertEquals( "000",voidresponse.transactionResponse.response)
         self.assertEquals("Approved",voidresponse.transactionResponse.message)
         
@@ -666,7 +666,7 @@ class certTest1(unittest.TestCase):
         authorization.card = card
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(authorization)
+        response = litleXml.sendRequest(authorization)
         self.assertEquals( "110",response.transactionResponse.response)
         self.assertEquals("Insufficient Funds",response.transactionResponse.message)
         self.assertEquals( "34",response.transactionResponse.fraudResult.avsResult)
@@ -674,19 +674,19 @@ class certTest1(unittest.TestCase):
         
         capture = litleXmlFields.capture()
         capture.litleTxnId = response.transactionResponse.litleTxnId
-        captureresponse = litleXml.litleXmlMapper(capture)
+        captureresponse = litleXml.sendRequest(capture)
         self.assertEquals( "000",captureresponse.transactionResponse.response)
         self.assertEquals("Approved",captureresponse.transactionResponse.message)
         
         credit = litleXmlFields.credit()
         credit.litleTxnId = captureresponse.transactionResponse.litleTxnId
-        creditresponse = litleXml.litleXmlMapper(credit)
+        creditresponse = litleXml.sendRequest(credit)
         self.assertEquals( "000",creditresponse.transactionResponse.response)
         self.assertEquals("Approved",creditresponse.transactionResponse.message)
         
         void = litleXmlFields.void()
         void.litleTxnId = creditresponse.transactionResponse.litleTxnId
-        voidresponse = litleXml.litleXmlMapper(void)
+        voidresponse = litleXml.sendRequest(void)
         self.assertEquals( "000",voidresponse.transactionResponse.response)
         self.assertEquals("Approved",voidresponse.transactionResponse.message)
         
@@ -716,7 +716,7 @@ class certTest1(unittest.TestCase):
         sale.card = card
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(sale)
+        response = litleXml.sendRequest(sale)
         self.assertEquals( "110",response.transactionResponse.response)
         self.assertEquals("Insufficient Funds",response.transactionResponse.message)
         self.assertEquals( "34",response.transactionResponse.fraudResult.avsResult)
@@ -724,7 +724,7 @@ class certTest1(unittest.TestCase):
         
         void = litleXmlFields.void()
         void.litleTxnId = response.transactionResponse.litleTxnId
-        voidresponse = litleXml.litleXmlMapper(void)
+        voidresponse = litleXml.sendRequest(void)
         self.assertEquals( "360",voidresponse.transactionResponse.response)
         self.assertEquals("No transaction found with specified litleTxnId",voidresponse.transactionResponse.message)
         
@@ -754,7 +754,7 @@ class certTest1(unittest.TestCase):
         authorization.card = card
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(authorization)
+        response = litleXml.sendRequest(authorization)
         self.assertEquals( "301",response.transactionResponse.response)
         self.assertEquals("Invalid Account Number",response.transactionResponse.message)
         self.assertEquals( "34",response.transactionResponse.fraudResult.avsResult)
@@ -786,7 +786,7 @@ class certTest1(unittest.TestCase):
         authorization.card = card
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(authorization)
+        response = litleXml.sendRequest(authorization)
         self.assertEquals( "301",response.transactionResponse.response)
         self.assertEquals("Invalid Account Number",response.transactionResponse.message)
         self.assertEquals( "34",response.transactionResponse.fraudResult.avsResult)
@@ -818,7 +818,7 @@ class certTest1(unittest.TestCase):
         sale.card = card
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(sale)
+        response = litleXml.sendRequest(sale)
         self.assertEquals( "301",response.transactionResponse.response)
         self.assertEquals("Invalid Account Number",response.transactionResponse.message)
         self.assertEquals( "34",response.transactionResponse.fraudResult.avsResult)
@@ -850,7 +850,7 @@ class certTest1(unittest.TestCase):
         authorization.card = card
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(authorization)
+        response = litleXml.sendRequest(authorization)
         self.assertEquals( "123",response.transactionResponse.response)
         self.assertEquals("Call Discover",response.transactionResponse.message)
         self.assertEquals( "34",response.transactionResponse.fraudResult.avsResult)
@@ -882,7 +882,7 @@ class certTest1(unittest.TestCase):
         authorization.card = card
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(authorization)
+        response = litleXml.sendRequest(authorization)
         self.assertEquals( "123",response.transactionResponse.response)
         self.assertEquals("Call Discover",response.transactionResponse.message)
         self.assertEquals( "34",response.transactionResponse.fraudResult.avsResult)
@@ -914,7 +914,7 @@ class certTest1(unittest.TestCase):
         sale.card = card
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(sale)
+        response = litleXml.sendRequest(sale)
         self.assertEquals( "123",response.transactionResponse.response)
         self.assertEquals("Call Discover",response.transactionResponse.message)
         self.assertEquals( "34",response.transactionResponse.fraudResult.avsResult)
@@ -946,7 +946,7 @@ class certTest1(unittest.TestCase):
         authorization.card = card
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(authorization)
+        response = litleXml.sendRequest(authorization)
         self.assertEquals( "303",response.transactionResponse.response)
         self.assertEquals("Pick Up Card",response.transactionResponse.message)
         self.assertEquals( "34",response.transactionResponse.fraudResult.avsResult)
@@ -977,7 +977,7 @@ class certTest1(unittest.TestCase):
         authorization.card = card
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(authorization)
+        response = litleXml.sendRequest(authorization)
         self.assertEquals( "303",response.transactionResponse.response)
         self.assertEquals("Pick Up Card",response.transactionResponse.message)
         self.assertEquals( "34",response.transactionResponse.fraudResult.avsResult)
@@ -1008,7 +1008,7 @@ class certTest1(unittest.TestCase):
         sale.card = card
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(sale)
+        response = litleXml.sendRequest(sale)
         self.assertEquals( "303",response.transactionResponse.response)
         self.assertEquals("Pick Up Card",response.transactionResponse.message)
         self.assertEquals( "34",response.transactionResponse.fraudResult.avsResult)
@@ -1031,7 +1031,7 @@ class certTest1(unittest.TestCase):
         authorization.allowPartialAuth = True
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(authorization)
+        response = litleXml.sendRequest(authorization)
         self.assertEquals( "010",response.transactionResponse.response)
         self.assertEquals("Partially Approved",response.transactionResponse.message)
         self.assertEquals( 32000L,response.transactionResponse.approvedAmount)
@@ -1054,7 +1054,7 @@ class certTest1(unittest.TestCase):
         authorization.allowPartialAuth = True
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(authorization)
+        response = litleXml.sendRequest(authorization)
         self.assertEquals( "010",response.transactionResponse.response)
         self.assertEquals("Partially Approved",response.transactionResponse.message)
         self.assertEquals( 48000L,response.transactionResponse.approvedAmount)
@@ -1077,7 +1077,7 @@ class certTest1(unittest.TestCase):
         authorization.allowPartialAuth = True
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(authorization)
+        response = litleXml.sendRequest(authorization)
         self.assertEquals( "010",response.transactionResponse.response)
         self.assertEquals("Partially Approved",response.transactionResponse.message)
         self.assertEquals( 40000L,response.transactionResponse.approvedAmount)
@@ -1100,7 +1100,7 @@ class certTest1(unittest.TestCase):
         authorization.allowPartialAuth = True
         
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(authorization)
+        response = litleXml.sendRequest(authorization)
         self.assertEquals( "010",response.transactionResponse.response)
         self.assertEquals("Partially Approved",response.transactionResponse.message)
         self.assertEquals( 12000L,response.transactionResponse.approvedAmount)
