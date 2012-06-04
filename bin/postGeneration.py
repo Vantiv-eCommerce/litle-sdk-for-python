@@ -81,3 +81,10 @@ replace_in_file(lib_path,"u'postDate'\)\), min_occurs=1","u'postDate')), min_occ
 replace_in_file(lib_path,"u'capability'\)\), min_occurs=1","u'capability')), min_occurs=0L")
 replace_in_file(lib_path,"u'entryMode'\)\), min_occurs=1","u'entryMode')), min_occurs=0L")
 replace_in_file(lib_path,"u'cardholderId'\)\), min_occurs=1","u'cardholderId')), min_occurs=0L")
+
+replace_in_file(lib_path,"u'billToAddress'\)\), min_occurs=1L","u'billToAddress')), min_occurs=0L")
+replace_in_file(lib_path,"u'echeckOrEcheckToken'\)\), min_occurs=1","u'echeckOrEcheckToken')), min_occurs=0L")
+replace_in_file(lib_path,"u'litleToken'\)\), min_occurs=1","u'litleToken')), min_occurs=0L")
+replace_in_file(lib_path,"u'routingNum'\)\), min_occurs=1","u'routingNum')), min_occurs=0L")
+replace_in_file(lib_path,"u'accType'\)\), min_occurs=1","u'accType')), min_occurs=0L")
+replace_in_file(lib_path,"u'accNum'\)\), min_occurs=1","u'accNum')), min_occurs=0L")
