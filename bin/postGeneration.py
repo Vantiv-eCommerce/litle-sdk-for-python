@@ -101,3 +101,4 @@ replace_in_file(lib_path,"u'message'\)\), min_occurs=1","u'message')), min_occur
 replace_in_file(lib_path,"u'payerId'\)\), min_occurs=1","u'payerId')), min_occurs=0L")
 replace_in_file(lib_path,"u'transactionId'\)\), min_occurs=1","u'transactionId')), min_occurs=0L")
 replace_in_file(lib_path,"min_occurs=0LL","min_occurs=0L")
+replace_in_file(lib_path,"CTD_ANON_46._AddElement\(pyxb.binding.basis.element\(pyxb.namespace.ExpandedName\(Namespace, u'paypal'\), CTD_ANON_34, scope=CTD_ANON_46\)\)","CTD_ANON_46._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, u'paypal'), payPal, scope=CTD_ANON_46))")

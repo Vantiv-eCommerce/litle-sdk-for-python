@@ -17,6 +17,7 @@ class litleOnlineRequest:
            # raise Exception("Missing Required Field")
         # TODO 
         temp= temp.replace('ns1:','')
+        print temp.replace(':ns1','')
         return temp.replace(':ns1','')
         
     def sendRequest(self,transaction,user = None, password = None, version = None,  merchantId = None,reportGroup = None, timeout = None,url = None, proxy = None):
@@ -56,5 +57,6 @@ class litleOnlineRequest:
     
     def _processResponse(self,responseXml):
         temp = self._addNamespace(responseXml)
+        print temp
         return litleXmlFields.CreateFromDocument(temp)
       
