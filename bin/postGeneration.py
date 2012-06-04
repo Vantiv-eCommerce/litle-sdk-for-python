@@ -92,3 +92,12 @@ replace_in_file(lib_path,"u'authInformation'\)\), min_occurs=1","u'authInformati
 replace_in_file(lib_path,"u'authDate'\)\), min_occurs=1","u'authDate')), min_occurs=0L")
 replace_in_file(lib_path,"u'authCode'\)\), min_occurs=1","u'authCode')), min_occurs=0L")
 replace_in_file(lib_path,"u'litleTxnId'\)\), min_occurs=1L","u'litleTxnId')), min_occurs=0L")
+
+
+replace_in_file(lib_path,"u'billToAddress'\)\), min_occurs=1","u'billToAddress')), min_occurs=0L")
+replace_in_file(lib_path,"u'response'\)\), min_occurs=1","u'response')), min_occurs=0L")
+replace_in_file(lib_path,"u'responseTime'\)\), min_occurs=1","u'responseTime')), min_occurs=0L")
+replace_in_file(lib_path,"u'message'\)\), min_occurs=1","u'message')), min_occurs=0L")
+replace_in_file(lib_path,"u'payerId'\)\), min_occurs=1","u'payerId')), min_occurs=0L")
+replace_in_file(lib_path,"u'transactionId'\)\), min_occurs=1","u'transactionId')), min_occurs=0L")
+replace_in_file(lib_path,"min_occurs=0LL","min_occurs=0L")
