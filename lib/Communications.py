@@ -7,6 +7,7 @@ class Communications:
         self.Url = Configuration.getUrl()
         
     def http_post(self,post_data,url=None,proxy=None,timeout=None):
+      #  print post_data
         if (url != None):
             self.Url = url
         if (proxy != None):

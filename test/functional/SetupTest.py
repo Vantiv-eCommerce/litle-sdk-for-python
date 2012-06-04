@@ -4,12 +4,10 @@ sys.path.append(lib_path)
 
 from litleOnlineRequest import *
 
-
-config = Configuration()
-config.setPassword('certpass')
-config.setUser('PHXMLTEST')
-config.setMerchantId('101')
-config.setReportGroup('Planets')
-config.setProxy('smoothproxy:8080')
-config.setUrl('Sandbox')
-
+config_path = os.path.abspath('../')
+sys.path.append(config_path)
+try:
+    import testConfig
+except:
+    raise Exception('please run setUpTest.py before running tests')
+config = testConfig.config
