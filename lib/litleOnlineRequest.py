@@ -11,10 +11,10 @@ class litleOnlineRequest:
         self.ReportGroup = Configuration.getReportGroup()
         
     def _litleToXml(self,litleOnline):
-        try:
-            temp =litleOnline.toxml()
-        except:
-            raise Exception("Missing Required Field")
+        #try:
+        temp =litleOnline.toxml()
+        #except:
+           # raise Exception("Missing Required Field")
         # TODO 
         temp= temp.replace('ns1:','')
         return temp.replace(':ns1','')

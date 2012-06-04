@@ -88,3 +88,7 @@ replace_in_file(lib_path,"u'litleToken'\)\), min_occurs=1","u'litleToken')), min
 replace_in_file(lib_path,"u'routingNum'\)\), min_occurs=1","u'routingNum')), min_occurs=0L")
 replace_in_file(lib_path,"u'accType'\)\), min_occurs=1","u'accType')), min_occurs=0L")
 replace_in_file(lib_path,"u'accNum'\)\), min_occurs=1","u'accNum')), min_occurs=0L")
+replace_in_file(lib_path,"u'authInformation'\)\), min_occurs=1","u'authInformation')), min_occurs=0L")
+replace_in_file(lib_path,"u'authDate'\)\), min_occurs=1","u'authDate')), min_occurs=0L")
+replace_in_file(lib_path,"u'authCode'\)\), min_occurs=1","u'authCode')), min_occurs=0L")
+replace_in_file(lib_path,"u'litleTxnId'\)\), min_occurs=1L","u'litleTxnId')), min_occurs=0L")

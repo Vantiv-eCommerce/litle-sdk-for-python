@@ -7,11 +7,14 @@ class TestCaptureGivenAuth(unittest.TestCase):
         CaptureGivenAuth = litleXmlFields.captureGivenAuth()
         CaptureGivenAuth.amount = 106
         CaptureGivenAuth.orderId = "12344"
+        
         AuthInfo = litleXmlFields.authInformation()
-        AuthInfo.authdate = ("October92012")
+        date = pyxb.binding.datatypes.date('20021009')
+        AuthInfo.authDate = date
         AuthInfo.authCode = "543216"
         AuthInfo.authAmount = 12345
         CaptureGivenAuth.authInformation = AuthInfo
+        
         CaptureGivenAuth.orderSource = "ecommerce"
         Card = litleXmlFields.cardType()
         Card.number = "4100000000000000"
@@ -25,5 +28,5 @@ class TestCaptureGivenAuth(unittest.TestCase):
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(CaptureGivenAuth)
             
-        self.assertEquals("Approved",response.transactionResponse.message)
+        self.assertEquals("Approved",response.message)
         
