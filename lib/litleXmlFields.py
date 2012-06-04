@@ -7046,9 +7046,9 @@ CTD_ANON._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Name
 
 CTD_ANON._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, u'entryMode'), posEntryModeTypeEnum, scope=CTD_ANON))
 CTD_ANON._GroupModel = pyxb.binding.content.GroupAll(
-    pyxb.binding.content.ParticleModel(CTD_ANON._UseForTag(pyxb.namespace.ExpandedName(Namespace, u'capability')), min_occurs=1, max_occurs=1),
-    pyxb.binding.content.ParticleModel(CTD_ANON._UseForTag(pyxb.namespace.ExpandedName(Namespace, u'entryMode')), min_occurs=1, max_occurs=1),
-    pyxb.binding.content.ParticleModel(CTD_ANON._UseForTag(pyxb.namespace.ExpandedName(Namespace, u'cardholderId')), min_occurs=1, max_occurs=1)
+    pyxb.binding.content.ParticleModel(CTD_ANON._UseForTag(pyxb.namespace.ExpandedName(Namespace, u'capability')), min_occurs=0L, max_occurs=1),
+    pyxb.binding.content.ParticleModel(CTD_ANON._UseForTag(pyxb.namespace.ExpandedName(Namespace, u'entryMode')), min_occurs=0L, max_occurs=1),
+    pyxb.binding.content.ParticleModel(CTD_ANON._UseForTag(pyxb.namespace.ExpandedName(Namespace, u'cardholderId')), min_occurs=0L, max_occurs=1)
     )
 CTD_ANON._ContentModel = pyxb.binding.content.ParticleModel(CTD_ANON._GroupModel, min_occurs=1, max_occurs=1)
 

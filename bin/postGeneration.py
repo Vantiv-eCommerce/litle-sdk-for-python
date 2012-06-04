@@ -78,3 +78,6 @@ replace_in_file(lib_path,"u'orderId'\)\), min_occurs=1","u'orderId')), min_occur
 replace_in_file(lib_path,"u'amount'\)\), min_occurs=1","u'amount')), min_occurs=0L")
 replace_in_file(lib_path,"u'orderSource'\)\), min_occurs=1","u'orderSource')), min_occurs=0L")
 replace_in_file(lib_path,"u'postDate'\)\), min_occurs=1","u'postDate')), min_occurs=0L")
+replace_in_file(lib_path,"u'capability'\)\), min_occurs=1","u'capability')), min_occurs=0L")
+replace_in_file(lib_path,"u'entryMode'\)\), min_occurs=1","u'entryMode')), min_occurs=0L")
+replace_in_file(lib_path,"u'cardholderId'\)\), min_occurs=1","u'cardholderId')), min_occurs=0L")

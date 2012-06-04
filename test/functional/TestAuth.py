@@ -3,75 +3,86 @@ import unittest
 
 class TestAuth(unittest.TestCase):
     
-    def test_auth(self):
+    def test_simple_auth_with_card(self):
         authorization = litleXmlFields.authorization()
-        authorization.orderId = '123'
-        authorization.amount = 123
+        authorization.orderId = '1234'
+        authorization.amount = 106
         authorization.orderSource = 'ecommerce'
     
         card = litleXmlFields.cardType()
-        card.number = "42424242424242424242"
-        card.expDate = "0912"
-        card.cardValidationNum = '123'
+        card.number = "4100000000000000"
+        card.expDate = "1210"
         card.type = 'VI'
     
         authorization.card = card
     
         litleXml =  litleOnlineRequest(config)
-        response = litleXml.litleXmlMapper(authorization)
+        response = litleXml.sendRequest(authorization)
             
-        self.assertEquals(response.message, "Valid Format")
+        self.assertEquals("000",response.transactionResponse.response)
 
 
+    def test_simple_auth_with_paypal(self):
+        authorization = litleXmlFields.authorization()
+        authorization.orderId = '12344'
+        authorization.amount = 106
+        authorization.orderSource = 'ecommerce'
+    
+        paypal = litleXmlFields.payPal()
+        paypal.payerId = "1234"
+        paypal.token = "1234"
+        paypal.transactionId = '123456'
+        
+    
+        authorization.paypal = paypal
+    
+        litleXml =  litleOnlineRequest(config)
+        response = litleXml.sendRequest(authorization)
+            
+        self.assertEquals("Approved",response.transactionResponse.message)
+       
 
+    def test_pos_without_capability_and_entryMode(self):
+        authorization = litleXmlFields.authorization()
+        authorization.orderId = '123456'
+        authorization.amount = 106
+        authorization.orderSource = 'ecommerce'
+    
+        pos = litleXmlFields.pos()
+        pos.cardholderId = "pin"
+        authorization.pos = pos
+            
+        card = litleXmlFields.cardType()
+        card.number = "4100000000000002"
+        card.expDate = "1210"
+        card.type = 'VI'
+        card.cardValidationNum = '1213'
+    
+        authorization.card = card
+    
+        litleXml =  litleOnlineRequest(config)
+        response = litleXml.sendRequest(authorization)
+            
+        self.assert_(response.message.count("Error validating xml data against the schema"))
 
-#    def simpleAuthWithPaypal():
-#        newAuthorization = authorization()
-#        authorization.setReportGroup("Planets");
-#        authorization.setOrderId("123456");
-#        authorization.setAmount(106L);
-#        authorization.setOrderSource(OrderSourceType.ECOMMERCE);
-#        PayPal paypal = new PayPal();
-#        paypal.setPayerId("1234");
-#        paypal.setToken("1234");
-#        paypal.setTransactionId("123456");
-#        authorization.setPaypal(paypal);
-#        
-#        AuthorizationResponse response = litle.authorize(authorization);
-#        assertEquals(response.getMessage(), "Approved",response.getMessage());
-#    
-#    public void posWithoutCapabilityAndEntryMode() throws Exception {
-#        Authorization authorization = new Authorization();
-#        authorization.setReportGroup("Planets");
-#        authorization.setOrderId("12344");
-#        authorization.setAmount(106L);
-#        authorization.setOrderSource(OrderSourceType.ECOMMERCE);
-#        Pos pos = new Pos();
-#        pos.setCardholderId(PosCardholderIdTypeEnum.PIN);
-#        authorization.setPos(pos);
-#        CardType card = new CardType();
-#        card.setType(MethodOfPaymentTypeEnum.VI);
-#        card.setNumber("4100000000000002");
-#        card.setExpDate("1210");
-#        authorization.setCard(card);
-#        
-#        try {
-#            litle.authorize(authorization);
-#            fail("expected exception");
-#        } catch(LitleOnlineException e) {
-#            assertTrue(e.getMessage(),e.getMessage().startsWith("Error validating xml data against the schema"));
-#    
-#    public void accountUpdate() throws Exception {
-#        Authorization authorization = new Authorization();
-#        authorization.setReportGroup("Planets");
-#        authorization.setOrderId("12344");
-#        authorization.setAmount(106L);
-#        authorization.setOrderSource(OrderSourceType.ECOMMERCE);
-#        CardType card = new CardType();
-#        card.setType(MethodOfPaymentTypeEnum.VI);
-#        card.setNumber("4100100000000000");
-#        card.setExpDate("1210");
-#        authorization.setCard(card);
-#        
-#        AuthorizationResponse response = litle.authorize(authorization);
-#        assertEquals("4100100000000000", response.getAccountUpdater().getOriginalCardInfo().getNumber())
+    def test_accountUpdate(self):
+        authorization = litleXmlFields.authorization()
+        authorization.orderId = '12344'
+        authorization.amount = 106
+        authorization.orderSource = 'ecommerce'
+    
+        card = litleXmlFields.cardType()
+        card.number = "4100100000000000"
+        card.expDate = "1210"
+        card.type = 'VI'
+        card.cardValidationNum = '1213'
+    
+        authorization.card = card
+    
+    
+        litleXml =  litleOnlineRequest(config)
+        response = litleXml.sendRequest(authorization)
+            
+        self.assertEquals("4100100000000000",response.transactionResponse.accountUpdater.originalCardInfo.number)
+    
+
