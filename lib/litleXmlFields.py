@@ -8756,7 +8756,7 @@ CTD_ANON_46._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(N
 
 CTD_ANON_46._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, u'token'), cardTokenType, scope=CTD_ANON_46))
 
-CTD_ANON_46._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, u'paypal'), CTD_ANON_34, scope=CTD_ANON_46))
+CTD_ANON_46._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, u'paypal'), payPal, scope=CTD_ANON_46))
 
 CTD_ANON_46._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, u'litleTxnId'), litleIdType, scope=CTD_ANON_46))
 
