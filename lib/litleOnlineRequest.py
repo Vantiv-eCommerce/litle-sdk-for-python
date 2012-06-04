@@ -12,7 +12,7 @@ class litleOnlineRequest:
         
     def _litleToXml(self,litleOnline):
         temp =litleOnline.toxml()
-        print temp.replace(':ns1','')
+        temp= temp.replace('ns1:','')
         return temp.replace(':ns1','')
         
     def sendRequest(self,transaction,user = None, password = None, version = None,  merchantId = None,reportGroup = None, timeout = None,url = None, proxy = None):
