@@ -9,3 +9,4 @@ class TestEcheckVoid(unittest.TestCase):
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(echeckvoid)
         self.assertEquals(response.message, "Valid Format")
+        self.assertEquals("Approved",response.transactionResponse.message)

@@ -18,6 +18,8 @@ class TestForceCapture(unittest.TestCase):
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(forcecapture)
         self.assertEquals(response.message, "Valid Format")
+        self.assertEquals("Approved",response.transactionResponse.message)
+
         
     def test_simpleForceCaptureWithToken(self):
         forcecapture = litleXmlFields.forceCapture()
@@ -35,3 +37,4 @@ class TestForceCapture(unittest.TestCase):
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(forcecapture)
         self.assertEquals(response.message, "Valid Format")
+        self.assertEquals("Approved",response.transactionResponse.message)

@@ -26,6 +26,8 @@ class TestEcheckVerification(unittest.TestCase):
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(echeckverification)
         self.assertEquals(response.message, "Valid Format")
+        self.assertEquals("Approved",response.transactionResponse.message)
+
     
     def test_echeckVerificationWithEcheckToken(self):
         echeckverification = litleXmlFields.echeckVerification()
@@ -50,6 +52,8 @@ class TestEcheckVerification(unittest.TestCase):
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(echeckverification)
         self.assertEquals(response.message, "Valid Format")
+        self.assertEquals("Approved",response.transactionResponse.message)
+
         
     def test_MissingBillingField(self):
         echeckverification = litleXmlFields.echeckVerification()
