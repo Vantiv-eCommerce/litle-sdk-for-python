@@ -94,4 +94,8 @@ class TestCaptureGivenAuth(unittest.TestCase):
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(CaptureGivenAuth)
         self.assertEquals("Approved",response.transactionResponse.message)
-        
+
+def suite():
+    suite = unittest.TestSuite()
+    suite = unittest.TestLoader().loadTestsFromTestCase(TestCaptureGivenAuth)
+    return suite

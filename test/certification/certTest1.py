@@ -1105,7 +1105,7 @@ class certTest1(unittest.TestCase):
         self.assertEquals("Partially Approved",response.transactionResponse.message)
         self.assertEquals( 12000L,response.transactionResponse.approvedAmount)
         
-        
-    
-
-
+def suite():
+    suite = unittest.TestSuite()
+    suite = unittest.TestLoader().loadTestsFromTestCase(certTest1)
+    return suite

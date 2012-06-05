@@ -46,3 +46,8 @@ class TestCapture(unittest.TestCase):
         response = litleXml.sendRequest(Capture)
             
         self.assertEquals("Approved",response.transactionResponse.message)
+
+def suite():
+    suite = unittest.TestSuite()
+    suite = unittest.TestLoader().loadTestsFromTestCase(TestCapture)
+    return suite

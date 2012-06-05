@@ -193,5 +193,7 @@ class certTest3(unittest.TestCase):
         self.assertEquals("336", reversalResponse.transactionResponse.response)
         self.assertEquals("Reversal Amount does not match Authorization amount", reversalResponse.transactionResponse.message)
 
-if __name__ == '__main__':
-    unittest.main()      
+def suite():
+    suite = unittest.TestSuite()
+    suite = unittest.TestLoader().loadTestsFromTestCase(certTest3)
+    return suite

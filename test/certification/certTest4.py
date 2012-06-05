@@ -272,3 +272,8 @@ class certTest4(unittest.TestCase):
         response = litleXml.sendRequest(credit)
         self.assertEquals("360", response.transactionResponse.response)
         self.assertEquals("No transaction found with specified litleTxnId", response.transactionResponse.message)
+
+def suite():
+    suite = unittest.TestSuite()
+    suite = unittest.TestLoader().loadTestsFromTestCase(certTest4)
+    return suite

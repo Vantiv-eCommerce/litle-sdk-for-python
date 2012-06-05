@@ -70,3 +70,8 @@ class TestCredit(unittest.TestCase):
         response = litleXml.sendRequest(credit)
             
         self.assertEquals("Approved", response.transactionResponse.message)
+
+def suite():
+    suite = unittest.TestSuite()
+    suite = unittest.TestLoader().loadTestsFromTestCase(TestCredit)
+    return suite

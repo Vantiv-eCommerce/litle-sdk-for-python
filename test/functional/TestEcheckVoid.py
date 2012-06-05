@@ -10,3 +10,8 @@ class TestEcheckVoid(unittest.TestCase):
         response = litleXml.sendRequest(echeckvoid)
         self.assertEquals(response.message, "Valid Format")
         self.assertEquals("Approved",response.transactionResponse.message)
+
+def suite():
+    suite = unittest.TestSuite()
+    suite = unittest.TestLoader().loadTestsFromTestCase(TestEcheckVoid)
+    return suite

@@ -259,5 +259,7 @@ class certTest5(unittest.TestCase):
         self.assertEquals("999", response.transactionResponse.tokenResponse.eCheckAccountSuffix)
         self.assertEquals("111922223333555999", response.transactionResponse.tokenResponse.litleToken)
 
-
-        
+def suite():
+    suite = unittest.TestSuite()
+    suite = unittest.TestLoader().loadTestsFromTestCase(certTest5)
+    return suite

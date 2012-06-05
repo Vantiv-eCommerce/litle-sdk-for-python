@@ -85,4 +85,7 @@ class TestAuth(unittest.TestCase):
             
         self.assertEquals("4100100000000000",response.transactionResponse.accountUpdater.originalCardInfo.number)
     
-
+def suite():
+    suite = unittest.TestSuite()
+    suite = unittest.TestLoader().loadTestsFromTestCase(TestAuth)
+    return suite

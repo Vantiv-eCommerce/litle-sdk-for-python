@@ -39,3 +39,8 @@ class TestToken(unittest.TestCase):
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(token)
         self.assert_(response.message.count("Error validating xml data against the schema"))
+
+def suite():
+    suite = unittest.TestSuite()
+    suite = unittest.TestLoader().loadTestsFromTestCase(TestToken)
+    return suite  

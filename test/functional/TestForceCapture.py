@@ -38,3 +38,8 @@ class TestForceCapture(unittest.TestCase):
         response = litleXml.sendRequest(forcecapture)
         self.assertEquals(response.message, "Valid Format")
         self.assertEquals("Approved",response.transactionResponse.message)
+
+def suite():
+    suite = unittest.TestSuite()
+    suite = unittest.TestLoader().loadTestsFromTestCase(TestForceCapture)
+    return suite

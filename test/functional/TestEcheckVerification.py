@@ -71,3 +71,8 @@ class TestEcheckVerification(unittest.TestCase):
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(echeckverification)
         self.assert_(response.message.count("Error validating xml data against the schema"))
+
+def suite():
+    suite = unittest.TestSuite()
+    suite = unittest.TestLoader().loadTestsFromTestCase(TestEcheckVerification)
+    return suite
