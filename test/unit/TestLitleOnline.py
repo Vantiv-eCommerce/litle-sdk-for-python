@@ -18,11 +18,9 @@ class TestLitleOnline(unittest.TestCase):
         card.type = 'VI'
         authorization.card = card
     
-
-
         comm = Communications(config)
         m = MagicMock(return_value = "<litleOnlineResponse version='8.10' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse><litleTxnId>123</litleTxnId></authorizationResponse></litleOnlineResponse>")
-        print m.http_post()
+        print m.http_post(False)
         print m.property.http_post.attribute()
         
         litle = litleOnlineRequest(config)
@@ -44,3 +42,33 @@ class TestLitleOnline(unittest.TestCase):
 #         self.some_obj = some_obj
 #     def __eq__(self, other):
 #         return self.compare(self.some_obj, other)
+
+    def test_get_attrib_value_with_expected_target(self):
+
+        # We return a SnapLogic dataset which contains attributes with correct targets
+        canned_snaplogic_rows = [
+        [u'DocumentRoot', u'/var/www/mydocroot', u'apache'],
+        [u'dbname', u'some_dbname', u'database'],
+        [u'dbuser', u'SOME_DBUSER', u'database'],
+        ]
+
+        # Create a mock SnapLogicManager
+        mock_snaplogic_manager = mox.MockObject(SnapLogicManager)
+
+        # Return the canned list of rows when get_attrib_values is called
+        mock_snaplogic_manager.get_attrib_values(self.appname, self.hostname).AndReturn(canned_snaplogic_rows)
+
+        # Put all mocks created by mox into replay mode
+        mox.Replay(mock_snaplogic_manager)
+
+        # Run the test
+        myapp = MyApp(self.appname, self.hostname, mock_snaplogic_manager)
+        myapp.get_attr_values_from_snaplogic()
+
+        # Verify all mocks were used as expected
+        mox.Verify(mock_snaplogic_manager)
+
+        # We test that attributes with correct targets are retrieved correctly
+        assert '/var/www/mydocroot' == myapp.get_attrib_value_with_expected_target("DocumentRoot", "apache")
+        assert 'some_dbname' == myapp.get_attrib_value_with_expected_target("db_name", "database")
+        assert 'SOME_DBUSER' == myapp.get_attrib_value_with_expected_target("db_user", "database")
