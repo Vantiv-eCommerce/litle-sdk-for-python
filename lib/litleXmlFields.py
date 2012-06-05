@@ -51,7 +51,7 @@ def handleExtraField(xml_text):
         if (temp_xml.count(property)!=0):
             i = temp_xml.find('<'+property)
             j = temp_xml.find('</'+property+'>')
-            temp_xml=temp_xml[:i-1]+temp_xml[j+4+len(property):]
+            temp_xml=temp_xml[:i]+temp_xml[j+3+len(property):]
 
     x = temp_xml.find('>')
     temp_xml = temp_xml[x+1:]
@@ -62,8 +62,8 @@ def handleExtraField(xml_text):
     x = temp_xml.find('<')
     temp_xml = temp_xml[x:]
     i = xml_text.find(temp_xml)
-    xml_text = xml_text[:i-1]+xml_text[i+len(temp_xml):]
-    return xml_text
+    xml_text_new = xml_text[:i]+xml_text[i+len(temp_xml):]
+    return xml_text_new
             
 def CreateFromDOM (node, default_namespace=None):
     """Create a Python instance from the given DOM node.
