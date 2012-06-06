@@ -2,7 +2,7 @@ from SetupTest import *
 import unittest
 from mock import *
 
-class TestLitleOnline(unittest.TestCase):
+class TestConfigOverride(unittest.TestCase):
 
     def setUp(self):
         self.seq = range(10)
