@@ -17,6 +17,9 @@ def replace_in_file(xfile, find, replace):
             # if the regexp is found
             if found.search(currentline):
                 cregex(find, replace, currentline, xfile, listindex, readlines)
+            
+def makeNotRequired(xfile, field):
+    replace_in_file(xfile,"u'"+field+"'\)\), min_occurs=1","u'"+field+"')), min_occurs=0L")
 
 def cregex(find, replace, currentline, xfile, listindex, readlines):
     f = re.sub(find, replace, currentline)
@@ -30,7 +33,29 @@ def cregex(find, replace, currentline, xfile, listindex, readlines):
     for line in readlines:
         write_file.write(line)
     write_file.close()
+    
+def changeCreateFromDom(xfile):
+    replace_in_file(lib_path,"return pyxb.binding.basis.element.AnyCreateFromDOM\(node, _fallback_namespace=default_namespace\)","return LitleAnyCreateFromDOM(pyxb.binding.basis.element,node, _fallback_namespace=default_namespace)")
+    
+    replace_in_file(lib_path,"    saxer = pyxb.binding.saxer.make_parser\(fallback_namespace=Namespace.fallbackNamespace\(\), location_base=location_base\)","")
+    replace_in_file(lib_path,"    handler = saxer.getContentHandler\(\)","")
+    replace_in_file(lib_path,"    saxer.parse\(StringIO.StringIO\(xml_text\)\)","")
+    replace_in_file(lib_path,"    instance = handler.rootObject\(\)","")
+    replace_in_file(lib_path,"    return instance","")
 
+    replace_in_file(lib_path,"    if pyxb.XMLStyle_saxer != pyxb._XMLStyle:","    if (True):")
+
+def addLitleAnyCreateFromDOM(xfile):
+    replace_in_file(lib_path,"    return LitleAnyCreateFromDOM\(pyxb.binding.basis.element,node, _fallback_namespace=default_namespace\)","    return LitleAnyCreateFromDOM(pyxb.binding.basis.element,node, _fallback_namespace=default_namespace)\n\n\
+def LitleAnyCreateFromDOM (cls, node, _fallback_namespace):\n\
+    if xml.dom.Node.DOCUMENT_NODE == node.nodeType:\n\
+        node = node.documentElement\n\
+    expanded_name = pyxb.namespace.ExpandedName(node, fallback_namespace=_fallback_namespace)\n\
+    elt = expanded_name.elementBinding()\n\
+    if elt is None:\n\
+        return\n\
+    assert isinstance(elt, pyxb.binding.basis.element)\n\
+    return elt._createFromDOM(node, expanded_name, _fallback_namespace=_fallback_namespace)")
 
 def fixecheckSale(xfile):
     tx = "__litleTxnId.name\(\) : __litleTxnId,"
@@ -42,7 +67,7 @@ def fixecheckSale(xfile):
     am2 = "__amount.name() : __amount,"
     ve2 = '__verify.name() : __verify,'
     
-    echeck=re.compile('class CTD_ANON_36 ')
+    echeck=re.compile('class CTD_ANON_42')
     txnid=re.compile(tx)
     amount=re.compile(am)
     verify=re.compile(ve)
@@ -72,35 +97,57 @@ def fixecheckSale(xfile):
                 cregex(ve, '', currentline, xfile, listindex, readlines)
                 echeckFlag = 0
                 txnFlag = 0
-                
+
+# Run actual Changes                
 fixecheckSale(lib_path)
-replace_in_file(lib_path,"u'orderId'\)\), min_occurs=1","u'orderId')), min_occurs=0L")
-replace_in_file(lib_path,"u'amount'\)\), min_occurs=1","u'amount')), min_occurs=0L")
-replace_in_file(lib_path,"u'orderSource'\)\), min_occurs=1","u'orderSource')), min_occurs=0L")
-replace_in_file(lib_path,"u'postDate'\)\), min_occurs=1","u'postDate')), min_occurs=0L")
-replace_in_file(lib_path,"u'capability'\)\), min_occurs=1","u'capability')), min_occurs=0L")
-replace_in_file(lib_path,"u'entryMode'\)\), min_occurs=1","u'entryMode')), min_occurs=0L")
-replace_in_file(lib_path,"u'cardholderId'\)\), min_occurs=1","u'cardholderId')), min_occurs=0L")
-
-replace_in_file(lib_path,"u'billToAddress'\)\), min_occurs=1L","u'billToAddress')), min_occurs=0L")
-replace_in_file(lib_path,"u'echeckOrEcheckToken'\)\), min_occurs=1","u'echeckOrEcheckToken')), min_occurs=0L")
-replace_in_file(lib_path,"u'litleToken'\)\), min_occurs=1","u'litleToken')), min_occurs=0L")
-replace_in_file(lib_path,"u'routingNum'\)\), min_occurs=1","u'routingNum')), min_occurs=0L")
-replace_in_file(lib_path,"u'accType'\)\), min_occurs=1","u'accType')), min_occurs=0L")
-replace_in_file(lib_path,"u'accNum'\)\), min_occurs=1","u'accNum')), min_occurs=0L")
-replace_in_file(lib_path,"u'authInformation'\)\), min_occurs=1","u'authInformation')), min_occurs=0L")
-replace_in_file(lib_path,"u'authDate'\)\), min_occurs=1","u'authDate')), min_occurs=0L")
-replace_in_file(lib_path,"u'authCode'\)\), min_occurs=1","u'authCode')), min_occurs=0L")
-replace_in_file(lib_path,"u'litleTxnId'\)\), min_occurs=1L","u'litleTxnId')), min_occurs=0L")
-
-
-replace_in_file(lib_path,"u'billToAddress'\)\), min_occurs=1","u'billToAddress')), min_occurs=0L")
-replace_in_file(lib_path,"u'response'\)\), min_occurs=1","u'response')), min_occurs=0L")
-replace_in_file(lib_path,"u'responseTime'\)\), min_occurs=1","u'responseTime')), min_occurs=0L")
-replace_in_file(lib_path,"u'message'\)\), min_occurs=1","u'message')), min_occurs=0L")
-replace_in_file(lib_path,"u'payerId'\)\), min_occurs=1","u'payerId')), min_occurs=0L")
-replace_in_file(lib_path,"u'transactionId'\)\), min_occurs=1","u'transactionId')), min_occurs=0L")
-replace_in_file(lib_path,"u'tokenResponseCode'\)\), min_occurs=1","u'tokenResponseCode')), min_occurs=0L")
-replace_in_file(lib_path,"u'tokenMessage'\)\), min_occurs=1","u'tokenMessage')), min_occurs=0L")
+makeNotRequired(lib_path,'orderId')
+makeNotRequired(lib_path,'amount')
+makeNotRequired(lib_path,'orderSource')
+makeNotRequired(lib_path,'postDate')
+makeNotRequired(lib_path,'capability')
+makeNotRequired(lib_path,'entryMode')
+makeNotRequired(lib_path,'cardholderId')
+makeNotRequired(lib_path,'billToAddress')
+makeNotRequired(lib_path,'echeckOrEcheckToken')
+makeNotRequired(lib_path,'litleToken')
+makeNotRequired(lib_path,'routingNum')
+makeNotRequired(lib_path,'accType')
+makeNotRequired(lib_path,'accNum')
+makeNotRequired(lib_path,'authInformation')
+makeNotRequired(lib_path,'authCode')
+makeNotRequired(lib_path,'authDate')
+makeNotRequired(lib_path,'response')
+makeNotRequired(lib_path,'responseTime')
+makeNotRequired(lib_path,'message')
+makeNotRequired(lib_path,'payerId')
+makeNotRequired(lib_path,'transactionId')
+makeNotRequired(lib_path,'tokenResponseCode')
+makeNotRequired(lib_path,'tokenMessage')
+makeNotRequired(lib_path,'accNum')
+makeNotRequired(lib_path,'sellerId')
+makeNotRequired(lib_path,'sellerMerchantCategoryCode')
+makeNotRequired(lib_path,'originalAccountInfo')
+makeNotRequired(lib_path,'newAccountInfo')
+makeNotRequired(lib_path,'originalTokenInfo')
+makeNotRequired(lib_path,'newTokenInfo')
+makeNotRequired(lib_path,'originalCardInfo')
+makeNotRequired(lib_path,'newCardInfo')
+makeNotRequired(lib_path,'orignalCardTokenInfo')
+makeNotRequired(lib_path,'newCardTokenInfo')
+makeNotRequired(lib_path,'taxAmount')
+makeNotRequired(lib_path,'totalHealthcareAmount')
+makeNotRequired(lib_path,'healthcareAmounts')
+makeNotRequired(lib_path,'IIASFlag')
+makeNotRequired(lib_path,'expDate')
+makeNotRequired(lib_path,'licenseNumber')
+makeNotRequired(lib_path,'availableBalance')
+makeNotRequired(lib_path,'code')
+makeNotRequired(lib_path,'number')
+makeNotRequired(lib_path,'paypageRegistrationId')
+makeNotRequired(lib_path,'bmlMerchantId')
+makeNotRequired(lib_path,'itemDescription')
+replace_in_file(lib_path,"import sys","import sys\nimport xml.dom")
+replace_in_file(lib_path,"CTD_ANON_18._AddElement\(pyxb.binding.basis.element\(pyxb.namespace.ExpandedName\(Namespace, u'paypal'\), CTD_ANON_44, scope=CTD_ANON_18\)\)","CTD_ANON_18._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, u'paypal'), payPal, scope=CTD_ANON_18))")
 replace_in_file(lib_path,"min_occurs=0LL","min_occurs=0L")
-replace_in_file(lib_path,"CTD_ANON_46._AddElement\(pyxb.binding.basis.element\(pyxb.namespace.ExpandedName\(Namespace, u'paypal'\), CTD_ANON_34, scope=CTD_ANON_46\)\)","CTD_ANON_46._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, u'paypal'), payPal, scope=CTD_ANON_46))")
+changeCreateFromDom(lib_path)
+addLitleAnyCreateFromDOM(lib_path)
