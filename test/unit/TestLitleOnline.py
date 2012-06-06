@@ -301,49 +301,71 @@ class TestLitleOnline(unittest.TestCase):
         comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<registerTokenRequest.*?<accountNumber>1233456789103801</accountNumber>.*?</registerTokenRequest>.*?")
         comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
+        
+    def test_extrafield(self):
+        auth = litleXmlFields.authorization()
+        auth.orderId = '1234'
+        auth.amount = 106
+        auth.orderSource = 'ecommerce'
+        auth.extraField = "extra"
+        
+        card = litleXmlFields.cardType()
+        card.number = "4100000000000000"
+        card.expDate = "1210"
+        card.type = 'VI'
+        auth.card = card
 
-#    def test_pyxbexception(self):
-#        auth = litleXmlFields.authorization()
-#        auth.reportGroup = "Planets"
-#        auth.orderId = "12344"
-#        auth.amount = 106
-#        auth.orderSource = 'ecommerce'
-#        
-#        card = litleXmlFields.cardType()
-#        card.type = 'VI'
-#        card.number = "4100000000000002"
-#        card.expDate = "1210"
-#        auth.card = card
-#        
-#        comm = Communications(config)
-#        comm.http_post = MagicMock()
-#
-#        litle = litleOnlineRequest(config)
-#        litle.setCommunications(comm)
-#        litle._processResponse = MagicMock(return_value=None)
-#        litle.sendRequest(token)
-#        
-#        comm.http_post.assert_called_once()
-#        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<registerTokenRequest.*?<accountNumber>1233456789103801</accountNumber>.*?</registerTokenRequest>.*?")
-#        comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
+        comm = Communications(config)
+        comm.http_post = MagicMock()
 
-#    def test_defaultreportgroup(self):
-#        auth = litleXmlFields.authorization()
-#        auth.orderId = "12344"
-#        auth.amount = 106
-#        auth.orderSource = 'ecommerce'
-#        
-#        card = litleXmlFields.cardType()
-#        card.type = 'VI'
-#        card.number = "4100000000000002"
-#        card.expDate = "1210"
-#        auth.card = card
-#        
-#        # create mock communication
-#        # set the communication to the mocked communication
-#        
-#        # get an auth  response from sending auth
-#        litleXml =  litleOnlineRequest(config)
-#        
-#        authResponse = litleXml.sendRequest(auth)
-#        assertEquals("Default Report Group", authResponse.transactionResponse.reportGroup)
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(auth)
+        
+        comm.http_post.assert_called_once()
+        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<authorization.*?</orderSource><card>.*?<number>4100000000000000</number>.*?</card>.*?</authorization>.*?")
+        comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
+
+    def test_extrachoices(self):
+        auth = litleXmlFields.authorization()
+        auth.orderId = '1234'
+        auth.amount = 106
+        auth.orderSource = 'ecommerce'
+        auth.extraField = "extra"
+        
+        card = litleXmlFields.cardType()
+        card.number = "4100000000000000"
+        card.expDate = "1210"
+        card.type = 'VI'
+        auth.card = card
+
+        paypal = litleXmlFields.payPal()
+        paypal.payerId = "1234"
+        paypal.token = "1234"
+        paypal.transactionId = '123456'
+        auth.paypal = paypal
+
+        litle = litleOnlineRequest(config)
+        with self.assertRaises(pyxb.BindingValidationError):
+            litle.sendRequest(auth)
+
+    def test_invalidenum(self):
+        auth = litleXmlFields.authorization()
+        auth.orderId = '1234'
+        auth.amount = 106
+        auth.orderSource = 'ecommerce'
+        auth.extraField = "extra"
+        
+        card = litleXmlFields.cardType()
+        card.number = "4100000000000000"
+        card.expDate = "1210"
+        
+        with self.assertRaises(pyxb.BadTypeValueError):
+            card.type = 'VC'
+            auth.card = card
+
+def suite():
+    suite = unittest.TestSuite()
+    suite = unittest.TestLoader().loadTestsFromTestCase(TestLitleOnline)
+    return suite
