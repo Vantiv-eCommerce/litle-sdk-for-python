@@ -22,7 +22,7 @@ card.type = 'VI'
 authorization.card = card
 
 litleXml =  litleOnlineRequest(config)
-response = litleXml.litleXmlMapper(authorization)
+response = litleXml.sendRequest(authorization)
 
 print 'Litle transaction ID: %s' %  (response.transactionResponse.litleTxnId)
 print 'Litle Message %s' %response.transactionResponse.message
