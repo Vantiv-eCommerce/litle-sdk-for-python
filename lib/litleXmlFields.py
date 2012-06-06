@@ -28,7 +28,7 @@ def CreateFromDocument (xml_text, default_namespace=None, location_base=None):
         return CreateFromDOM(dom.documentElement)
     saxer = pyxb.binding.saxer.make_parser(fallback_namespace=Namespace.fallbackNamespace(), location_base=location_base)
     handler = saxer.getContentHandler()
-    #print xml_text
+    print xml_text
     
     try:
         saxer.parse(StringIO.StringIO(xml_text))
@@ -51,36 +51,37 @@ def handleExtraField(xml_text):
                        'saleResponse':CTD_ANON_11,'voidResponse':CTD_ANON_3}
     loopFlag=1
     while(loopFlag):
-        #print 'new loop'
+        print 'new loop'
         temp_xml = xml_text
         for property, value in vars(CTD_ANON_MAPPER[type]).iteritems():
             if (temp_xml.count(property)!=0):
                 i = temp_xml.find('<'+property)
                 j = temp_xml.find('</'+property+'>')
                 temp_xml=temp_xml[:i]+temp_xml[j+3+len(property):]
-        #print '1'+temp_xml
+                print temp_xml
+        print '1'+temp_xml
         x = temp_xml.find('>')
         temp_xml = temp_xml[x+1:]
-        #print '2'+temp_xml
+        print '2'+temp_xml
         x = temp_xml.find('>')
         temp_xml = temp_xml[x+1:]
-        #print '3'+temp_xml
+        print '3'+temp_xml
         x = temp_xml.find('</'+type)
         temp_xml = temp_xml[:x]
-        #print '4'+temp_xml
+        print '4'+temp_xml
         x = temp_xml.find('<')
         if(x == -1):
             temp_xml=''
         else:
             temp_xml = temp_xml[x:]
-        #print '5'+temp_xml
+        print '5'+temp_xml
         x = temp_xml.find('><')
         if(x>-1):
             temp_xml = temp_xml[:x+1]
-        #print '6'+temp_xml
+        print '6'+temp_xml
         i = xml_text.find(temp_xml)
         xml_text = xml_text[:i]+xml_text[i+len(temp_xml):]
-        #print '7'+temp_xml
+        print '7'+temp_xml
         if(temp_xml == ''):
             loopFlag=0
     return xml_text
