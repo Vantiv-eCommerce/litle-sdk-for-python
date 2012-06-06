@@ -51,7 +51,7 @@ unittest.TextTestRunner().run(testcredit)
 
 unittest.TextTestRunner().run(testecheckcredit)
 unittest.TextTestRunner().run(testecheckredeposit)
-unittest.TextTestRunner().run(testechecsale)
+unittest.TextTestRunner().run(testechecksale)
 unittest.TextTestRunner().run(testecheckverfication)
 
 unittest.TextTestRunner().run(testecheckvoid)
