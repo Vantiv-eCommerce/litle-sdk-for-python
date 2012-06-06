@@ -10,6 +10,7 @@ import StringIO
 import pyxb.utils.utility
 import pyxb.utils.domutils
 import sys
+import xml.dom
 
 # Unique identifier for bindings created at the same time
 _GenerationUID = pyxb.utils.utility.UniqueIdentifier('20120524112227:e097490f')
@@ -23,68 +24,9 @@ ModuleRecord = Namespace.lookupModuleRecordByUID(_GenerationUID, create_if_missi
 ModuleRecord._setModule(sys.modules[__name__])
 def CreateFromDocument (xml_text, default_namespace=None, location_base=None):
     """Parse the given XML and use the document element to create a Python instance."""
-    if pyxb.XMLStyle_saxer != pyxb._XMLStyle:
-        dom = pyxb.utils.domutils.StringToDOM(xml_text)
-        return CreateFromDOM(dom.documentElement)
-    saxer = pyxb.binding.saxer.make_parser(fallback_namespace=Namespace.fallbackNamespace(), location_base=location_base)
-    handler = saxer.getContentHandler()
-    print xml_text
-    
-    try:
-        saxer.parse(StringIO.StringIO(xml_text))
-    except pyxb.ExtraContentError:
-        xml_text = handleExtraField(xml_text)
-        #print xml_text
-        saxer.parse(StringIO.StringIO(xml_text))
-  
-    instance = handler.rootObject()
-    return instance
+    dom = pyxb.utils.domutils.StringToDOM(xml_text)
+    return CreateFromDOM(dom.documentElement)
 
-def handleExtraField(xml_text):      
-    temp_xml = xml_text
-    t = temp_xml.find('<',2)
-    s = temp_xml.find(' ',t)
-    type = temp_xml[t+1:s]
-    CTD_ANON_MAPPER = {'authorizationResponse':CTD_ANON_30,'authReversalResponse':CTD_ANON_9,'captureResponse':CTD_ANON_2,'captureGivenAuthResponse':CTD_ANON_27,
-                       'creditResponse':CTD_ANON_7,'echeckCreditResponse':CTD_ANON_26,'echeckVoidResponse':CTD_ANON_39,'echeckVerificationResponse':CTD_ANON_40,
-                       'echeckSalesResponse':CTD_ANON_41,'echeckRedepositResponse':CTD_ANON_47,'forceCaptureResponse':CTD_ANON_38,'registerTokenResponse':CTD_ANON_20,
-                       'saleResponse':CTD_ANON_11,'voidResponse':CTD_ANON_3}
-    loopFlag=1
-    while(loopFlag):
-        print 'new loop'
-        temp_xml = xml_text
-        for property, value in vars(CTD_ANON_MAPPER[type]).iteritems():
-            if (temp_xml.count(property)!=0):
-                i = temp_xml.find('<'+property)
-                j = temp_xml.find('</'+property+'>')
-                temp_xml=temp_xml[:i]+temp_xml[j+3+len(property):]
-                print temp_xml
-        print '1'+temp_xml
-        x = temp_xml.find('>')
-        temp_xml = temp_xml[x+1:]
-        print '2'+temp_xml
-        x = temp_xml.find('>')
-        temp_xml = temp_xml[x+1:]
-        print '3'+temp_xml
-        x = temp_xml.find('</'+type)
-        temp_xml = temp_xml[:x]
-        print '4'+temp_xml
-        x = temp_xml.find('<')
-        if(x == -1):
-            temp_xml=''
-        else:
-            temp_xml = temp_xml[x:]
-        print '5'+temp_xml
-        x = temp_xml.find('><')
-        if(x>-1):
-            temp_xml = temp_xml[:x+1]
-        print '6'+temp_xml
-        i = xml_text.find(temp_xml)
-        xml_text = xml_text[:i]+xml_text[i+len(temp_xml):]
-        print '7'+temp_xml
-        if(temp_xml == ''):
-            loopFlag=0
-    return xml_text
             
 def CreateFromDOM (node, default_namespace=None):
     """Create a Python instance from the given DOM node.
@@ -93,7 +35,19 @@ def CreateFromDOM (node, default_namespace=None):
     @deprecated: Forcing use of DOM interface is unnecessary; use L{CreateFromDocument}."""
     if default_namespace is None:
         default_namespace = Namespace.fallbackNamespace()
-    return pyxb.binding.basis.element.AnyCreateFromDOM(node, _fallback_namespace=default_namespace)
+    return LitleAnyCreateFromDOM(pyxb.binding.basis.element,node, _fallback_namespace=default_namespace)
+
+def LitleAnyCreateFromDOM (cls, node, _fallback_namespace):
+    if xml.dom.Node.DOCUMENT_NODE == node.nodeType:
+        node = node.documentElement
+    expanded_name = pyxb.namespace.ExpandedName(node, fallback_namespace=_fallback_namespace)
+    elt = expanded_name.elementBinding()
+    if elt is None:
+        return
+        #raise pyxb.UnrecognizedElementError(dom_node=node, element_name=expanded_name)
+    assert isinstance(elt, pyxb.binding.basis.element)
+
+    return elt._createFromDOM(node, expanded_name, _fallback_namespace=_fallback_namespace)
 
 
 # Atomic SimpleTypeDefinition
