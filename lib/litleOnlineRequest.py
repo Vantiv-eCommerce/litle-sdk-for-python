@@ -9,11 +9,11 @@ class litleOnlineRequest:
         self.Password = Configuration.getPassword()
         self.Version = Configuration.getVersion()
         self.ReportGroup = Configuration.getReportGroup()
+        self.communications = Communications(self.Configuration)
         
     def _litleToXml(self,litleOnline):
         temp =litleOnline.toxml()
         temp= temp.replace('ns1:','')
-        #print temp.replace(':ns1','')
         return temp.replace(':ns1','')
         
     def sendRequest(self,transaction,user = None, password = None, version = None,  merchantId = None,reportGroup = None, timeout = None,url = None, proxy = None):
@@ -29,9 +29,11 @@ class litleOnlineRequest:
             self.ReportGroup = reportGroup
             
         litleOnline = self._createTxn(transaction)        
-        comm = Communications(self.Configuration)
-        responseXml = comm.http_post(self._litleToXml(litleOnline),url=url,proxy=proxy,timeout=timeout)
+        responseXml = self.communications.http_post(self._litleToXml(litleOnline),url=url,proxy=proxy,timeout=timeout)
         return self._processResponse(responseXml)
+    
+    def setCommunications(self,communications):
+        self.communications = communications
     
     def _createTxn(self,transaction):
         litleOnline = litleXmlFields.litleOnlineRequest()
