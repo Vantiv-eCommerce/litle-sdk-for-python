@@ -28,11 +28,13 @@ def CreateFromDocument (xml_text, default_namespace=None, location_base=None):
         return CreateFromDOM(dom.documentElement)
     saxer = pyxb.binding.saxer.make_parser(fallback_namespace=Namespace.fallbackNamespace(), location_base=location_base)
     handler = saxer.getContentHandler()
+    #print xml_text
     
     try:
         saxer.parse(StringIO.StringIO(xml_text))
     except pyxb.ExtraContentError:
         xml_text = handleExtraField(xml_text)
+        #print xml_text
         saxer.parse(StringIO.StringIO(xml_text))
   
     instance = handler.rootObject()
@@ -47,23 +49,41 @@ def handleExtraField(xml_text):
                        'creditResponse':CTD_ANON_7,'echeckCreditResponse':CTD_ANON_26,'echeckVoidResponse':CTD_ANON_39,'echeckVerificationResponse':CTD_ANON_40,
                        'echeckSalesResponse':CTD_ANON_41,'echeckRedepositResponse':CTD_ANON_47,'forceCaptureResponse':CTD_ANON_38,'registerTokenResponse':CTD_ANON_20,
                        'saleResponse':CTD_ANON_11,'voidResponse':CTD_ANON_3}
-    for property, value in vars(CTD_ANON_MAPPER[type]).iteritems():
-        if (temp_xml.count(property)!=0):
-            i = temp_xml.find('<'+property)
-            j = temp_xml.find('</'+property+'>')
-            temp_xml=temp_xml[:i]+temp_xml[j+3+len(property):]
-
-    x = temp_xml.find('>')
-    temp_xml = temp_xml[x+1:]
-    x = temp_xml.find('>')
-    temp_xml = temp_xml[x+1:]
-    x = temp_xml.find('</'+type)
-    temp_xml = temp_xml[:x]
-    x = temp_xml.find('<')
-    temp_xml = temp_xml[x:]
-    i = xml_text.find(temp_xml)
-    xml_text_new = xml_text[:i]+xml_text[i+len(temp_xml):]
-    return xml_text_new
+    loopFlag=1
+    while(loopFlag):
+        #print 'new loop'
+        temp_xml = xml_text
+        for property, value in vars(CTD_ANON_MAPPER[type]).iteritems():
+            if (temp_xml.count(property)!=0):
+                i = temp_xml.find('<'+property)
+                j = temp_xml.find('</'+property+'>')
+                temp_xml=temp_xml[:i]+temp_xml[j+3+len(property):]
+        #print '1'+temp_xml
+        x = temp_xml.find('>')
+        temp_xml = temp_xml[x+1:]
+        #print '2'+temp_xml
+        x = temp_xml.find('>')
+        temp_xml = temp_xml[x+1:]
+        #print '3'+temp_xml
+        x = temp_xml.find('</'+type)
+        temp_xml = temp_xml[:x]
+        #print '4'+temp_xml
+        x = temp_xml.find('<')
+        if(x == -1):
+            temp_xml=''
+        else:
+            temp_xml = temp_xml[x:]
+        #print '5'+temp_xml
+        x = temp_xml.find('><')
+        if(x>-1):
+            temp_xml = temp_xml[:x+1]
+        #print '6'+temp_xml
+        i = xml_text.find(temp_xml)
+        xml_text = xml_text[:i]+xml_text[i+len(temp_xml):]
+        #print '7'+temp_xml
+        if(temp_xml == ''):
+            loopFlag=0
+    return xml_text
             
 def CreateFromDOM (node, default_namespace=None):
     """Create a Python instance from the given DOM node.
