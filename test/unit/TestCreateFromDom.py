@@ -1,7 +1,7 @@
 from SetupTest import *
 import unittest
 
-class TestHandleExtraField(unittest.TestCase):
+class TestCreateFromDom(unittest.TestCase):
     
     def test_simpleExtraField(self):
         xml_text="<litleOnlineResponse version='8.13' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><captureGivenAuthResponse id='' reportGroup='DefaultReportGroup' customerId=''><litleTxnId>057484783403434000</litleTxnId><orderId>12344</orderId><response>000</response><responseTime>2012-06-05T16:36:39</responseTime><message>Approved</message><authCode>83307</authCode></captureGivenAuthResponse></litleOnlineResponse>"
@@ -27,5 +27,5 @@ class TestHandleExtraField(unittest.TestCase):
         
 def suite():
     suite = unittest.TestSuite()
-    suite = unittest.TestLoader().loadTestsFromTestCase(TestSale)
+    suite = unittest.TestLoader().loadTestsFromTestCase(TestCreateFromDom)
     return suite

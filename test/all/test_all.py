@@ -63,3 +63,12 @@ unittest.TextTestRunner().run(testtoken)
 lib_path = os.path.abspath('../unit')
 sys.path.append(lib_path)
 
+import TestConfigOverride,TestCreateFromDom, TestLitleOnline
+
+testconfigoverride = TestConfigOverride.suite()
+testcreatefromdom = TestCreateFromDom.suite()
+testlitleonline = TestLitleOnline.suite()
+
+unittest.TextTestRunner().run(testconfigoverride)
+unittest.TextTestRunner().run(testcreatefromdom)
+unittest.TextTestRunner().run(testlitleonline)

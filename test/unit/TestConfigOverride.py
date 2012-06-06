@@ -261,4 +261,8 @@ class TestConfigOverride(unittest.TestCase):
 
         with self.assertRaises(AttributeError):
             litleOnlineRequest(config4)
-        
+
+def suite():
+    suite = unittest.TestSuite()
+    suite = unittest.TestLoader().loadTestsFromTestCase(TestConfigOverride)
+    return suite
