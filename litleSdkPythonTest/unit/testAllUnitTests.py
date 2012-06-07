@@ -22,12 +22,14 @@
 #OTHER DEALINGS IN THE SOFTWARE.
 
 import unittest
-import TestConfigOverride, TestCreateFromDom, TestLitleOnline
+import TestConfigOverride, TestCreateFromDom, TestLitleOnline, TestPostGenerationScript
 
 testconfigoverride = TestConfigOverride.suite()
 testcreatefromdom = TestCreateFromDom.suite()
 testlitleonline = TestLitleOnline.suite()
+testpostgenerationscript = TestPostGenerationScript.suite()
 
 unittest.TextTestRunner().run(testconfigoverride)
 unittest.TextTestRunner().run(testcreatefromdom)
 unittest.TextTestRunner().run(testlitleonline)
+unittest.TextTestRunner().run(testpostgenerationscript)
