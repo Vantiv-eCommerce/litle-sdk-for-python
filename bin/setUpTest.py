@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import sys, os, re, string
-lib_path = os.path.abspath('../test/testConfig.py')
+lib_path = os.path.abspath('../litleSdkPythonTest/testConfig.py')
 sys.path.append(lib_path)
 
 print "Setup for Litle SDK Tests" 
@@ -12,9 +12,9 @@ proxy = raw_input( 'Enter your proxy, if no proxy hit enter:' )
 
 write_file=open(lib_path,'w')
 write_file.write('import os, sys\n')
-write_file.write("lib_path = os.path.abspath('../../lib')\n")
-write_file.write('sys.path.append(lib_path)\n')
-write_file.write('from litleOnlineRequest import *\n')
+#write_file.write("lib_path = os.path.abspath('../../lib')\n")
+#write_file.write('sys.path.append(lib_path)\n')
+write_file.write('from litleSdkPython.litleOnlineRequest import *\n')
 write_file.write('config = Configuration()\n')
 write_file.write('config.setUser("'+user+'")\n')
 write_file.write('config.setPassword("'+password+'")\n')

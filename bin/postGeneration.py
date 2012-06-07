@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 import sys, os, re, string
-lib_path = os.path.abspath('../lib/litleXmlFields.py')
+lib_path = os.path.abspath('../litleSdkPython/litleXmlFields.py')
 sys.path.append(lib_path)
 
 #replaces all instances of find with replace
