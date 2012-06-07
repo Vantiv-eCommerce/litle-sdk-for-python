@@ -25,7 +25,7 @@ from litleOnline import *
 
 class litleOnlineRequest:
         
-    def __init__(self,Configuration):
+    def __init__(self, Configuration):
         self.Configuration = Configuration
         self.MerchantId = Configuration.getMerchantId()
         self.User = Configuration.getUser()
@@ -42,7 +42,9 @@ class litleOnlineRequest:
         except pyxb.BindingValidationError:
             raise Exception("Invalid Number of Choices, Fill Out One and Only One Choice")
         
-    def sendRequest(self,transaction,user = None, password = None, version = None,  merchantId = None,reportGroup = None, timeout = None,url = None, proxy = None):
+    def sendRequest(self,transaction, user=None, password=None, version=None,
+                    merchantId=None, reportGroup=None, timeout=None, url=None,
+                    proxy=None):
         if (user != None):
             self.User = user
         if (password != None):
@@ -55,13 +57,14 @@ class litleOnlineRequest:
             self.ReportGroup = reportGroup
             
         litleOnline = self._createTxn(transaction)        
-        responseXml = self.communications.http_post(self._litleToXml(litleOnline),url=url,proxy=proxy,timeout=timeout)
+        responseXml = self.communications.http_post(self._litleToXml(litleOnline),
+                                                    url=url, proxy=proxy, timeout=timeout)
         return self._processResponse(responseXml)
     
-    def setCommunications(self,communications):
+    def setCommunications(self, communications):
         self.communications = communications
     
-    def _createTxn(self,transaction):
+    def _createTxn(self, transaction):
         litleOnline = litleXmlFields.litleOnlineRequest()
         litleOnline.merchantId = self.MerchantId
         litleOnline.version = self.Version
@@ -74,12 +77,13 @@ class litleOnlineRequest:
         litleOnline.transaction = transaction
         return litleOnline
     
-    def _addNamespace(self,responseXml):
-        if ((responseXml.count("xmlns='http://www.litle.com/schema'") == 0) and (responseXml.count('xmlns="http://www.litle.com/schema"') == 0)):
+    def _addNamespace(self, responseXml):
+        if ((responseXml.count("xmlns='http://www.litle.com/schema'") == 0) and
+            (responseXml.count('xmlns="http://www.litle.com/schema"') == 0)):
             return responseXml.replace(' response=',' xmlns="http://www.litle.com/schema" response=')    
         return responseXml
     
-    def _processResponse(self,responseXml):
+    def _processResponse(self, responseXml):
         temp = self._addNamespace(responseXml)
         return litleXmlFields.CreateFromDocument(temp)
       
