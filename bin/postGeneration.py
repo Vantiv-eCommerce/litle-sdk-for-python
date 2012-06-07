@@ -29,7 +29,8 @@ def isInFile(xfile, find):
     return doneFlag
     
 def makeNotRequired(xfile, field):
-    replace_in_file(xfile, "u'" + field + "'\)\), min_occurs=1","u'" + field + "')), min_occurs=0L")
+    replace_in_file(xfile, "u'" + field + "'\)\), min_occurs=1","u'" + field +
+                    "')), min_occurs=0L")
 
 def cregex(find, replace, currentline, xfile, listindex, readlines):
     f = re.sub(find, replace, currentline)
@@ -45,16 +46,21 @@ def cregex(find, replace, currentline, xfile, listindex, readlines):
     write_file.close()
     
 def changeCreateFromDom(xfile):    
-    replace_in_file(lib_path, "return pyxb.binding.basis.element.AnyCreateFromDOM\(node, _fallback_namespace=default_namespace\)", "return LitleAnyCreateFromDOM(pyxb.binding.basis.element,node, _fallback_namespace=default_namespace)")
-    replace_in_file(lib_path, " saxer = pyxb.binding.saxer.make_parser\(fallback_namespace=Namespace.fallbackNamespace\(\), location_base=location_base\)", "")
+    replace_in_file(lib_path, "return pyxb.binding.basis.element.AnyCreateFromDOM\(node, _fallback_namespace=default_namespace\)",
+                    "return LitleAnyCreateFromDOM(pyxb.binding.basis.element,node, _fallback_namespace=default_namespace)")
+    replace_in_file(lib_path, " saxer = pyxb.binding.saxer.make_parser\(fallback_namespace=Namespace.fallbackNamespace\(\), location_base=location_base\)",
+                    "")
     replace_in_file(lib_path, " handler = saxer.getContentHandler\(\)", "")
-    replace_in_file(lib_path, " saxer.parse\(StringIO.StringIO\(xml_text\)\)", "")
+    replace_in_file(lib_path, " saxer.parse\(StringIO.StringIO\(xml_text\)\)",
+                    "")
     replace_in_file(lib_path, " instance = handler.rootObject\(\)", "")
     replace_in_file(lib_path, " return instance", "")
-    replace_in_file(lib_path, " if pyxb.XMLStyle_saxer != pyxb._XMLStyle:", " if (True):")
+    replace_in_file(lib_path, " if pyxb.XMLStyle_saxer != pyxb._XMLStyle:",
+                    " if (True):")
 
 def addLitleAnyCreateFromDOM(xfile):
-    replace_in_file(lib_path, " return LitleAnyCreateFromDOM\(pyxb.binding.basis.element,node, _fallback_namespace=default_namespace\)", " return LitleAnyCreateFromDOM(pyxb.binding.basis.element,node, _fallback_namespace=default_namespace)\n\n\
+    replace_in_file(lib_path, " return LitleAnyCreateFromDOM\(pyxb.binding.basis.element,node, _fallback_namespace=default_namespace\)",
+                    " return LitleAnyCreateFromDOM(pyxb.binding.basis.element,node, _fallback_namespace=default_namespace)\n\n\
 def LitleAnyCreateFromDOM (cls, node, _fallback_namespace):\n\
     if xml.dom.Node.DOCUMENT_NODE == node.nodeType:\n\
         node = node.documentElement\n\
@@ -105,10 +111,13 @@ def fixChoices(xfile):
     count2 = 0;
     for currentline in readlines:
         if(rightLine.search(currentline)):
-            if (currentline.count(lineToSkip2) == 0 and currentline.count(lineToSkip) == 0 and currentline.count(lineToSkip3) == 0 and currentline.count(lineToSkip4) == 0):
+            if (currentline.count(lineToSkip2) == 0 and 
+                currentline.count(lineToSkip) == 0 and 
+                currentline.count(lineToSkip3) == 0 and 
+                currentline.count(lineToSkip4) == 0):
                 temp = currentline
                 count2 = count2 + 1
-                toReplace = temp.replace("min_occurs=1,", "min_occurs=0L," )
+                toReplace = temp.replace("min_occurs=1,", "min_occurs=0L,")
                 currentline = currentline.replace(')', '\)')
                 currentline = currentline.replace('(', '\(')
                 replace_in_file(xfile, currentline, toReplace)
@@ -148,7 +157,8 @@ def fixecheckSale(xfile):
                 echeckFlag = 1
             elif (echeckFlag and (not txnFlag) and txnid.search(currentline)):
                 txnFlag = 1
-                cregex(tx, tx2 + ' ' + am2 + ' ' + ve2, currentline, xfile, listindex, readlines)
+                cregex(tx, tx2 + ' ' + am2 + ' ' + ve2, currentline, xfile, 
+                       listindex, readlines)
             elif (txnFlag and amount.search(currentline)):
                 cregex(am, '', currentline, xfile, listindex, readlines)
             elif (txnFlag and verify.search(currentline)):
