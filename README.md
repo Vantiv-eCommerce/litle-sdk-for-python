@@ -24,7 +24,7 @@ SDK Python Dependencies
 ----------------------
 pyxb
 
-re
+mock
 
 Setup
 -----
@@ -35,7 +35,7 @@ Setup
 
 2) Add the LitleSdkPython and LitleSdkPythonTest libraies to your Project References
 
-3) Once the SDK is downloaded run our setUpTest.py script
+3) Once the SDK is downloaded run our setUpTest.py
 
 4) Run LitleSdkPythonTest.all.test_all.py
 
