@@ -1,23 +1,24 @@
 import os, sys
 import unittest, re
 
+# Unit Tests
+lib_path = os.path.abspath('../unit')
+sys.path.append(lib_path)
+
+import testAllUnitTests
+
 #Cert Tests
 lib_path = os.path.abspath('../certification')
 sys.path.append(lib_path)
 
 import testAllCertificationTests
 
-# Functional Tests
+#Functional Tests
 lib_path = os.path.abspath('../functional')
 sys.path.append(lib_path)
 
 import testAllFunctionalTests
 
-# Unit Tests
-lib_path = os.path.abspath('../unit')
-sys.path.append(lib_path)
-
-import testAllUnitTests
 
 #
 ## Cert Tests
