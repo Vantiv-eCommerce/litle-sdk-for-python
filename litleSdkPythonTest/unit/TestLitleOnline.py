@@ -332,7 +332,6 @@ class TestLitleOnline(unittest.TestCase):
         auth.orderId = '1234'
         auth.amount = 106
         auth.orderSource = 'ecommerce'
-        auth.extraField = "extra"
         
         card = litleXmlFields.cardType()
         card.number = "4100000000000000"
@@ -347,7 +346,7 @@ class TestLitleOnline(unittest.TestCase):
         auth.paypal = paypal
 
         litle = litleOnlineRequest(config)
-        with self.assertRaises(pyxb.BindingValidationError):
+        with self.assertRaises(Exception):
             litle.sendRequest(auth)
 
     def test_invalidenum(self):

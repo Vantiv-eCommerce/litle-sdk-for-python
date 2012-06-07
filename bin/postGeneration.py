@@ -88,7 +88,27 @@ def fixPaypalinCredit(xfile):
     wholeLine = wholeLine.replace(')','\)')
     wholeLine = wholeLine.replace('(','\(')
     replace_in_file(xfile,wholeLine,creditAnon+"._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, u'paypal'), payPal, scope="+creditAnon+")")
+    
 
+def fixChoices(xfile):
+    line = "._GroupModel_.*?, min_occurs=1, max_occurs=1\)"
+    lineToSkip = findAnon(xfile,"authorization")+"._GroupModel_,"
+    lineToSkip2 = findAnon(xfile,"credit")+"._GroupModel_2"
+    lineToSkip3 = findAnon(xfile,"echeckCredit")+"._GroupModel_,"
+    lineToSkip4 = findAnon(xfile,"echeckSale")+"._GroupModel_,"
+    rightLine=re.compile(line)
+    readlines=open(xfile,'r').readlines()
+    count2 = 0;
+    for currentline in readlines:
+        if(rightLine.search(currentline)):
+            if (currentline.count(lineToSkip2) == 0 and currentline.count(lineToSkip) == 0 and currentline.count(lineToSkip3) == 0 and currentline.count(lineToSkip4) == 0):
+                temp = currentline
+                count2=count2+1
+                toReplace = temp.replace("min_occurs=1,","min_occurs=0L," )
+                currentline = currentline.replace(')','\)')
+                currentline = currentline.replace('(','\(')
+                replace_in_file(xfile,currentline,toReplace)
+            
 #reorders the fields in echeckSale to be right
 def fixecheckSale(xfile):
     tx = "__litleTxnId.name\(\) : __litleTxnId,"
@@ -183,7 +203,7 @@ makeNotRequired(lib_path,'itemDescription')
 if (not isInFile(lib_path, "import xml.dom")):
     replace_in_file(lib_path,"import sys","import sys\nimport xml.dom")
 fixPaypalinCredit(lib_path)
-#replace_in_file(lib_path,"CTD_ANON_18._AddElement\(pyxb.binding.basis.element\(pyxb.namespace.ExpandedName\(Namespace, u'paypal'\), CTD_ANON_44, scope=CTD_ANON_18\)\)","CTD_ANON_18._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, u'paypal'), payPal, scope=CTD_ANON_18))")
+fixChoices(lib_path)
 replace_in_file(lib_path,"min_occurs=0LL","min_occurs=0L")
 changeCreateFromDom(lib_path)
 if (not isInFile(lib_path, "def LitleAnyCreateFromDOM \(cls, node, _fallback_namespace\):")):
