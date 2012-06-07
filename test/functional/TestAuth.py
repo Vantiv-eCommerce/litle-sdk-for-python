@@ -1,4 +1,4 @@
-from SetupTest import *
+from test.all.SetupTest import *
 import unittest
 
 class TestAuth(unittest.TestCase):
