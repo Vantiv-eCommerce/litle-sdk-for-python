@@ -1,12 +1,16 @@
 #!/usr/bin/env python
-import sys, os, re, string
+import sys
+import os
+import re
+import string
+
 lib_path = os.path.abspath('../litleSdkPython/litleXmlFields.py')
 sys.path.append(lib_path)
 
 #replaces all instances of find with replace
 def replace_in_file(xfile, find, replace):
-    found=re.compile(find)
-    readlines=open(xfile,'r').readlines()   
+    found = re.compile(find)
+    readlines = open(xfile, 'r').readlines()   
     listindex = -1   
     for currentline in readlines:        
         listindex = listindex + 1
@@ -15,25 +19,25 @@ def replace_in_file(xfile, find, replace):
             cregex(find, replace, currentline, xfile, listindex, readlines)
             
 def isInFile(xfile, find):
-    already=re.compile(find)
-    doneFlag=0
-    readlines=open(xfile,'r').readlines()
+    already = re.compile(find)
+    doneFlag = 0
+    readlines = open(xfile, 'r').readlines()
     for currentline in readlines:
         if(already.search(currentline)):
-            doneFlag=1
+            doneFlag = 1
             break
     return doneFlag
     
 def makeNotRequired(xfile, field):
-    replace_in_file(xfile,"u'"+field+"'\)\), min_occurs=1","u'"+field+"')), min_occurs=0L")
+    replace_in_file(xfile, "u'" + field + "'\)\), min_occurs=1","u'" + field + "')), min_occurs=0L")
 
 def cregex(find, replace, currentline, xfile, listindex, readlines):
     f = re.sub(find, replace, currentline)
     print '\n' + xfile
     print '- ' + currentline ,
-    if currentline[-1:]!='\n': print '\n' ,
+    if currentline[-1:] != '\n': print '\n' ,
     print '+ ' + f
-    if f[-1:]!='\n': print '\n' ,
+    if f[-1:] != '\n': print '\n' ,
     readlines[listindex] = f
     write_file=open(xfile,'w')
     for line in readlines:
@@ -41,16 +45,16 @@ def cregex(find, replace, currentline, xfile, listindex, readlines):
     write_file.close()
     
 def changeCreateFromDom(xfile):    
-    replace_in_file(lib_path,"return pyxb.binding.basis.element.AnyCreateFromDOM\(node, _fallback_namespace=default_namespace\)","return LitleAnyCreateFromDOM(pyxb.binding.basis.element,node, _fallback_namespace=default_namespace)")
-    replace_in_file(lib_path," saxer = pyxb.binding.saxer.make_parser\(fallback_namespace=Namespace.fallbackNamespace\(\), location_base=location_base\)","")
-    replace_in_file(lib_path," handler = saxer.getContentHandler\(\)","")
-    replace_in_file(lib_path," saxer.parse\(StringIO.StringIO\(xml_text\)\)","")
-    replace_in_file(lib_path," instance = handler.rootObject\(\)","")
-    replace_in_file(lib_path," return instance","")
-    replace_in_file(lib_path," if pyxb.XMLStyle_saxer != pyxb._XMLStyle:"," if (True):")
+    replace_in_file(lib_path, "return pyxb.binding.basis.element.AnyCreateFromDOM\(node, _fallback_namespace=default_namespace\)", "return LitleAnyCreateFromDOM(pyxb.binding.basis.element,node, _fallback_namespace=default_namespace)")
+    replace_in_file(lib_path, " saxer = pyxb.binding.saxer.make_parser\(fallback_namespace=Namespace.fallbackNamespace\(\), location_base=location_base\)", "")
+    replace_in_file(lib_path, " handler = saxer.getContentHandler\(\)", "")
+    replace_in_file(lib_path, " saxer.parse\(StringIO.StringIO\(xml_text\)\)", "")
+    replace_in_file(lib_path, " instance = handler.rootObject\(\)", "")
+    replace_in_file(lib_path, " return instance", "")
+    replace_in_file(lib_path, " if pyxb.XMLStyle_saxer != pyxb._XMLStyle:", " if (True):")
 
 def addLitleAnyCreateFromDOM(xfile):
-    replace_in_file(lib_path," return LitleAnyCreateFromDOM\(pyxb.binding.basis.element,node, _fallback_namespace=default_namespace\)"," return LitleAnyCreateFromDOM(pyxb.binding.basis.element,node, _fallback_namespace=default_namespace)\n\n\
+    replace_in_file(lib_path, " return LitleAnyCreateFromDOM\(pyxb.binding.basis.element,node, _fallback_namespace=default_namespace\)", " return LitleAnyCreateFromDOM(pyxb.binding.basis.element,node, _fallback_namespace=default_namespace)\n\n\
 def LitleAnyCreateFromDOM (cls, node, _fallback_namespace):\n\
     if xml.dom.Node.DOCUMENT_NODE == node.nodeType:\n\
         node = node.documentElement\n\
@@ -63,51 +67,51 @@ def LitleAnyCreateFromDOM (cls, node, _fallback_namespace):\n\
 
 #finds the CTD_ANON number corresponding to the given field
 def findAnon(xfile, field):
-    line = field +" = pyxb.binding.basis.element\(pyxb.namespace.ExpandedName\(Namespace, u'"+field+"'\),"
-    rightLine=re.compile(line)
-    readlines=open(xfile,'r').readlines()
+    line = field + " = pyxb.binding.basis.element\(pyxb.namespace.ExpandedName\(Namespace, u'" + field + "'\),"
+    rightLine = re.compile(line)
+    readlines = open(xfile, 'r').readlines()
     for currentline in readlines:
         if(rightLine.search(currentline)):
             wholeLine = currentline
     i = wholeLine.find('CTD_ANON')
-    temp =wholeLine[i:]
+    temp = wholeLine[i:]
     i = temp.find('\)')
     return temp[:i-1]
 
 # fix paypal as credit field
 def fixPaypalinCredit(xfile):
-    creditAnon = findAnon(xfile,"credit")
-    line = creditAnon+"._AddElement\(pyxb.binding.basis.element\(pyxb.namespace.ExpandedName\(Namespace, u'paypal'\)"
-    rightLine=re.compile(line)
-    readlines=open(xfile,'r').readlines()
+    creditAnon = findAnon(xfile, "credit")
+    line = creditAnon + "._AddElement\(pyxb.binding.basis.element\(pyxb.namespace.ExpandedName\(Namespace, u'paypal'\)"
+    rightLine = re.compile(line)
+    readlines = open(xfile, 'r').readlines()
     for currentline in readlines:
         if(rightLine.search(currentline)):
             wholeLine = currentline
     i = wholeLine.find('\n')
     wholeLine = wholeLine[:i-1]
-    wholeLine = wholeLine.replace(')','\)')
-    wholeLine = wholeLine.replace('(','\(')
-    replace_in_file(xfile,wholeLine,creditAnon+"._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, u'paypal'), payPal, scope="+creditAnon+")")
+    wholeLine = wholeLine.replace(')', '\)')
+    wholeLine = wholeLine.replace('(', '\(')
+    replace_in_file(xfile, wholeLine, creditAnon + "._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, u'paypal'), payPal, scope=" + creditAnon + ")")
     
 
 def fixChoices(xfile):
     line = "._GroupModel_.*?, min_occurs=1, max_occurs=1\)"
-    lineToSkip = findAnon(xfile,"authorization")+"._GroupModel_,"
-    lineToSkip2 = findAnon(xfile,"credit")+"._GroupModel_2"
-    lineToSkip3 = findAnon(xfile,"echeckCredit")+"._GroupModel_,"
-    lineToSkip4 = findAnon(xfile,"echeckSale")+"._GroupModel_,"
-    rightLine=re.compile(line)
-    readlines=open(xfile,'r').readlines()
+    lineToSkip = findAnon(xfile, "authorization") + "._GroupModel_,"
+    lineToSkip2 = findAnon(xfile, "credit") + "._GroupModel_2"
+    lineToSkip3 = findAnon(xfile, "echeckCredit") + "._GroupModel_,"
+    lineToSkip4 = findAnon(xfile, "echeckSale") + "._GroupModel_,"
+    rightLine = re.compile(line)
+    readlines = open(xfile, 'r').readlines()
     count2 = 0;
     for currentline in readlines:
         if(rightLine.search(currentline)):
             if (currentline.count(lineToSkip2) == 0 and currentline.count(lineToSkip) == 0 and currentline.count(lineToSkip3) == 0 and currentline.count(lineToSkip4) == 0):
                 temp = currentline
-                count2=count2+1
-                toReplace = temp.replace("min_occurs=1,","min_occurs=0L," )
-                currentline = currentline.replace(')','\)')
-                currentline = currentline.replace('(','\(')
-                replace_in_file(xfile,currentline,toReplace)
+                count2 = count2 + 1
+                toReplace = temp.replace("min_occurs=1,", "min_occurs=0L," )
+                currentline = currentline.replace(')', '\)')
+                currentline = currentline.replace('(', '\(')
+                replace_in_file(xfile, currentline, toReplace)
             
 #reorders the fields in echeckSale to be right
 def fixecheckSale(xfile):
@@ -121,14 +125,14 @@ def fixecheckSale(xfile):
     am2 = "__amount.name() : __amount,"
     ve2 = '__verify.name() : __verify,'
     
-    echeck=re.compile(anon)
-    txnid=re.compile(tx)
-    amount=re.compile(am)
-    verify=re.compile(ve)
-    already=re.compile(alr)
-    echeckFlag=0
+    echeck = re.compile(anon)
+    txnid = re.compile(tx)
+    amount = re.compile(am)
+    verify = re.compile(ve)
+    already = re.compile(alr)
+    echeckFlag = 0
     txnFlag = 0
-    readlines=open(xfile,'r').readlines()
+    readlines = open(xfile, 'r').readlines()
 
     listindex = -1
 
@@ -141,9 +145,9 @@ def fixecheckSale(xfile):
                 print 'the file has already been processed'
                 break
             if ((not echeckFlag) and echeck.search(currentline)):
-                echeckFlag=1
+                echeckFlag = 1
             elif (echeckFlag and (not txnFlag) and txnid.search(currentline)):
-                txnFlag=1
+                txnFlag = 1
                 cregex(tx, tx2 + ' ' + am2 + ' ' + ve2, currentline, xfile, listindex, readlines)
             elif (txnFlag and amount.search(currentline)):
                 cregex(am, '', currentline, xfile, listindex, readlines)
@@ -154,57 +158,57 @@ def fixecheckSale(xfile):
 
 # Run actual Changes
 fixecheckSale(lib_path)
-makeNotRequired(lib_path,'orderId')
-makeNotRequired(lib_path,'amount')
-makeNotRequired(lib_path,'orderSource')
-makeNotRequired(lib_path,'postDate')
-makeNotRequired(lib_path,'capability')
-makeNotRequired(lib_path,'entryMode')
-makeNotRequired(lib_path,'cardholderId')
-makeNotRequired(lib_path,'billToAddress')
-makeNotRequired(lib_path,'echeckOrEcheckToken')
-makeNotRequired(lib_path,'litleToken')
-makeNotRequired(lib_path,'routingNum')
-makeNotRequired(lib_path,'accType')
-makeNotRequired(lib_path,'accNum')
-makeNotRequired(lib_path,'authInformation')
-makeNotRequired(lib_path,'authCode')
-makeNotRequired(lib_path,'authDate')
-makeNotRequired(lib_path,'response')
-makeNotRequired(lib_path,'responseTime')
-makeNotRequired(lib_path,'message')
-makeNotRequired(lib_path,'payerId')
-makeNotRequired(lib_path,'transactionId')
-makeNotRequired(lib_path,'tokenResponseCode')
-makeNotRequired(lib_path,'tokenMessage')
-makeNotRequired(lib_path,'accNum')
-makeNotRequired(lib_path,'sellerId')
-makeNotRequired(lib_path,'sellerMerchantCategoryCode')
-makeNotRequired(lib_path,'originalAccountInfo')
-makeNotRequired(lib_path,'newAccountInfo')
-makeNotRequired(lib_path,'originalTokenInfo')
-makeNotRequired(lib_path,'newTokenInfo')
-makeNotRequired(lib_path,'originalCardInfo')
-makeNotRequired(lib_path,'newCardInfo')
-makeNotRequired(lib_path,'orignalCardTokenInfo')
-makeNotRequired(lib_path,'newCardTokenInfo')
-makeNotRequired(lib_path,'taxAmount')
-makeNotRequired(lib_path,'totalHealthcareAmount')
-makeNotRequired(lib_path,'healthcareAmounts')
-makeNotRequired(lib_path,'IIASFlag')
-makeNotRequired(lib_path,'expDate')
-makeNotRequired(lib_path,'licenseNumber')
-makeNotRequired(lib_path,'availableBalance')
-makeNotRequired(lib_path,'code')
-makeNotRequired(lib_path,'number')
-makeNotRequired(lib_path,'paypageRegistrationId')
-makeNotRequired(lib_path,'bmlMerchantId')
-makeNotRequired(lib_path,'itemDescription')
+makeNotRequired(lib_path, 'orderId')
+makeNotRequired(lib_path, 'amount')
+makeNotRequired(lib_path, 'orderSource')
+makeNotRequired(lib_path, 'postDate')
+makeNotRequired(lib_path, 'capability')
+makeNotRequired(lib_path, 'entryMode')
+makeNotRequired(lib_path, 'cardholderId')
+makeNotRequired(lib_path, 'billToAddress')
+makeNotRequired(lib_path, 'echeckOrEcheckToken')
+makeNotRequired(lib_path, 'litleToken')
+makeNotRequired(lib_path, 'routingNum')
+makeNotRequired(lib_path, 'accType')
+makeNotRequired(lib_path, 'accNum')
+makeNotRequired(lib_path, 'authInformation')
+makeNotRequired(lib_path, 'authCode')
+makeNotRequired(lib_path, 'authDate')
+makeNotRequired(lib_path, 'response')
+makeNotRequired(lib_path, 'responseTime')
+makeNotRequired(lib_path, 'message')
+makeNotRequired(lib_path, 'payerId')
+makeNotRequired(lib_path, 'transactionId')
+makeNotRequired(lib_path, 'tokenResponseCode')
+makeNotRequired(lib_path, 'tokenMessage')
+makeNotRequired(lib_path, 'accNum')
+makeNotRequired(lib_path, 'sellerId')
+makeNotRequired(lib_path, 'sellerMerchantCategoryCode')
+makeNotRequired(lib_path, 'originalAccountInfo')
+makeNotRequired(lib_path, 'newAccountInfo')
+makeNotRequired(lib_path, 'originalTokenInfo')
+makeNotRequired(lib_path, 'newTokenInfo')
+makeNotRequired(lib_path, 'originalCardInfo')
+makeNotRequired(lib_path, 'newCardInfo')
+makeNotRequired(lib_path, 'orignalCardTokenInfo')
+makeNotRequired(lib_path, 'newCardTokenInfo')
+makeNotRequired(lib_path, 'taxAmount')
+makeNotRequired(lib_path, 'totalHealthcareAmount')
+makeNotRequired(lib_path, 'healthcareAmounts')
+makeNotRequired(lib_path, 'IIASFlag')
+makeNotRequired(lib_path, 'expDate')
+makeNotRequired(lib_path, 'licenseNumber')
+makeNotRequired(lib_path, 'availableBalance')
+makeNotRequired(lib_path, 'code')
+makeNotRequired(lib_path, 'number')
+makeNotRequired(lib_path, 'paypageRegistrationId')
+makeNotRequired(lib_path, 'bmlMerchantId')
+makeNotRequired(lib_path, 'itemDescription')
 if (not isInFile(lib_path, "import xml.dom")):
-    replace_in_file(lib_path,"import sys","import sys\nimport xml.dom")
+    replace_in_file(lib_path, "import sys", "import sys\nimport xml.dom")
 fixPaypalinCredit(lib_path)
 fixChoices(lib_path)
-replace_in_file(lib_path,"min_occurs=0LL","min_occurs=0L")
+replace_in_file(lib_path, "min_occurs=0LL", "min_occurs=0L")
 changeCreateFromDom(lib_path)
 if (not isInFile(lib_path, "def LitleAnyCreateFromDOM \(cls, node, _fallback_namespace\):")):
     addLitleAnyCreateFromDOM(lib_path)
