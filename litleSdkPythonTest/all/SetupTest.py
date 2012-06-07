@@ -4,10 +4,10 @@ import litleSdkPython
 from litleSdkPython.litleOnlineRequest import *
 
 try:
-    import test.testConfig
+    import litleSdkPythonTest.testConfig
 except:
     raise Exception('please run setUpTest.py before running tests')
-config = test.testConfig.config
+config = litleSdkPythonTest.testConfig.config
 
 class RegexMatcher(object):
     def __init__(self, pattern):

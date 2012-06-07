@@ -1,4 +1,4 @@
-from test.all.SetupTest import *
+from litleSdkPythonTest.all.SetupTest import *
 import unittest
 
 class certTest2(unittest.TestCase):

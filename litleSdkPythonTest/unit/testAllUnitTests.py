@@ -1,4 +1,4 @@
-import unittest, re
+import unittest
 import TestConfigOverride, TestCreateFromDom, TestLitleOnline
 
 testconfigoverride = TestConfigOverride.suite()
