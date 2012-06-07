@@ -1,6 +1,6 @@
-__all__ = ["bin", "lib", "test"]
+__all__ = ["bin", "litleSdkPython", "test"]
 
-import lib
+import litleSdkPython
 from lib import *
 import test
 from test import *
