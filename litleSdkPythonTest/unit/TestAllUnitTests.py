@@ -21,5 +21,18 @@
 #FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 #OTHER DEALINGS IN THE SOFTWARE.
 
-__all__ = ["testAllUnitTests", "TestConfigOverride", "TestCreateFromDom", 
-           "TestLitleOnline"]
+import unittest
+import TestConfigOverride
+import TestCreateFromDom
+import TestLitleOnline
+import TestPostGenerationScript
+
+testconfigoverride = TestConfigOverride.suite()
+testcreatefromdom = TestCreateFromDom.suite()
+testlitleonline = TestLitleOnline.suite()
+testpostgenerationscript = TestPostGenerationScript.suite()
+
+unittest.TextTestRunner().run(testconfigoverride)
+unittest.TextTestRunner().run(testcreatefromdom)
+unittest.TextTestRunner().run(testlitleonline)
+unittest.TextTestRunner().run(testpostgenerationscript)

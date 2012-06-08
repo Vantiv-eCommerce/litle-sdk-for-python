@@ -30,7 +30,7 @@ class TestLitleOnline(unittest.TestCase):
     def setUp(self):
         self.seq = range(10)
 
-    def test_auth(self):
+    def testAuth(self):
         authorization = litleXmlFields.authorization()
         authorization.orderId = '1234'
         authorization.amount = 106
@@ -52,10 +52,10 @@ class TestLitleOnline(unittest.TestCase):
         
         comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<authorization.*?<card>.*?<number>4100000000000000</number>.*?</card>.*?</authorization>.*?")
-        comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
 
-    def test_authreversal(self):
+    def testAuthReversal(self):
         authreversal = litleXmlFields.authReversal()
         authreversal.litleTxnId = 12345678000
         authreversal.amount = 106
@@ -71,9 +71,9 @@ class TestLitleOnline(unittest.TestCase):
         
         comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<authReversal.*?<litleTxnId>12345678000</litleTxnId>.*?</authReversal>.*?")
-        comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
-    def test_capture(self):
+    def testCapture(self):
         capture = litleXmlFields.capture()
         capture.litleTxnId = 123456000
         capture.amount = 106
@@ -89,9 +89,9 @@ class TestLitleOnline(unittest.TestCase):
         
         comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<capture.*?<litleTxnId>123456000</litleTxnId>.*?</capture>.*?")
-        comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
-    def test_capturegivenauth(self):
+    def testCaptureGivenAuth(self):
         capturegivenauth = litleXmlFields.captureGivenAuth()
         capturegivenauth.amount = 106
         capturegivenauth.orderId = "12344"
@@ -100,7 +100,7 @@ class TestLitleOnline(unittest.TestCase):
         date = pyxb.binding.datatypes.date(2002, 10, 9)
         authinfo.authDate = date
         authinfo.authCode = "543216"
-        authinfo.authAmount =12345
+        authinfo.authAmount = 12345
         capturegivenauth.authInformation = authinfo
         
         capturegivenauth.orderSource = 'ecommerce'
@@ -121,9 +121,9 @@ class TestLitleOnline(unittest.TestCase):
         
         comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<captureGivenAuth.*?<card>.*?<number>4100000000000001</number>.*?</card>.*?</captureGivenAuth>.*?")
-        comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
-    def test_credit(self):
+    def testCredit(self):
         credit = litleXmlFields.credit()
         credit.orderId = "12344"
         credit.orderSource = 'ecommerce'
@@ -144,9 +144,9 @@ class TestLitleOnline(unittest.TestCase):
         
         comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<credit.*?<card>.*?<number>4100000000000001</number>.*?</card>.*?</credit>.*?")
-        comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
-    def test_echeckcredit(self):
+    def testEcheckCredit(self):
         echeckcredit = litleXmlFields.echeckCredit()
         echeckcredit.amount = 12
         echeckcredit.litleTxnId = 123456789101112
@@ -161,9 +161,9 @@ class TestLitleOnline(unittest.TestCase):
         
         comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<echeckCredit.*?<litleTxnId>123456789101112</litleTxnId>.*?</echeckCredit>.*?")
-        comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
-    def test_echeckredeposit(self):
+    def testEcheckRedeposit(self):
         echeckredeposit = litleXmlFields.echeckRedeposit()
         echeckredeposit.litleTxnId = 123456
         
@@ -177,9 +177,9 @@ class TestLitleOnline(unittest.TestCase):
         
         comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<echeckRedeposit.*?<litleTxnId>123456</litleTxnId>.*?</echeckRedeposit>.*?")
-        comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
-    def test_echecksale(self):
+    def testEcheckSale(self):
         echecksale = litleXmlFields.echeckSale()
         echecksale.amount = 123456
         echecksale.orderId = "12345"
@@ -209,9 +209,9 @@ class TestLitleOnline(unittest.TestCase):
         
         comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<echeckSale.*?<echeck>.*?<accNum>12345657890</accNum>.*?</echeck>.*?</echeckSale>.*?")
-        comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
-    def test_echeckvoid(self):
+    def testEcheckVoid(self):
         echeckvoid = litleXmlFields.echeckVoid()
         echeckvoid.litleTxnId = 12345
         
@@ -225,9 +225,9 @@ class TestLitleOnline(unittest.TestCase):
         
         comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<echeckVoid.*?<litleTxnId>12345</litleTxnId>.*?</echeckVoid>.*?")
-        comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
-    def test_echeckverification(self):
+    def testEcheckVerification(self):
         echeckverification = litleXmlFields.echeckVerification()
         echeckverification.amount = 123456
         echeckverification.orderId = "12345"
@@ -257,9 +257,9 @@ class TestLitleOnline(unittest.TestCase):
         
         comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<echeckVerification.*?<echeck>.*?<accNum>12345657890</accNum>.*?</echeck>.*?</echeckVerification>.*?")
-        comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
-    def test_forcecapture(self):
+    def testForceCapture(self):
         forcecapture = litleXmlFields.forceCapture()
         forcecapture.amount = 106
         forcecapture.orderId = "12344"
@@ -281,9 +281,9 @@ class TestLitleOnline(unittest.TestCase):
         
         comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<forceCapture.*?<card>.*?<number>4100000000000001</number>.*?</card>.*?</forceCapture>.*?")
-        comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
-    def test_sale(self):
+    def testSale(self):
         sale = litleXmlFields.sale()
         sale.amount = 106
         sale.litleTxnId = 123456
@@ -306,9 +306,9 @@ class TestLitleOnline(unittest.TestCase):
         
         comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<sale.*?<card>.*?<number>4100000000000002</number>.*?</card>.*?</sale>.*?")
-        comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
-    def test_token(self):
+    def testToken(self):
         token = litleXmlFields.registerTokenRequest()
         token.orderId = "12344"
         token.accountNumber = "1233456789103801"
@@ -323,9 +323,9 @@ class TestLitleOnline(unittest.TestCase):
         
         comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<registerTokenRequest.*?<accountNumber>1233456789103801</accountNumber>.*?</registerTokenRequest>.*?")
-        comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
-    def test_extrafield(self):
+    def testExtraField(self):
         auth = litleXmlFields.authorization()
         auth.orderId = '1234'
         auth.amount = 106
@@ -348,9 +348,9 @@ class TestLitleOnline(unittest.TestCase):
         
         comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<authorization.*?</orderSource><card>.*?<number>4100000000000000</number>.*?</card>.*?</authorization>.*?")
-        comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
-    def test_extrachoices(self):
+    def testExtraChoices(self):
         auth = litleXmlFields.authorization()
         auth.orderId = '1234'
         auth.amount = 106
@@ -372,7 +372,7 @@ class TestLitleOnline(unittest.TestCase):
         with self.assertRaises(Exception):
             litle.sendRequest(auth)
 
-    def test_invalidenum(self):
+    def testInvalidEnum(self):
         auth = litleXmlFields.authorization()
         auth.orderId = '1234'
         auth.amount = 106

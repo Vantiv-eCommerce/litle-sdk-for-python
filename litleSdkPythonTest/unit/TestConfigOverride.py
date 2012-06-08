@@ -30,7 +30,7 @@ class TestConfigOverride(unittest.TestCase):
     def setUp(self):
         self.seq = range(10)
 
-    def test_userOverride(self):
+    def testUserOverride(self):
         authorization = litleXmlFields.authorization()
         authorization.orderId = '1234'
         authorization.amount = 106
@@ -48,13 +48,13 @@ class TestConfigOverride(unittest.TestCase):
         litle = litleOnlineRequest(config)
         litle.setCommunications(comm)
         litle._processResponse = MagicMock(return_value=None)
-        litle.sendRequest(authorization, user = 'Dan')
+        litle.sendRequest(authorization, user='Dan')
         
         comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<user>Dan</user>.*?")
-        comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
-    def test_passwordOverride(self):
+    def testPasswordOverride(self):
         authorization = litleXmlFields.authorization()
         authorization.orderId = '1234'
         authorization.amount = 106
@@ -76,9 +76,9 @@ class TestConfigOverride(unittest.TestCase):
         
         comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<password>customPassword</password>.*?")
-        comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
-    def test_versionOverride(self):
+    def testVersionOverride(self):
         authorization = litleXmlFields.authorization()
         authorization.orderId = '1234'
         authorization.amount = 106
@@ -96,13 +96,13 @@ class TestConfigOverride(unittest.TestCase):
         litle = litleOnlineRequest(config)
         litle.setCommunications(comm)
         litle._processResponse = MagicMock(return_value=None)
-        litle.sendRequest(authorization, version = "3.14")
+        litle.sendRequest(authorization, version="3.14")
         
         comm.http_post.assert_called_once()
         match_re = RegexMatcher('.*?version="3.14".*?')
-        comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
-    def test_merchantIdOverride(self):
+    def testMerchantIdOverride(self):
         authorization = litleXmlFields.authorization()
         authorization.orderId = '1234'
         authorization.amount = 106
@@ -120,13 +120,13 @@ class TestConfigOverride(unittest.TestCase):
         litle = litleOnlineRequest(config)
         litle.setCommunications(comm)
         litle._processResponse = MagicMock(return_value=None)
-        litle.sendRequest(authorization, merchantId = "98765")
+        litle.sendRequest(authorization, merchantId="98765")
         
         comm.http_post.assert_called_once()
         match_re = RegexMatcher('.*?merchantId="98765".*?')
-        comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
-    def test_reportGroupOverride(self):
+    def testReportGroupOverride(self):
         authorization = litleXmlFields.authorization()
         authorization.orderId = '1234'
         authorization.amount = 106
@@ -144,13 +144,13 @@ class TestConfigOverride(unittest.TestCase):
         litle = litleOnlineRequest(config)
         litle.setCommunications(comm)
         litle._processResponse = MagicMock(return_value=None)
-        litle.sendRequest(authorization, reportGroup = "testReports")
+        litle.sendRequest(authorization, reportGroup="testReports")
         
         comm.http_post.assert_called_once()
         match_re = RegexMatcher('.*?reportGroup="testReports".*?')
-        comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
-    def test_timeoutOverride(self):
+    def testTimeoutOverride(self):
         authorization = litleXmlFields.authorization()
         authorization.orderId = '1234'
         authorization.amount = 106
@@ -168,12 +168,12 @@ class TestConfigOverride(unittest.TestCase):
         litle = litleOnlineRequest(config)
         litle.setCommunications(comm)
         litle._processResponse = MagicMock(return_value=None)
-        litle.sendRequest(authorization, timeout = 42)
+        litle.sendRequest(authorization, timeout=42)
         
         comm.http_post.assert_called_once()
-        comm.http_post.assert_called_with(ANY,url=ANY,proxy=ANY,timeout=42)
+        comm.http_post.assert_called_with(ANY, url=ANY, proxy=ANY, timeout=42)
         
-    def test_urlOverride(self):
+    def testUrlOverride(self):
         authorization = litleXmlFields.authorization()
         authorization.orderId = '1234'
         authorization.amount = 106
@@ -191,12 +191,12 @@ class TestConfigOverride(unittest.TestCase):
         litle = litleOnlineRequest(config)
         litle.setCommunications(comm)
         litle._processResponse = MagicMock(return_value=None)
-        litle.sendRequest(authorization, url = "www.customurl.com")
+        litle.sendRequest(authorization, url="www.customurl.com")
         
         comm.http_post.assert_called_once()
-        comm.http_post.assert_called_with(ANY,url="www.customurl.com",proxy=ANY,timeout=ANY)
+        comm.http_post.assert_called_with(ANY, url="www.customurl.com", proxy=ANY, timeout=ANY)
         
-    def test_proxyOverride(self):
+    def testProxyOverride(self):
         authorization = litleXmlFields.authorization()
         authorization.orderId = '1234'
         authorization.amount = 106
@@ -214,12 +214,14 @@ class TestConfigOverride(unittest.TestCase):
         litle = litleOnlineRequest(config)
         litle.setCommunications(comm)
         litle._processResponse = MagicMock(return_value=None)
-        litle.sendRequest(authorization, proxy = "bumpyproxy:1776")
+        litle.sendRequest(authorization, proxy="bumpyproxy:1776")
         
         comm.http_post.assert_called_once()
-        comm.http_post.assert_called_with(ANY,url=ANY,proxy="bumpyproxy:1776",timeout=ANY)
+        comm.http_post.assert_called_with(ANY, url=ANY, 
+                                          proxy="bumpyproxy:1776", 
+                                          timeout=ANY)
         
-    def test_missingUser(self):
+    def testMissingUser(self):
         config2 = Configuration()
         config2.setPassword("Pass")
         config2.setMerchantId("12345")
@@ -241,7 +243,7 @@ class TestConfigOverride(unittest.TestCase):
         with self.assertRaises(AttributeError):
             litleOnlineRequest(config2)
             
-    def test_missingPassword(self):
+    def testMissingPassword(self):
         config3 = Configuration()
         config3.setUser("User")
         config3.setMerchantId("12345")
@@ -263,7 +265,7 @@ class TestConfigOverride(unittest.TestCase):
         with self.assertRaises(AttributeError):
             litleOnlineRequest(config3)
             
-    def test_missingId(self):
+    def testMissingId(self):
         config4 = Configuration()
         config4.setUser("User")
         config4.setPassword("Pass")

@@ -31,7 +31,7 @@ class TestPostGenerationScript(unittest.TestCase):
     def setUp(self):
         self.seq = range(10)
 
-    def test_minOccurs_Zero_on_orderId_orderSource_Amount_billToAddress(self):
+    def test_minOccurs_zero_on_orderId_orderSource_amount_billToAddress(self):
         authorization = litleXmlFields.authorization()        
         card = litleXmlFields.cardType()
         card.number = "4100000000000000"
@@ -48,9 +48,9 @@ class TestPostGenerationScript(unittest.TestCase):
         
         comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<authorization.*?<card>.*?<number>4100000000000000</number>.*?</card>.*?</authorization>.*?")
-        comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
-    def test_minOccurs_Zero_on_number_expDate(self):
+    def test_minOccurs_zero_on_number_expDate(self):
         authorization = litleXmlFields.authorization()        
         card = litleXmlFields.cardType()
         card.type = 'VI'
@@ -65,21 +65,21 @@ class TestPostGenerationScript(unittest.TestCase):
         
         comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<authorization.*?<card>.*?.*?</card>.*?</authorization>.*?")
-        comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
-    def test_minOccurs_postDate_message_response_rseponseTime(self):
+    def test_minOccurs_postDate_message_response_responseTime(self):
       
         outputString = "<litleOnlineResponse version='8.13' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><echeckRedepositResponse id='' reportGroup='Planets' customerId=''><litleTxnId>273132193500575000</litleTxnId></echeckRedepositResponse></litleOnlineResponse>"
         litleXml = litleOnlineRequest(config)
         xml_object = litleXml._processResponse(outputString)
-        self.assertEqual(xml_object.transactionResponse.litleTxnId,273132193500575000)
+        self.assertEqual(xml_object.transactionResponse.litleTxnId, 273132193500575000)
         
-    def test_minOccurs_newAndOriginalAccountInfo_newAndOriginalTokenInfo_newAndOriginalCardInfo_newAndOriginalCardTokenInfo_code(self):
+    def test_minOccurs_accountInfo_tokenInfo_cardInfo_cardTokenInfo_code(self):
       
         outputString = "<litleOnlineResponse version='8.13' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><echeckRedepositResponse id='' reportGroup='Planets' customerId=''><litleTxnId>273132193500575000</litleTxnId><accountUpdater><extendedCardResponse></extendedCardResponse></accountUpdater></echeckRedepositResponse></litleOnlineResponse>"
         litleXml = litleOnlineRequest(config)
         xml_object = litleXml._processResponse(outputString)
-        self.assertEqual(xml_object.transactionResponse.litleTxnId,273132193500575000)
+        self.assertEqual(xml_object.transactionResponse.litleTxnId, 273132193500575000)
         
     def test_minOccurs_authInformation(self):
         capturegivenauth = litleXmlFields.captureGivenAuth()
@@ -98,7 +98,7 @@ class TestPostGenerationScript(unittest.TestCase):
         
         comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<captureGivenAuth.*?<card>.*?<number>4100000000000001</number>.*?</card>.*?</captureGivenAuth>.*?")
-        comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
     def test_minOccurs_authDate_authCode_capability_entryMode_cardHolderId_litleToken(self):
         CaptureGivenAuth = litleXmlFields.captureGivenAuth()
@@ -124,7 +124,7 @@ class TestPostGenerationScript(unittest.TestCase):
         litle.sendRequest(CaptureGivenAuth)
         comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<captureGivenAuth.*?<token>.*?</token>.*?</captureGivenAuth>.*?")
-        comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
     def test_minOccurs_echeckOrEcheckToken(self):
         echeckCredit = litleXmlFields.echeckCredit()
@@ -140,7 +140,7 @@ class TestPostGenerationScript(unittest.TestCase):
         litle.sendRequest(echeckCredit)
         comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?")
-        comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
     
     def test_minOccurs_routingNum_accType_accNum(self):
         echeckCredit = litleXmlFields.echeckCredit()
@@ -158,7 +158,7 @@ class TestPostGenerationScript(unittest.TestCase):
         litle.sendRequest(echeckCredit)
         comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?")
-        comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
     def test_minOccurs_taxAmount_itemDescription(self):
         Capture = litleXmlFields.capture()
@@ -180,7 +180,7 @@ class TestPostGenerationScript(unittest.TestCase):
         litle.sendRequest(Capture)
         comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?")
-        comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
     def test_minOccurs_payerId_transactionId_healthcareAmounts_IIASFlag_totalHealthCareAmount(self):
         authorization = litleXmlFields.authorization()
@@ -205,20 +205,19 @@ class TestPostGenerationScript(unittest.TestCase):
         litle.sendRequest(authorization)
         comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?")
-        comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
     def test_minOccurs_tokenResponseCode_tokenMessage(self):
-        outputString="<litleOnlineResponse version='8.13' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse id='' reportGroup='DefaultReportGroup' customerId=''><litleTxnId>057484783403434000</litleTxnId><orderId>12344</orderId><response>000</response><responseTime>2012-06-05T16:36:39</responseTime><message>Approved</message><tokenResponse><litleToken>4242424242424242</litleToken><tokenResponseCode>111</tokenResponseCode><bin>bin</bin></tokenResponse></authorizationResponse></litleOnlineResponse>"
+        outputString = "<litleOnlineResponse version='8.13' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse id='' reportGroup='DefaultReportGroup' customerId=''><litleTxnId>057484783403434000</litleTxnId><orderId>12344</orderId><response>000</response><responseTime>2012-06-05T16:36:39</responseTime><message>Approved</message><tokenResponse><litleToken>4242424242424242</litleToken><tokenResponseCode>111</tokenResponseCode><bin>bin</bin></tokenResponse></authorizationResponse></litleOnlineResponse>"
         litleXml = litleOnlineRequest(config)
         xml_object = litleXml._processResponse(outputString)
-        self.assertEquals("bin",xml_object.transactionResponse.tokenResponse.bin)
+        self.assertEquals("bin", xml_object.transactionResponse.tokenResponse.bin)
         
     def test_minOccurs_availableBalance(self):
-        outputString="<litleOnlineResponse version='8.13' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse id='' reportGroup='DefaultReportGroup' customerId=''><litleTxnId>057484783403434000</litleTxnId><orderId>12344</orderId><response>000</response><responseTime>2012-06-05T16:36:39</responseTime><message>Approved</message><enhancedAuthResponse></enhancedAuthResponse></authorizationResponse></litleOnlineResponse>"
+        outputString = "<litleOnlineResponse version='8.13' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse id='' reportGroup='DefaultReportGroup' customerId=''><litleTxnId>057484783403434000</litleTxnId><orderId>12344</orderId><response>000</response><responseTime>2012-06-05T16:36:39</responseTime><message>Approved</message><enhancedAuthResponse></enhancedAuthResponse></authorizationResponse></litleOnlineResponse>"
         litleXml = litleOnlineRequest(config)
         xml_object = litleXml._processResponse(outputString)
-        self.assertEquals("8.13",xml_object.version)
-        
+        self.assertEquals("8.13", xml_object.version)
         
     def test_minOccurs_bmlMerhcantId(self):
         authorization = litleXmlFields.authorization()
@@ -236,9 +235,9 @@ class TestPostGenerationScript(unittest.TestCase):
         litle.sendRequest(authorization)
         comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?")
-        comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
-    def test_minOccurs_paypageregistrationId(self):
+    def test_minOccurs_paypageRegistrationId(self):
         sale = litleXmlFields.sale()
         sale.orderId = '12344'
         sale.amount = 106
@@ -253,12 +252,7 @@ class TestPostGenerationScript(unittest.TestCase):
         litle.sendRequest(sale)
         comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?")
-        comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
-        
-        
-        
-
-
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
 def suite():
     suite = unittest.TestSuite()
