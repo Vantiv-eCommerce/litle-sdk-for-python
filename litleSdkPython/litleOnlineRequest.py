@@ -21,8 +21,12 @@
 #FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 #OTHER DEALINGS IN THE SOFTWARE.
 
-from litleOnline import *
-from types import *
+import litleSdkPython
+import litleXmlFields
+import pyxb
+import os
+from Communications import *
+from Configuration import *
 
 class litleOnlineRequest:
         
@@ -43,9 +47,8 @@ class litleOnlineRequest:
         except pyxb.BindingValidationError:
             raise Exception("Invalid Number of Choices, Fill Out One and Only One Choice")
         
-    def sendRequest(self,transaction, user=None, password=None, version=None,
-                    merchantId=None, reportGroup=None, timeout=None, url=None,
-                    proxy=None):
+    def sendRequest(self,transaction, user=None, password=None, version=None, merchantId=None, reportGroup=None, 
+                    timeout=None, url=None, proxy=None):
         if (user != None):
             self.User = user
         if (password != None):
@@ -58,8 +61,8 @@ class litleOnlineRequest:
             self.ReportGroup = reportGroup
             
         litleOnline = self._createTxn(transaction)        
-        responseXml = self.communications.http_post(self._litleToXml(litleOnline),
-                                                    url=url, proxy=proxy, timeout=timeout)
+        responseXml = self.communications.http_post(self._litleToXml(litleOnline), url=url,
+                                                    proxy=proxy, timeout=timeout)
         return self._processResponse(responseXml)
     
     def setCommunications(self, communications):
@@ -69,7 +72,6 @@ class litleOnlineRequest:
         litleOnline = litleXmlFields.litleOnlineRequest()
         litleOnline.merchantId = self.MerchantId
         litleOnline.version = self.Version
-
         authentication = litleXmlFields.authentication()
         authentication.user = self.User
         authentication.password =  self.Password 
