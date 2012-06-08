@@ -73,9 +73,9 @@ class TestPostGenerationScript(unittest.TestCase):
         xml_object = litleXml._processResponse(outputString)
         self.assertEqual(xml_object.transactionResponse.litleTxnId,273132193500575000)
         
-    def test_minOccurs_newAndOriginalAccountInfo_newAndOriginalTokenInfo_newAndOriginalCardInfo_newAndOriginalCardTokenInfo(self):
+    def test_minOccurs_newAndOriginalAccountInfo_newAndOriginalTokenInfo_newAndOriginalCardInfo_newAndOriginalCardTokenInfo_code(self):
       
-        outputString = "<litleOnlineResponse version='8.13' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><echeckRedepositResponse id='' reportGroup='Planets' customerId=''><litleTxnId>273132193500575000</litleTxnId><accountUpdater></accountUpdater></echeckRedepositResponse></litleOnlineResponse>"
+        outputString = "<litleOnlineResponse version='8.13' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><echeckRedepositResponse id='' reportGroup='Planets' customerId=''><litleTxnId>273132193500575000</litleTxnId><accountUpdater><extendedCardResponse></extendedCardResponse></accountUpdater></echeckRedepositResponse></litleOnlineResponse>"
         litleXml = litleOnlineRequest(config)
         xml_object = litleXml._processResponse(outputString)
         self.assertEqual(xml_object.transactionResponse.litleTxnId,273132193500575000)
@@ -180,13 +180,17 @@ class TestPostGenerationScript(unittest.TestCase):
 #        match_re = RegexMatcher(".*?<litleOnlineRequest.*?")
 #        comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
 
-    def test_minOccurs_payerId_transactionId(self):
+    def test_minOccurs_payerId_transactionId_healthcareAmounts_IIASFlag_totalHealthCareAmount(self):
         authorization = litleXmlFields.authorization()
         authorization.orderId = '12344'
         authorization.amount = 106
         authorization.orderSource = 'ecommerce'
         amexData = litleXmlFields.amexAggregatorData()
         authorization.amexAggregatorData = amexData
+        healthCare = litleXmlFields.healthcareIIAS()
+        authorization.healthcareIIAS = healthCare
+        healthCareAmt = litleXmlFields.healthcareAmounts()
+        authorization.healthcareAmounts = healthCareAmt
         paypal = litleXmlFields.payPal()
         paypal.token = "1234"
         authorization.paypal = paypal
@@ -206,6 +210,57 @@ class TestPostGenerationScript(unittest.TestCase):
         litleXml = litleOnlineRequest(config)
         xml_object = litleXml._processResponse(outputString)
         self.assertEquals("bin",xml_object.transactionResponse.tokenResponse.bin)
+        
+    def test_minOccurs_availableBalance(self):
+        outputString="<litleOnlineResponse version='8.13' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse id='' reportGroup='DefaultReportGroup' customerId=''><litleTxnId>057484783403434000</litleTxnId><orderId>12344</orderId><response>000</response><responseTime>2012-06-05T16:36:39</responseTime><message>Approved</message><enhancedAuthResponse></enhancedAuthResponse></authorizationResponse></litleOnlineResponse>"
+        litleXml = litleOnlineRequest(config)
+        xml_object = litleXml._processResponse(outputString)
+        self.assertEquals("8.13",xml_object.version)
+        
+        
+    def test_minOccurs_bmlMerhcantId(self):
+        authorization = litleXmlFields.authorization()
+        authorization.orderId = '12344'
+        authorization.amount = 106
+        authorization.orderSource = 'ecommerce'
+        bml = litleXmlFields.billMeLaterRequest()
+        authorization.billMeLatertRequest = bml
+#        paypage = litleXmlFields.paypage()
+#        authorization.paypage = paypage
+        
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(authorization)
+        comm.http_post.assert_called_once()
+        match_re = RegexMatcher(".*?<litleOnlineRequest.*?")
+        comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
+        
+#    def test_minOccurs_paypageregistrationId(self):
+#        sale = litleXmlFields.sale()
+#        sale.orderId = '12344'
+#        sale.amount = 106
+#        sale.orderSource = 'ecommerce'
+#        paypage = litleXmlFields.cardPaypageType()
+#        paypage.cardValidationNum = '123'
+#        paypage.expDate = "1212"
+#        paypage.type = "VI"
+#        paypage.paypageRegistrationId = '12312321312312312312312313'
+#        sale.paypage = paypage
+#        comm = Communications(config)
+#        comm.http_post = MagicMock()
+#        litle = litleOnlineRequest(config)
+#        litle.setCommunications(comm)
+#        litle._processResponse = MagicMock(return_value=None)
+#        litle.sendRequest(authorization)
+#        comm.http_post.assert_called_once()
+#        match_re = RegexMatcher(".*?<litleOnlineRequest.*?")
+#        comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
+        
+        
+        
 
 
 
