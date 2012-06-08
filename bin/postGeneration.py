@@ -84,6 +84,54 @@ def findAnon(xfile, field):
     i = temp.find('\)')
     return temp[:i-1]
 
+def removeMinOccurs(xfile):
+    txnIdStr = "litleTxnId"
+    groupChoiceStr = " pyxb.binding.content.GroupChoice\("
+    groupModelStr = "_GroupModel_" 
+    minOccurs1Str = "min_occurs=1"
+    minOccurs = "min_occurs=0L"
+    closeParenStr = "    \)"
+    
+    txnId = re.compile(txnIdStr)
+    groupChoice = re.compile(groupChoiceStr)
+    groupModel = re.compile(groupModelStr)
+    minOccurs1 = re.compile(minOccurs1Str)
+    closeParen = re.compile(closeParenStr)
+    
+    readlines = open(xfile, 'r').readlines()
+
+    listindex = -1
+    choiceFlag = 0
+    findTxnFlag = 0
+    foundTxnFlag = 0
+    groupModelNum = 'NEVERPUTTHISSTRINGINLITLEXMLFIELDS'
+    for currentline in readlines:
+         # increment the list counter
+        listindex = listindex + 1
+
+        # if the regexp is found
+        if (groupModel.search(currentline)):
+            findTxnFlag = 1
+            i = currentline.find('.')
+            temp = currentline[:i+1]
+            i = temp.find(' ')
+            groupModelNum = currentline[i-1:]
+        elif (findTxnFlag and txnId.search(currentline)):
+            foundTxnFlag = 1
+            findTxnFlag = 0
+            
+        if (groupChoice.search(currentline)):
+            choiceFlag = 1
+        elif (closeParen.search(currentline)):
+            choiceFlag = 0
+        elif (minOccurs1.search(currentline) and not (txnId.search(currentline)) and not (choiceFlag)):
+            if(currentline.count(groupModelNum) == 0):
+                cregex(minOccurs1Str, minOccurs, currentline, xfile, listindex, readlines)
+            else:
+                foundTxnFlag = 0
+                groupModelNum = 'NEVERPUTTHISSTRINGINLITLEXMLFIELDS'
+    replace_in_file(lib_path, "min_occurs=0LL", "min_occurs=0L")
+
 # fix paypal as credit field
 def fixPaypalinCredit(xfile):
     creditAnon = findAnon(xfile, "credit")
@@ -168,57 +216,12 @@ def fixecheckSale(xfile):
 
 # Run actual Changes
 fixecheckSale(lib_path)
-makeNotRequired(lib_path, 'orderId')
-makeNotRequired(lib_path, 'amount')
-makeNotRequired(lib_path, 'orderSource')
-makeNotRequired(lib_path, 'postDate')
-makeNotRequired(lib_path, 'capability')
-makeNotRequired(lib_path, 'entryMode')
-makeNotRequired(lib_path, 'cardholderId')
-makeNotRequired(lib_path, 'billToAddress')
-makeNotRequired(lib_path, 'echeckOrEcheckToken')
-makeNotRequired(lib_path, 'litleToken')
-makeNotRequired(lib_path, 'routingNum')
-makeNotRequired(lib_path, 'accType')
-makeNotRequired(lib_path, 'accNum')
-makeNotRequired(lib_path, 'authInformation')
-makeNotRequired(lib_path, 'authCode')
-makeNotRequired(lib_path, 'authDate')
-makeNotRequired(lib_path, 'response')
-makeNotRequired(lib_path, 'responseTime')
-makeNotRequired(lib_path, 'message')
-makeNotRequired(lib_path, 'payerId')
-makeNotRequired(lib_path, 'transactionId')
-makeNotRequired(lib_path, 'tokenResponseCode')
-makeNotRequired(lib_path, 'tokenMessage')
-makeNotRequired(lib_path, 'accNum')
-makeNotRequired(lib_path, 'sellerId')
-makeNotRequired(lib_path, 'sellerMerchantCategoryCode')
-makeNotRequired(lib_path, 'originalAccountInfo')
-makeNotRequired(lib_path, 'newAccountInfo')
-makeNotRequired(lib_path, 'originalTokenInfo')
-makeNotRequired(lib_path, 'newTokenInfo')
-makeNotRequired(lib_path, 'originalCardInfo')
-makeNotRequired(lib_path, 'newCardInfo')
-makeNotRequired(lib_path, 'orignalCardTokenInfo')
-makeNotRequired(lib_path, 'newCardTokenInfo')
-makeNotRequired(lib_path, 'taxAmount')
-makeNotRequired(lib_path, 'totalHealthcareAmount')
-makeNotRequired(lib_path, 'healthcareAmounts')
-makeNotRequired(lib_path, 'IIASFlag')
-makeNotRequired(lib_path, 'expDate')
-makeNotRequired(lib_path, 'licenseNumber')
-makeNotRequired(lib_path, 'availableBalance')
-makeNotRequired(lib_path, 'code')
-makeNotRequired(lib_path, 'number')
-makeNotRequired(lib_path, 'paypageRegistrationId')
-makeNotRequired(lib_path, 'bmlMerchantId')
-makeNotRequired(lib_path, 'itemDescription')
+removeMinOccurs(lib_path)
 if (not isInFile(lib_path, "import xml.dom")):
     replace_in_file(lib_path, "import sys", "import sys\nimport xml.dom")
 fixPaypalinCredit(lib_path)
 fixChoices(lib_path)
-replace_in_file(lib_path, "min_occurs=0LL", "min_occurs=0L")
+
 changeCreateFromDom(lib_path)
 if (not isInFile(lib_path, "def LitleAnyCreateFromDOM \(cls, node, _fallback_namespace\):")):
     addLitleAnyCreateFromDOM(lib_path)
