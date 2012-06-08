@@ -104,7 +104,7 @@ def removeMinOccurs(xfile):
     choiceFlag = 0
     findTxnFlag = 0
     foundTxnFlag = 0
-    groupModelNum = 'NEVERPUTTHISSTRINGINLITLEXMLFIELDS'
+    groupModelNum = None
     for currentline in readlines:
          # increment the list counter
         listindex = listindex + 1
@@ -125,11 +125,14 @@ def removeMinOccurs(xfile):
         elif (closeParen.search(currentline)):
             choiceFlag = 0
         elif (minOccurs1.search(currentline) and not (txnId.search(currentline)) and not (choiceFlag)):
-            if(currentline.count(groupModelNum) == 0):
-                cregex(minOccurs1Str, minOccurs, currentline, xfile, listindex, readlines)
+            if(groupModelNum != None):
+                if(currentline.count(groupModelNum) == 0):
+                    cregex(minOccurs1Str, minOccurs, currentline, xfile, listindex, readlines)
+                else:
+                    foundTxnFlag = 0
+                    groupModelNum = None
             else:
-                foundTxnFlag = 0
-                groupModelNum = 'NEVERPUTTHISSTRINGINLITLEXMLFIELDS'
+                cregex(minOccurs1Str, minOccurs, currentline, xfile, listindex, readlines)
     replace_in_file(lib_path, "min_occurs=0LL", "min_occurs=0L")
 
 # fix paypal as credit field
