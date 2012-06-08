@@ -22,6 +22,7 @@
 #OTHER DEALINGS IN THE SOFTWARE.
 
 from litleOnline import *
+from types import *
 
 class litleOnlineRequest:
         
@@ -59,7 +60,11 @@ class litleOnlineRequest:
         litleOnline = self._createTxn(transaction)        
         responseXml = self.communications.http_post(self._litleToXml(litleOnline),
                                                     url=url, proxy=proxy, timeout=timeout)
-        return self._processResponse(responseXml)
+        response = self._processResponse(responseXml)
+        if (response.response == '0'):
+            return response.transactionResponse
+        else:
+            raise Exception(response.message)
     
     def setCommunications(self, communications):
         self.communications = communications
