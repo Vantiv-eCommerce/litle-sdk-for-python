@@ -26,13 +26,17 @@ import TestConfigOverride
 import TestCreateFromDom
 import TestLitleOnline
 import TestPostGenerationScript
+import TestProcessResponse
 
 testconfigoverride = TestConfigOverride.suite()
 testcreatefromdom = TestCreateFromDom.suite()
 testlitleonline = TestLitleOnline.suite()
 testpostgenerationscript = TestPostGenerationScript.suite()
+testprocessresponse = TestProcessResponse.suite()
+
 
 unittest.TextTestRunner().run(testconfigoverride)
 unittest.TextTestRunner().run(testcreatefromdom)
 unittest.TextTestRunner().run(testlitleonline)
 unittest.TextTestRunner().run(testpostgenerationscript)
+unittest.TextTestRunner().run(testprocessresponse)
