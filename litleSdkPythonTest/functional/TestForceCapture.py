@@ -26,7 +26,7 @@ import unittest
 
 class TestForceCapture(unittest.TestCase):
     
-    def test_simpleForceCaptureWithCard(self):
+    def testSimpleForceCaptureWithCard(self):
         forcecapture = litleXmlFields.forceCapture()
         forcecapture.amount = 106L
         forcecapture.orderId = '12344'
@@ -40,11 +40,10 @@ class TestForceCapture(unittest.TestCase):
         
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(forcecapture)
-        self.assertEquals(response.message, "Valid Format")
-        self.assertEquals("Approved",response.transactionResponse.message)
+        self.assertEquals("Approved",response.message)
 
         
-    def test_simpleForceCaptureWithToken(self):
+    def testSimpleForceCaptureWithToken(self):
         forcecapture = litleXmlFields.forceCapture()
         forcecapture.amount = 106L
         forcecapture.orderId = '12344'
@@ -59,8 +58,7 @@ class TestForceCapture(unittest.TestCase):
         
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(forcecapture)
-        self.assertEquals(response.message, "Valid Format")
-        self.assertEquals("Approved",response.transactionResponse.message)
+        self.assertEquals("Approved",response.message)
 
 def suite():
     suite = unittest.TestSuite()

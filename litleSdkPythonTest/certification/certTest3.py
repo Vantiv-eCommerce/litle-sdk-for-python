@@ -51,24 +51,24 @@ class certTest3(unittest.TestCase):
         
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(authorization)
-        self.assertEquals( "000",response.transactionResponse.response)
-        self.assertEquals("Approved",response.transactionResponse.message)
-        self.assertEquals("11111 ", response.transactionResponse.authCode)
-        self.assertEquals("01", response.transactionResponse.fraudResult.avsResult)
-        self.assertEquals("M", response.transactionResponse.fraudResult.cardValidationResult)
+        self.assertEquals( "000",response.response)
+        self.assertEquals("Approved",response.message)
+        self.assertEquals("11111 ", response.authCode)
+        self.assertEquals("01", response.fraudResult.avsResult)
+        self.assertEquals("M", response.fraudResult.cardValidationResult)
         
         capture = litleXmlFields.capture()
-        capture.litleTxnId = response.transactionResponse.litleTxnId
+        capture.litleTxnId = response.litleTxnId
         capture.amount = 5005
         captureResponse = litleXml.sendRequest(capture)
-        self.assertEquals("000", captureResponse.transactionResponse.response)
-        self.assertEquals("Approved", captureResponse.transactionResponse.message)
+        self.assertEquals("000", captureResponse.response)
+        self.assertEquals("Approved", captureResponse.message)
         
         reversal = litleXmlFields.authReversal()
-        reversal.litleTxnId = response.transactionResponse.litleTxnId
+        reversal.litleTxnId = response.litleTxnId
         reversalResponse = litleXml.sendRequest(reversal)
-        self.assertEquals("111", reversalResponse.transactionResponse.response)
-        self.assertEquals("Authorization amount has already been depleted", reversalResponse.transactionResponse.message)
+        self.assertEquals("111", reversalResponse.response)
+        self.assertEquals("Authorization amount has already been depleted", reversalResponse.message)
 
     def test33(self):
         
@@ -100,17 +100,17 @@ class certTest3(unittest.TestCase):
         
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(authorization)
-        self.assertEquals("000", response.transactionResponse.response)
-        self.assertEquals("Approved", response.transactionResponse.message)
-        self.assertEquals("22222", response.transactionResponse.authCode)
-        self.assertEquals("10", response.transactionResponse.fraudResult.avsResult)
-        self.assertEquals("M", response.transactionResponse.fraudResult.cardValidationResult)
+        self.assertEquals("000", response.response)
+        self.assertEquals("Approved", response.message)
+        self.assertEquals("22222", response.authCode)
+        self.assertEquals("10", response.fraudResult.avsResult)
+        self.assertEquals("M", response.fraudResult.cardValidationResult)
         
         reversal = litleXmlFields.authReversal()
-        reversal.litleTxnId = response.transactionResponse.litleTxnId
+        reversal.litleTxnId = response.litleTxnId
         reversalResponse = litleXml.sendRequest(reversal)
-        self.assertEquals("000", reversalResponse.transactionResponse.response)
-        self.assertEquals("Approved", reversalResponse.transactionResponse.message)
+        self.assertEquals("000", reversalResponse.response)
+        self.assertEquals("Approved", reversalResponse.message)
 
     def test34(self):
         
@@ -137,17 +137,17 @@ class certTest3(unittest.TestCase):
         
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(authorization)
-        self.assertEquals( "000",response.transactionResponse.response)
-        self.assertEquals("Approved",response.transactionResponse.message)
-        self.assertEquals("33333", response.transactionResponse.authCode)
-        self.assertEquals("10", response.transactionResponse.fraudResult.avsResult)
-        self.assertEquals("M", response.transactionResponse.fraudResult.cardValidationResult)
+        self.assertEquals( "000",response.response)
+        self.assertEquals("Approved",response.message)
+        self.assertEquals("33333", response.authCode)
+        self.assertEquals("10", response.fraudResult.avsResult)
+        self.assertEquals("M", response.fraudResult.cardValidationResult)
         
         reversal = litleXmlFields.authReversal()
-        reversal.litleTxnId = response.transactionResponse.litleTxnId
+        reversal.litleTxnId = response.litleTxnId
         reversalResponse = litleXml.sendRequest(reversal)
-        self.assertEquals("000", reversalResponse.transactionResponse.response)
-        self.assertEquals("Approved", reversalResponse.transactionResponse.message)
+        self.assertEquals("000", reversalResponse.response)
+        self.assertEquals("Approved", reversalResponse.message)
         
     def test35(self):
         
@@ -173,23 +173,23 @@ class certTest3(unittest.TestCase):
         
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(authorization)
-        self.assertEquals( "000",response.transactionResponse.response)
-        self.assertEquals("Approved",response.transactionResponse.message)
-        self.assertEquals("44444", response.transactionResponse.authCode)
-        self.assertEquals("12", response.transactionResponse.fraudResult.avsResult)
+        self.assertEquals( "000",response.response)
+        self.assertEquals("Approved",response.message)
+        self.assertEquals("44444", response.authCode)
+        self.assertEquals("12", response.fraudResult.avsResult)
         
         capture = litleXmlFields.capture()
-        capture.litleTxnId = response.transactionResponse.litleTxnId
+        capture.litleTxnId = response.litleTxnId
         capture.amount = 20020
         captureResponse = litleXml.sendRequest(capture)
-        self.assertEquals("000", captureResponse.transactionResponse.response)
-        self.assertEquals("Approved", captureResponse.transactionResponse.message)
+        self.assertEquals("000", captureResponse.response)
+        self.assertEquals("Approved", captureResponse.message)
         
         reversal = litleXmlFields.authReversal()
-        reversal.litleTxnId = response.transactionResponse.litleTxnId
+        reversal.litleTxnId = response.litleTxnId
         reversalResponse = litleXml.sendRequest(reversal)
-        self.assertEquals("000", reversalResponse.transactionResponse.response)
-        self.assertEquals("Approved", reversalResponse.transactionResponse.message)
+        self.assertEquals("000", reversalResponse.response)
+        self.assertEquals("Approved", reversalResponse.message)
         
     def test36(self):
         
@@ -206,15 +206,15 @@ class certTest3(unittest.TestCase):
         
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(authorization)
-        self.assertEquals( "000",response.transactionResponse.response)
-        self.assertEquals("Approved",response.transactionResponse.message)
+        self.assertEquals( "000",response.response)
+        self.assertEquals("Approved",response.message)
         
         reversal = litleXmlFields.authReversal()
-        reversal.litleTxnId = response.transactionResponse.litleTxnId
+        reversal.litleTxnId = response.litleTxnId
         reversal.amount = 10000
         reversalResponse = litleXml.sendRequest(reversal)
-        self.assertEquals("336", reversalResponse.transactionResponse.response)
-        self.assertEquals("Reversal Amount does not match Authorization amount", reversalResponse.transactionResponse.message)
+        self.assertEquals("336", reversalResponse.response)
+        self.assertEquals("Reversal Amount does not match Authorization amount", reversalResponse.message)
 
 def suite():
     suite = unittest.TestSuite()

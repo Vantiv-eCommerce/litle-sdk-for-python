@@ -26,7 +26,7 @@ import unittest
 
 class TestCredit(unittest.TestCase):
     
-    def test_simpleCreditWithCard(self):
+    def testSimpleCreditWithCard(self):
         credit = litleXmlFields.credit()
         credit.amount = 106
         credit.orderId = "12344"
@@ -40,9 +40,9 @@ class TestCredit(unittest.TestCase):
         
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(credit)
-        self.assertEquals("Approved", response.transactionResponse.message)
+        self.assertEquals("Approved", response.message)
 
-    def test_simpleCreditWithPaypal(self):
+    def testSimpleCreditWithPaypal(self):
         credit = litleXmlFields.credit()
         credit.amount = 106
         credit.orderId = "123456"
@@ -54,9 +54,9 @@ class TestCredit(unittest.TestCase):
         
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(credit)
-        self.assertEquals("Approved", response.transactionResponse.message)
+        self.assertEquals("Approved", response.message)
 
-    def test_paypalNotes(self):
+    def testPaypalNotes(self):
         credit = litleXmlFields.credit()
         credit.amount = 106
         credit.orderId = "12344"
@@ -71,9 +71,9 @@ class TestCredit(unittest.TestCase):
         
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(credit)
-        self.assertEquals("Approved", response.transactionResponse.message)
+        self.assertEquals("Approved", response.message)
 
-    def test_processingInstructionandAmexData(self):
+    def testProcessingInstructionAndAmexData(self):
         credit = litleXmlFields.credit()
         credit.amount = 2000
         credit.orderId = "12344"
@@ -92,7 +92,7 @@ class TestCredit(unittest.TestCase):
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(credit)
             
-        self.assertEquals("Approved", response.transactionResponse.message)
+        self.assertEquals("Approved", response.message)
 
 def suite():
     suite = unittest.TestSuite()

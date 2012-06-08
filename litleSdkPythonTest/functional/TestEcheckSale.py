@@ -26,7 +26,7 @@ import unittest
 
 class TestEcheckSale(unittest.TestCase):
     
-    def test_simpleEcheckSaleWithEcheck(self):
+    def testSimpleEcheckSaleWithEcheck(self):
         echecksale = litleXmlFields.echeckSale()
         echecksale.amount = 123456
         echecksale.orderId = "12345"
@@ -48,17 +48,17 @@ class TestEcheckSale(unittest.TestCase):
         
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(echecksale)
-        self.assertEquals("Approved",response.transactionResponse.message)
+        self.assertEquals("Approved",response.message)
 
-    def test_noAmount(self):
+    def testNoAmount(self):
         echecksale = litleXmlFields.echeckSale()
         echecksale.reportGroup = "Planets"
         
-        litleXml =  litleOnlineRequest(config)
-        response = litleXml.sendRequest(echecksale)
-        self.assert_(response.message.count("Error validating xml data against the schema"))
+        litle = litleOnlineRequest(config)
+        with self.assertRaises(Exception):
+            litle.sendRequest(echecksale)
 
-    def test_echeckSaleWithShipTo(self):
+    def testEcheckSaleWithShipTo(self):
         echecksale = litleXmlFields.echeckSale()
         echecksale.reportGroup = "Planets"
         echecksale.amount = 123456
@@ -83,9 +83,9 @@ class TestEcheckSale(unittest.TestCase):
         
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(echecksale)
-        self.assertEquals("Approved",response.transactionResponse.message)
+        self.assertEquals("Approved",response.message)
       
-    def test_echeckSaleWithEcheckToken(self):
+    def testEcheckSaleWithEcheckToken(self):
         echecksale = litleXmlFields.echeckSale()
         echecksale.reportGroup = "Planets"
         echecksale.amount = 123456
@@ -114,9 +114,9 @@ class TestEcheckSale(unittest.TestCase):
         
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(echecksale)
-        self.assertEquals("Approved",response.transactionResponse.message)
+        self.assertEquals("Approved",response.message)
 
-    def test_echeckSaleMissingBilling(self):
+    def testEcheckSaleMissingBilling(self):
         echecksale = litleXmlFields.echeckSale()
         echecksale.reportGroup = "Planets"
         echecksale.amount = 123456
@@ -132,11 +132,11 @@ class TestEcheckSale(unittest.TestCase):
         echecksale.orderId = "12345"
         echecksale.orderSource = 'ecommerce'
         
-        litleXml =  litleOnlineRequest(config)
-        response = litleXml.sendRequest(echecksale)
-        self.assert_(response.message.count("Error validating xml data against the schema"))
+        litle = litleOnlineRequest(config)
+        with self.assertRaises(Exception):
+            litle.sendRequest(echecksale)
 
-    def test_simpleEcheckSale(self):
+    def testSimpleEcheckSale(self):
         echecksale = litleXmlFields.echeckSale()
         echecksale.reportGroup = "Planets"
         echecksale.litleTxnId = 123456789101112
@@ -144,7 +144,7 @@ class TestEcheckSale(unittest.TestCase):
         
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(echecksale)
-        self.assertEquals("Approved",response.transactionResponse.message)
+        self.assertEquals("Approved",response.message)
 
 def suite():
     suite = unittest.TestSuite()

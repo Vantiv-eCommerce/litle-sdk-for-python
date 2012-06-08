@@ -27,15 +27,15 @@ from telnetlib import ECHO
 
 class TestEcheckRedeposit(unittest.TestCase):
     
-    def test_simpleEcheckRedeposit(self):
+    def testSimpleEcheckRedeposit(self):
         echeckredeposit = litleXmlFields.echeckRedeposit()
         echeckredeposit.litleTxnId = 123456
         
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(echeckredeposit)
-        self.assertEquals("Approved",response.transactionResponse.message)
+        self.assertEquals("Approved",response.message)
 
-    def test_echeckRedepositWithEcheck(self):
+    def testEcheckRedepositWithEcheck(self):
         echeckredeposit = litleXmlFields.echeckRedeposit()
         echeckredeposit.litleTxnId = 123456
         
@@ -48,9 +48,9 @@ class TestEcheckRedeposit(unittest.TestCase):
         
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(echeckredeposit)
-        self.assertEquals("Approved",response.transactionResponse.message)
+        self.assertEquals("Approved",response.message)
 
-    def test_echeckRedepositWithEcheckToken(self):
+    def testEcheckRedepositWithEcheckToken(self):
         echeckredeposit = litleXmlFields.echeckRedeposit()
         echeckredeposit.litleTxnId = 123456
         
@@ -62,7 +62,7 @@ class TestEcheckRedeposit(unittest.TestCase):
         
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(echeckredeposit)
-        self.assertEquals("Approved",response.transactionResponse.message)
+        self.assertEquals("Approved",response.message)
 
 def suite():
     suite = unittest.TestSuite()

@@ -26,23 +26,23 @@ import unittest
 
 class TestEcheckCredit(unittest.TestCase):
     
-    def test_simpleEcheckCredit(self):
+    def testSimpleEcheckCredit(self):
         echeckCredit = litleXmlFields.echeckCredit()
         echeckCredit.amount = 12
         echeckCredit.litleTxnId = 123456789101112
         
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(echeckCredit)
-        self.assertEquals("Approved", response.transactionResponse.message)
+        self.assertEquals("Approved", response.message)
 
-    def test_noLitleTxnId(self):
+    def testNoLitleTxnId(self):
         echeckCredit = litleXmlFields.echeckCredit()
 
-        litleXml =  litleOnlineRequest(config)
-        response = litleXml.sendRequest(echeckCredit)
-        self.assert_(response.message.count("Error validating xml data against the schema"))
+        litle = litleOnlineRequest(config)
+        with self.assertRaises(Exception):
+            litle.sendRequest(echeckCredit)
 
-    def test_echeckCreditWithEcheck(self):
+    def testEcheckCreditWithEcheck(self):
         echeckCredit = litleXmlFields.echeckCredit()
         echeckCredit.amount = 12
         echeckCredit.orderId = "12345"
@@ -64,9 +64,9 @@ class TestEcheckCredit(unittest.TestCase):
         
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(echeckCredit)
-        self.assertEquals("Approved", response.transactionResponse.message)
+        self.assertEquals("Approved", response.message)
 
-    def test_echeckCreditWithToken(self):
+    def testEcheckCreditWithToken(self):
         echeckCredit = litleXmlFields.echeckCredit()
         echeckCredit.amount = 12
         echeckCredit.orderId = "12345"
@@ -88,9 +88,9 @@ class TestEcheckCredit(unittest.TestCase):
         
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(echeckCredit)
-        self.assertEquals("Approved", response.transactionResponse.message)
+        self.assertEquals("Approved", response.message)
 
-    def test_missingBilling(self):
+    def testMissingBilling(self):
         echeckCredit = litleXmlFields.echeckCredit()
         echeckCredit.amount = 12
         echeckCredit.orderId = "12345"
@@ -103,9 +103,9 @@ class TestEcheckCredit(unittest.TestCase):
         echeck.checkNum = "123455"
         echeckCredit.echeckOrEcheckToken = echeck
         
-        litleXml =  litleOnlineRequest(config)
-        response = litleXml.sendRequest(echeckCredit)
-        self.assert_(response.message.count("Error validating xml data against the schema"))
+        litle = litleOnlineRequest(config)
+        with self.assertRaises(Exception):
+            litle.sendRequest(echeckCredit)
 
 def suite():
     suite = unittest.TestSuite()

@@ -26,7 +26,7 @@ import unittest
 
 class TestAuth(unittest.TestCase):
     
-    def test_simple_auth_with_card(self):
+    def testSimpleAuthWithCard(self):
         authorization = litleXmlFields.authorization()
         authorization.orderId = '1234'
         authorization.amount = 106
@@ -42,10 +42,10 @@ class TestAuth(unittest.TestCase):
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(authorization)
             
-        self.assertEquals("000",response.transactionResponse.response)
+        self.assertEquals("000",response.response)
 
 
-    def test_simple_auth_with_paypal(self):
+    def testSimpleAuthWithPaypal(self):
         authorization = litleXmlFields.authorization()
         authorization.orderId = '12344'
         authorization.amount = 106
@@ -62,10 +62,10 @@ class TestAuth(unittest.TestCase):
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(authorization)
             
-        self.assertEquals("Approved",response.transactionResponse.message)
+        self.assertEquals("Approved",response.message)
        
 
-    def test_pos_without_capability_and_entryMode(self):
+    def testPosWithoutCapabilityAndEntryMode(self):
         authorization = litleXmlFields.authorization()
         authorization.orderId = '123456'
         authorization.amount = 106
@@ -83,12 +83,11 @@ class TestAuth(unittest.TestCase):
     
         authorization.card = card
     
-        litleXml =  litleOnlineRequest(config)
-        response = litleXml.sendRequest(authorization)
-            
-        self.assert_(response.message.count("Error validating xml data against the schema"))
+        litle = litleOnlineRequest(config)
+        with self.assertRaises(Exception):
+            litle.sendRequest(authorization)
 
-    def test_accountUpdate(self):
+    def testAccountUpdate(self):
         authorization = litleXmlFields.authorization()
         authorization.orderId = '12344'
         authorization.amount = 106
@@ -106,7 +105,7 @@ class TestAuth(unittest.TestCase):
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(authorization)
             
-        self.assertEquals("4100100000000000",response.transactionResponse.accountUpdater.originalCardInfo.number)
+        self.assertEquals("4100100000000000",response.accountUpdater.originalCardInfo.number)
     
 def suite():
     suite = unittest.TestSuite()

@@ -26,7 +26,7 @@ import unittest
 
 class TestSale(unittest.TestCase):
     
-    def test_simpleSaleWithCard(self):
+    def testSimpleSaleWithCard(self):
         sale = litleXmlFields.sale()
         sale.litleTxnId = 123456L
         sale.amount = 106L
@@ -41,10 +41,9 @@ class TestSale(unittest.TestCase):
         
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(sale)
-        self.assertEquals(response.message, "Valid Format")
-        self.assertEquals("Approved",response.transactionResponse.message)
+        self.assertEquals("Approved",response.message)
         
-    def test_simpleSaleWithPayPal(self):
+    def testSimpleSaleWithPayPal(self):
         sale = litleXmlFields.sale()
         sale.litleTxnId = 123456L
         sale.amount = 106L
@@ -59,8 +58,7 @@ class TestSale(unittest.TestCase):
         
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(sale)
-        self.assertEquals(response.message, "Valid Format")
-        self.assertEquals("Approved",response.transactionResponse.message)
+        self.assertEquals("Approved",response.message)
 
 def suite():
     suite = unittest.TestSuite()

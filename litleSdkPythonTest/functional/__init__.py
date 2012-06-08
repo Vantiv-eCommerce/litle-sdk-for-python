@@ -21,5 +21,9 @@
 #FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 #OTHER DEALINGS IN THE SOFTWARE.
 
-__all__ = ["testAllFunctionalTests", "TestAuth", "TestAuthReversal", "TestCapture", "TestCaptureGivenAuth", "TestCredit", "TestEcheckCredit", "TestEcheckRedeposit", "TestEcheckSale", "TestEcheckVerification", "TestEcheckVoid", "TestForceCapture", "TestSale", "TestToken"]
+__all__ = ["TestAllFunctionalTests", "TestAuth", "TestAuthReversal", 
+           "TestCapture", "TestCaptureGivenAuth", "TestCredit", 
+           "TestEcheckCredit", "TestEcheckRedeposit", "TestEcheckSale", 
+           "TestEcheckVerification", "TestEcheckVoid", "TestForceCapture", 
+           "TestSale", "TestToken"]
 

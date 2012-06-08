@@ -27,7 +27,7 @@ import pyxb
 
 class TestCaptureGivenAuth(unittest.TestCase):
     
-    def test_simple_captureGivenAuth(self):
+    def testSimpleCaptureGivenAuth(self):
         CaptureGivenAuth = litleXmlFields.captureGivenAuth()
         CaptureGivenAuth.amount = 106
         CaptureGivenAuth.orderId = "12344"
@@ -46,9 +46,9 @@ class TestCaptureGivenAuth(unittest.TestCase):
         CaptureGivenAuth.card = Card
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(CaptureGivenAuth)
-        self.assertEquals("Approved",response.transactionResponse.message)
+        self.assertEquals("Approved",response.message)
         
-    def test_simple_captureGivenAuth_with_token(self):
+    def testSimpleCaptureGivenAuthWithToken(self):
         CaptureGivenAuth = litleXmlFields.captureGivenAuth()
         CaptureGivenAuth.amount = 106
         CaptureGivenAuth.orderId = "12344"
@@ -67,9 +67,9 @@ class TestCaptureGivenAuth(unittest.TestCase):
         CaptureGivenAuth.token = Token
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(CaptureGivenAuth)
-        self.assertEquals("Approved",response.transactionResponse.message)
+        self.assertEquals("Approved",response.message)
         
-    def test_complex_captureGivenAuth(self):
+    def testComplexCaptureGivenAuth(self):
         CaptureGivenAuth = litleXmlFields.captureGivenAuth()
         CaptureGivenAuth.amount = 106
         CaptureGivenAuth.orderId = "12344"
@@ -97,10 +97,10 @@ class TestCaptureGivenAuth(unittest.TestCase):
         CaptureGivenAuth.card = Card
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(CaptureGivenAuth)
-        self.assertEquals("Approved",response.transactionResponse.message)
+        self.assertEquals("Approved",response.message)
         
         
-    def test_authInfo(self):
+    def testAuthInfo(self):
         CaptureGivenAuth = litleXmlFields.captureGivenAuth()
         CaptureGivenAuth.amount = 106
         CaptureGivenAuth.orderId = "12344"
@@ -125,7 +125,7 @@ class TestCaptureGivenAuth(unittest.TestCase):
         CaptureGivenAuth.card = Card
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(CaptureGivenAuth)
-        self.assertEquals("Approved",response.transactionResponse.message)
+        self.assertEquals("Approved",response.message)
    
 def suite():
     suite = unittest.TestSuite()

@@ -26,23 +26,23 @@ import unittest
 
 class TestToken(unittest.TestCase):
     
-    def test_simpleToken(self):
+    def testSimpleToken(self):
         token = litleXmlFields.registerTokenRequest()
         token.orderId = '12344'
         token.accountNumber = '1233456789103801'
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(token)
-        self.assertEquals(response.transactionResponse.message, "Account number was successfully registered")
+        self.assertEquals(response.message, "Account number was successfully registered")
         
-    def test_simpleTokenWithPaypage(self):
+    def testSimpleTokenWithPaypage(self):
         token = litleXmlFields.registerTokenRequest()
         token.orderId = '12344'
         token.paypageRegistrationId = '1233456789101112'
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(token)
-        self.assertEquals(response.transactionResponse.message, "Account number was successfully registered")
+        self.assertEquals(response.message, "Account number was successfully registered")
         
-    def test_simpleTokenWithEcheck(self):
+    def testSimpleTokenWithEcheck(self):
         token = litleXmlFields.registerTokenRequest()
         token.orderId = '12344'
         echeck = litleXmlFields.echeckForTokenType()
@@ -51,17 +51,18 @@ class TestToken(unittest.TestCase):
         token.echeckForToken = echeck
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(token)
-        self.assertEquals(response.transactionResponse.message, "Account number was successfully registered")
+        self.assertEquals(response.message, "Account number was successfully registered")
         
-    def test_tokenEcheckMissingRequiredField(self):
+    def testTokenEcheckMissingRequiredField(self):
         token = litleXmlFields.registerTokenRequest()
         token.orderId = '12344'
         echeck = litleXmlFields.echeckForTokenType()
         echeck.routingNum = "123476545"
         token.echeckForToken = echeck
-        litleXml =  litleOnlineRequest(config)
-        response = litleXml.sendRequest(token)
-        self.assert_(response.message.count("Error validating xml data against the schema"))
+        
+        litle = litleOnlineRequest(config)
+        with self.assertRaises(Exception):
+            litle.sendRequest(token)
 
 def suite():
     suite = unittest.TestSuite()

@@ -26,7 +26,7 @@ import unittest
 
 class TestAuthReversal(unittest.TestCase):
     
-    def test_simple_authReversal(self):
+    def testSimpleAuthReversal(self):
         reversal = litleXmlFields.authReversal()
         reversal.litleTxnId = 12345678000
         reversal.amount = 106
@@ -36,7 +36,7 @@ class TestAuthReversal(unittest.TestCase):
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(reversal)
             
-        self.assertEquals("Approved",response.transactionResponse.message)
+        self.assertEquals("Approved",response.message)
 
 def suite():
     suite = unittest.TestSuite()

@@ -26,7 +26,7 @@ import unittest
 
 class TestEcheckVerification(unittest.TestCase):
     
-    def test_simpleEcheckVerification(self):
+    def testSimpleEcheckVerification(self):
         echeckverification = litleXmlFields.echeckVerification()
         echeckverification.amount = 123456L
         echeckverification.orderId = '12345'
@@ -48,8 +48,7 @@ class TestEcheckVerification(unittest.TestCase):
         
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(echeckverification)
-        self.assertEquals(response.message, "Valid Format")
-        self.assertEquals("Approved",response.transactionResponse.message)
+        self.assertEquals("Approved",response.message)
 
     
     def test_echeckVerificationWithEcheckToken(self):
@@ -74,8 +73,7 @@ class TestEcheckVerification(unittest.TestCase):
         
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(echeckverification)
-        self.assertEquals(response.message, "Valid Format")
-        self.assertEquals("Approved",response.transactionResponse.message)
+        self.assertEquals("Approved",response.message)
 
         
     def test_MissingBillingField(self):
@@ -91,9 +89,9 @@ class TestEcheckVerification(unittest.TestCase):
         echeck.checkNum = '123455'
         echeckverification.echeckOrEcheckToken = echeck
         
-        litleXml =  litleOnlineRequest(config)
-        response = litleXml.sendRequest(echeckverification)
-        self.assert_(response.message.count("Error validating xml data against the schema"))
+        litle = litleOnlineRequest(config)
+        with self.assertRaises(Exception):
+            litle.sendRequest(echeckverification)
 
 def suite():
     suite = unittest.TestSuite()

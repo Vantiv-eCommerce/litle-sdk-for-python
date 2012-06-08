@@ -21,8 +21,8 @@
 #FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 #OTHER DEALINGS IN THE SOFTWARE.
 
-from litleSdkPythonTest.unit import testAllUnitTests
+from litleSdkPythonTest.unit import TestAllUnitTests
 
-from litleSdkPythonTest.certification import testAllCertificationTests
+from litleSdkPythonTest.certification import TestAllCertificationTests
 
-from litleSdkPythonTest.functional import testAllFunctionalTests
+from litleSdkPythonTest.functional import TestAllFunctionalTests

@@ -26,7 +26,7 @@ import unittest
 
 class TestCapture(unittest.TestCase):
     
-    def test_simple_capture(self):
+    def testSimpleCapture(self):
         Capture = litleXmlFields.capture()
         Capture.litleTxnId = 123456000
         Capture.amount = 106
@@ -36,9 +36,9 @@ class TestCapture(unittest.TestCase):
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(Capture)
             
-        self.assertEquals("Approved",response.transactionResponse.message)
+        self.assertEquals("Approved",response.message)
         
-    def test_simple_capture_with_partial(self):
+    def testSimpleCaptureWithPartial(self):
         Capture = litleXmlFields.capture()
         Capture.litleTxnId = 123456000
         Capture.amount = 106
@@ -49,9 +49,9 @@ class TestCapture(unittest.TestCase):
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(Capture)
             
-        self.assertEquals("Approved",response.transactionResponse.message)
+        self.assertEquals("Approved",response.message)
         
-    def test_complex_capture(self):
+    def testComplexCapture(self):
         Capture = litleXmlFields.capture()
         Capture.litleTxnId = 123456000
         Capture.amount = 106
@@ -68,7 +68,7 @@ class TestCapture(unittest.TestCase):
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(Capture)
             
-        self.assertEquals("Approved",response.transactionResponse.message)
+        self.assertEquals("Approved",response.message)
 
 def suite():
     suite = unittest.TestSuite()

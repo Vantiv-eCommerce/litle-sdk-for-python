@@ -21,4 +21,5 @@
 #FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 #OTHER DEALINGS IN THE SOFTWARE.
 
-__all__ = ["certTest1", "certTest2", "certTest3", "certTest4", "certTest5", "testAllCertificationTests"]
+__all__ = ["certTest1", "certTest2", "certTest3", "certTest4", 
+           "certTest5", "TestAllCertificationTests"]

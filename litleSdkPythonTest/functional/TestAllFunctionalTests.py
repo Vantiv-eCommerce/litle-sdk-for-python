@@ -22,9 +22,19 @@
 #OTHER DEALINGS IN THE SOFTWARE.
 
 import unittest
-import TestAuth, TestAuthReversal, TestCapture, TestCaptureGivenAuth, TestCredit
-import TestEcheckCredit, TestEcheckRedeposit, TestEcheckSale, TestEcheckVerification
-import TestEcheckVoid, TestForceCapture, TestSale, TestToken
+import TestAuth
+import TestAuthReversal
+import TestCapture
+import TestCaptureGivenAuth
+import TestCredit
+import TestEcheckCredit
+import TestEcheckRedeposit
+import TestEcheckSale
+import TestEcheckVerification
+import TestEcheckVoid
+import TestForceCapture
+import TestSale
+import TestToken
 
 testauth = TestAuth.suite()
 testauthreverasal = TestAuthReversal.suite()

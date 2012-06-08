@@ -22,7 +22,11 @@
 #OTHER DEALINGS IN THE SOFTWARE.
 
 import unittest
-import certTest1, certTest2, certTest3, certTest4, certTest5
+import certTest1
+import certTest2
+import certTest3
+import certTest4
+import certTest5
 
 ct1 = certTest1.suite()
 ct2 = certTest2.suite()
