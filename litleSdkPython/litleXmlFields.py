@@ -6463,7 +6463,7 @@ class recycleAdviceType (pyxb.binding.basis.complexTypeDefinition):
 Namespace.addCategoryObject('typeBinding', u'recycleAdviceType', recycleAdviceType)
 
 
-# Complex type driversLicenseInfo with content type ELEMENT_ONLY
+# Complex type  with content type ELEMENT_ONLY
 class driversLicenseInfo (pyxb.binding.basis.complexTypeDefinition):
     _TypeDefinition = None
     _ContentTypeTag = pyxb.binding.basis.complexTypeDefinition._CT_ELEMENT_ONLY
