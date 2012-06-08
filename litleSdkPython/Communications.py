@@ -40,15 +40,15 @@ class Communications:
         req = urllib2.Request(url= self.Url, data=post_data)
         req.add_header('Content-type', 'text/xml')
             
-        try: 
-            if (self.Proxy != None) :  
-                proxy_handler = urllib2.ProxyHandler({'https': self.Proxy}) 
-                opener = urllib2.build_opener(proxy_handler)
-                response = opener.open(req, timeout = self.Timeout)
-            else:
-                response = urllib2.urlopen(req, timeout = self.Timeout)
-        except:
-            raise Exception("Error with Https Request, Please Check Proxy and Url configuration")
+        #try: 
+        if (self.Proxy != None) :  
+            proxy_handler = urllib2.ProxyHandler({'https': self.Proxy}) 
+            opener = urllib2.build_opener(proxy_handler)
+            response = opener.open(req, timeout = self.Timeout)
+        else:
+            response = urllib2.urlopen(req, timeout = self.Timeout)
+      #  except:
+       #     raise Exception("Error with Https Request, Please Check Proxy and Url configuration")
         
         responseXml = response.read()
         return responseXml
