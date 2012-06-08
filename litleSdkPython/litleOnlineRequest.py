@@ -60,11 +60,7 @@ class litleOnlineRequest:
         litleOnline = self._createTxn(transaction)        
         responseXml = self.communications.http_post(self._litleToXml(litleOnline),
                                                     url=url, proxy=proxy, timeout=timeout)
-        response = self._processResponse(responseXml)
-        if (response.response == '0'):
-            return response.transactionResponse
-        else:
-            raise Exception(response.message)
+        return self._processResponse(responseXml)
     
     def setCommunications(self, communications):
         self.communications = communications
@@ -90,5 +86,9 @@ class litleOnlineRequest:
     
     def _processResponse(self, responseXml):
         temp = self._addNamespace(responseXml)
-        return litleXmlFields.CreateFromDocument(temp)
+        response =litleXmlFields.CreateFromDocument(temp)
+        if (response.response == '0'):
+            return response.transactionResponse
+        else:
+            raise Exception(response.message)
       
