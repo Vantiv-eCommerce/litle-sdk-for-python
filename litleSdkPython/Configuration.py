@@ -81,7 +81,7 @@ class Configuration:
     def _urlMapper(self,target):
         if (target == "Cert"):
             return 'https://cert.litle.com/vap/communicator/online'
-        elif(target == "Sandox"):
+        elif(target == "Sandbox"):
             return 'https://www.testlitle.com/sandbox/communicator/online'
         elif(target == "Precert"):
             return 'https://precert.litle.com/vap/communicator/online'
