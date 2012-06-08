@@ -24,6 +24,7 @@
 from litleSdkPythonTest.all.SetupTest import *
 import unittest
 from mock import *
+from array import *
 
 class TestPostGenerationScript(unittest.TestCase):
 
@@ -159,26 +160,27 @@ class TestPostGenerationScript(unittest.TestCase):
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?")
         comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
         
-#    def test_minOccurs_taxAmount_itemDescription(self):
-#        Capture = litleXmlFields.capture()
-#        Capture.litleTxnId = 123456000
-#        Capture.amount = 106
-#        Capture.payPalNotes = "Notes"
-#        Enhanced = litleXmlFields.enhancedData()
-#        LineItem = litleXmlFields.lineItemData()
-#        LineItem.lineItemTotalWithTax = 123
-#        Enhanced.lineItemData = LineItem
-#        Capture.enhancedData = Enhanced
-#    
-#        comm = Communications(config)
-#        comm.http_post = MagicMock()
-#        litle = litleOnlineRequest(config)
-#        litle.setCommunications(comm)
-#        litle._processResponse = MagicMock(return_value=None)
-#        litle.sendRequest(Capture)
-#        comm.http_post.assert_called_once()
-#        match_re = RegexMatcher(".*?<litleOnlineRequest.*?")
-#        comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
+    def test_minOccurs_taxAmount_itemDescription(self):
+        Capture = litleXmlFields.capture()
+        Capture.litleTxnId = 123456000
+        Capture.amount = 106
+        Capture.payPalNotes = "Notes"
+        Enhanced = litleXmlFields.enhancedData()
+        LineItem = litleXmlFields.lineItemData()
+        LineItem.lineItemTotalWithTax = 123
+        iterator = {LineItem : LineItem}
+        Enhanced.lineItemData = iter(iterator)
+        Capture.enhancedData = Enhanced
+    
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(Capture)
+        comm.http_post.assert_called_once()
+        match_re = RegexMatcher(".*?<litleOnlineRequest.*?")
+        comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
 
     def test_minOccurs_payerId_transactionId_healthcareAmounts_IIASFlag_totalHealthCareAmount(self):
         authorization = litleXmlFields.authorization()
@@ -225,9 +227,7 @@ class TestPostGenerationScript(unittest.TestCase):
         authorization.orderSource = 'ecommerce'
         bml = litleXmlFields.billMeLaterRequest()
         authorization.billMeLatertRequest = bml
-#        paypage = litleXmlFields.paypage()
-#        authorization.paypage = paypage
-        
+
         comm = Communications(config)
         comm.http_post = MagicMock()
         litle = litleOnlineRequest(config)
@@ -238,26 +238,22 @@ class TestPostGenerationScript(unittest.TestCase):
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?")
         comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
         
-#    def test_minOccurs_paypageregistrationId(self):
-#        sale = litleXmlFields.sale()
-#        sale.orderId = '12344'
-#        sale.amount = 106
-#        sale.orderSource = 'ecommerce'
-#        paypage = litleXmlFields.cardPaypageType()
-#        paypage.cardValidationNum = '123'
-#        paypage.expDate = "1212"
-#        paypage.type = "VI"
-#        paypage.paypageRegistrationId = '12312321312312312312312313'
-#        sale.paypage = paypage
-#        comm = Communications(config)
-#        comm.http_post = MagicMock()
-#        litle = litleOnlineRequest(config)
-#        litle.setCommunications(comm)
-#        litle._processResponse = MagicMock(return_value=None)
-#        litle.sendRequest(authorization)
-#        comm.http_post.assert_called_once()
-#        match_re = RegexMatcher(".*?<litleOnlineRequest.*?")
-#        comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
+    def test_minOccurs_paypageregistrationId(self):
+        sale = litleXmlFields.sale()
+        sale.orderId = '12344'
+        sale.amount = 106
+        sale.orderSource = 'ecommerce'
+        paypage = litleXmlFields.cardPaypageType()
+        sale.paypage = paypage
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(sale)
+        comm.http_post.assert_called_once()
+        match_re = RegexMatcher(".*?<litleOnlineRequest.*?")
+        comm.http_post.assert_called_with(match_re,url=ANY,proxy=ANY,timeout=ANY)
         
         
         
