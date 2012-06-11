@@ -27,7 +27,7 @@ sys.path.append(lib_path)
 
 import TestAllUnitTests
 
-lib_path = os.path.abspath('../certfication')
+lib_path = os.path.abspath('../certification')
 sys.path.append(lib_path)
 
 import TestAllCertificationTests
