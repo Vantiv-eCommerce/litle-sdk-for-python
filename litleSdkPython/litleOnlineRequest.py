@@ -48,7 +48,7 @@ class litleOnlineRequest:
             raise Exception("Invalid Number of Choices, Fill Out One and Only One Choice")
         
     def sendRequest(self,transaction, user=None, password=None, version=None, merchantId=None, reportGroup=None, 
-                    timeout=None, url=None, proxy=None):
+                    timeout=None, url=None, proxy=None, printXml=False):
         if (user != None):
             self.User = user
         if (password != None):
@@ -60,9 +60,14 @@ class litleOnlineRequest:
         if (reportGroup != None):
             self.ReportGroup = reportGroup
             
-        litleOnline = self._createTxn(transaction)        
-        responseXml = self.communications.http_post(self._litleToXml(litleOnline), url=url,
+        litleOnline = self._createTxn(transaction)
+        requestXml = self._litleToXml(litleOnline)
+        if(printXml):
+            print'Request: ', requestXml
+        responseXml = self.communications.http_post(requestXml, url=url,
                                                     proxy=proxy, timeout=timeout)
+        if(printXml):
+            print '\nResponse:\n', responseXml
         return self._processResponse(responseXml)
     
     def setCommunications(self, communications):
