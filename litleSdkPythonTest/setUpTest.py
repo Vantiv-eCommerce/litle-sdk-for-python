@@ -27,7 +27,7 @@ import os
 import re
 import string
 
-lib_path = os.path.abspath('../litleSdkPythonTest/testConfig.py')
+lib_path = os.path.abspath('testConfig.py')
 sys.path.append(lib_path)
 
 print "Setup for Litle SDK Tests" 
