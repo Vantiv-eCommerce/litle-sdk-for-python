@@ -72,8 +72,8 @@ class TestProcessResponse(unittest.TestCase):
     def testInvalidXml(self):
         xml_text = "<litleOnlineResponse verion='8.13' response='1' message='NotValid'></litleOnlineResponse>"
         litleXml = litleOnlineRequest(config)
-       # with self.assertRaises(Exception):
-        response = litleXml._processResponse(xml_text)
+        with self.assertRaises(Exception):
+            response = litleXml._processResponse(xml_text)
                 
         
 def suite():
