@@ -71,4 +71,7 @@ class TestToken(unittest.TestCase):
 def suite():
     suite = unittest.TestSuite()
     suite = unittest.TestLoader().loadTestsFromTestCase(TestToken)
-    return suite  
+    return suite
+
+if __name__ =='__main__':
+    unittest.main()  

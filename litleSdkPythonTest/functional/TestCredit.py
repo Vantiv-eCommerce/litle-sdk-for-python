@@ -102,3 +102,6 @@ def suite():
     suite = unittest.TestSuite()
     suite = unittest.TestLoader().loadTestsFromTestCase(TestCredit)
     return suite
+
+if __name__ =='__main__':
+    unittest.main()

@@ -101,3 +101,6 @@ def suite():
     suite = unittest.TestSuite()
     suite = unittest.TestLoader().loadTestsFromTestCase(TestEcheckVerification)
     return suite
+
+if __name__ =='__main__':
+    unittest.main()

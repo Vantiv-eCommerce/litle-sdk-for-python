@@ -262,3 +262,6 @@ def suite():
     suite = unittest.TestSuite()
     suite = unittest.TestLoader().loadTestsFromTestCase(TestPostGenerationScript)
     return suite
+
+if __name__ =='__main__':
+    unittest.main()

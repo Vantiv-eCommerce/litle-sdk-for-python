@@ -27,10 +27,12 @@ import litleSdkPython
 from litleSdkPython.litleOnlineRequest import *
 
 try:
-    import litleSdkPythonTest.testConfig
+    lib_path = os.path.abspath('../')
+    sys.path.append(lib_path)
+    import testConfig
 except:
     raise Exception('please run setUpTest.py before running tests')
-config = litleSdkPythonTest.testConfig.config
+config = testConfig.config
 
 class RegexMatcher(object):
     def __init__(self, pattern):

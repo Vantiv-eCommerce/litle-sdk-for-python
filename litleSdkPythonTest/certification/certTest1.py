@@ -1136,3 +1136,6 @@ def suite():
     suite = unittest.TestSuite()
     suite = unittest.TestLoader().loadTestsFromTestCase(certTest1)
     return suite
+
+if __name__ =='__main__':
+    unittest.main()

@@ -78,3 +78,6 @@ def suite():
     suite = unittest.TestSuite()
     suite = unittest.TestLoader().loadTestsFromTestCase(TestCapture)
     return suite
+
+if __name__ =='__main__':
+    unittest.main()
