@@ -28,18 +28,21 @@ mock
 
 Setup
 -----
+1) Download and install the PyXB library from http://pyxb.sourceforge.net/overview_how.html
 
-1) Install the LitleOnline Python SDK from it.
+2) Download and install the mock library from http://pypi.python.org/pypi/mock
 
->git clone git://github.com/LitleCo/litle_sdk_for_python.git
+3) Install the LitleOnline Python SDK.
 
-2) Add the LitleSdkPython and LitleSdkPythonTest libraries to your Project References
+>git clone git://github.com/LitleCo/litle-sdk-for-python.git
 
-3) Once the SDK is downloaded run our setUpTest.py
+4) Add the LitleSdkPython library to your Project References or interpreter path
 
-4) Run LitleSdkPythonTest.all.test_all.py
+5) Once the SDK is downloaded run our LitleSdkPythonTest/setupConfig.py
 
-5) Create a python file similar to:
+6) Run LitleSdkPythonTest/all/test_all.py
+
+7) Create a python file similar to:
 
 ```python
 from litleSdkPython.litleOnlineRequest import *
@@ -80,7 +83,7 @@ print "LitleTransaction ID: " + str(response.transactionResponse.litleTxnId)
 ```
 NOTE: you may need to edit the proxy to to work for your system
 
-6) Next run this file.  You should see the following result provided you have connectivity to the Litle certification environment.  You will see an HTTP error if you don't have access to the Litle URL.
+8) Next run this file.  You should see the following result provided you have connectivity to the Litle certification environment.  You will see an HTTP error if you don't have access to the Litle URL.
 
     Message: Valid Format
     Litle Transaction ID: <your-numeric-litle-txn-id>
