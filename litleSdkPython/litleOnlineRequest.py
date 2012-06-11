@@ -44,8 +44,8 @@ class litleOnlineRequest:
             temp =litleOnline.toxml()
             temp= temp.replace('ns1:','')
             return temp.replace(':ns1','')
-        except pyxb.BindingValidationError:
-            raise Exception("Invalid Number of Choices, Fill Out One and Only One Choice")
+        except pyxb.BindingValidationError,e:
+            raise Exception("Invalid Number of Choices, Fill Out One and Only One Choice",e)
         
     def sendRequest(self,transaction, user=None, password=None, version=None, merchantId=None, reportGroup=None, 
                     timeout=None, url=None, proxy=None, printXml=False):
