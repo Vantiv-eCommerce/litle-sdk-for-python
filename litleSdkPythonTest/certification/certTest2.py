@@ -21,7 +21,11 @@
 #FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 #OTHER DEALINGS IN THE SOFTWARE.
 
-from litleSdkPythonTest.all.SetupTest import *
+import os, sys
+lib_path = os.path.abspath('../all')
+sys.path.append(lib_path)
+
+from SetupTest import *
 import unittest
 
 class certTest2(unittest.TestCase):
