@@ -33,7 +33,7 @@ Setup
 
 >git clone git://github.com/LitleCo/litle_sdk_for_python.git
 
-2) Add the LitleSdkPython and LitleSdkPythonTest libraies to your Project References
+2) Add the LitleSdkPython and LitleSdkPythonTest libraries to your Project References
 
 3) Once the SDK is downloaded run our setUpTest.py
 
