@@ -21,8 +21,18 @@
 #FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 #OTHER DEALINGS IN THE SOFTWARE.
 
-from litleSdkPythonTest.unit import TestAllUnitTests
+import os, sys
+lib_path = os.path.abspath('../unit')
+sys.path.append(lib_path)
 
-from litleSdkPythonTest.certification import TestAllCertificationTests
+import TestAllUnitTests
 
-from litleSdkPythonTest.functional import TestAllFunctionalTests
+lib_path = os.path.abspath('../certfication')
+sys.path.append(lib_path)
+
+import TestAllCertificationTests
+
+lib_path = os.path.abspath('../functional')
+sys.path.append(lib_path)
+
+import TestAllFunctionalTests
