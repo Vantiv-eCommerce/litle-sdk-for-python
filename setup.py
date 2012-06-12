@@ -9,7 +9,6 @@ setup(name='LitleSdkPython',
       author_email='SDKSupport@litle.com',
       url='http://www.litle.com/developers',
       packages=['litleSdkPython'],
-      data_files=[("litleSdkPython",["LICENSE","README.md"])],
       install_requires=[
                         'PyXB'],
       dependency_links =[
