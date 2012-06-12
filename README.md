@@ -88,5 +88,6 @@ NOTE: you may need to edit the proxy to to work for your system
     Message: Valid Format
     Litle Transaction ID: <your-numeric-litle-txn-id>
     
-For information on cofiguration settings go to: [SDK Config Info](https://github.com/LitleCo/litle-sdk-for-python/wiki/Config-Settings)
+For information on cofiguration settings go to: [SDK Config Info](https://github.com/LitleCo/litle-sdk-for-python/wiki/Config-Settings).
+
 Please contact Litle & Co. with any further questions.   You can reach us at SDKSupport@litle.com
