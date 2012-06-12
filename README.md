@@ -38,9 +38,7 @@ Setup
 
 4) Add the LitleSdkPython library to your Project References or interpreter path
 
-5) Once the SDK is downloaded run our LitleSdkPythonTest/setupConfig.py
-
-6) Run LitleSdkPythonTest/all/test_all.py
+5) To run tests see [SDK Testing Info](https://github.com/LitleCo/litle-sdk-for-python/wiki/Testing)
 
 7) Create a python file similar to:
 
