@@ -40,7 +40,7 @@ Setup
 
 5) To run tests see [SDK Testing Info](https://github.com/LitleCo/litle-sdk-for-python/wiki/Testing)
 
-7) Create a python file similar to:
+6) Create a python file similar to:
 
 ```python
 from litleSdkPython.litleOnlineRequest import *
