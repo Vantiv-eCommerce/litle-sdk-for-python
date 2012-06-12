@@ -29,6 +29,7 @@ class Configuration:
         self._url = "Sandbox"
         self._proxy = None
         self._timeout = 65
+        self._printXml = False
         
     def getUser(self):
         return self._user
@@ -77,6 +78,12 @@ class Configuration:
         
     def setTimeout(self, timeout):
         self._timeout = timeout
+        
+    def getPrintXml(self):
+        return self._printXml
+    
+    def setPrintXml(self, printXml):
+        self._printXml = printXml
         
     def _urlMapper(self,target):
         if (target == "Cert"):
