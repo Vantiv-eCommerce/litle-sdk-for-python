@@ -8,7 +8,7 @@ About Litle
 
 About this SDK
 --------------
-The Litle Python SDK is a Python implementation of the [Litle &amp; Co.](http://www.litle.com). XML API. This SDK was created to make it as easy as possible to connect process your payments with Litle.  This SDK utilizes  the HTTPS protocol to securely connect to Litle.  Using the SDK requires coordination with the Litle team in order to be provided with credentials for accessing our systems.
+The Litle Python SDK is a Python implementation of the [Litle &amp; Co.](http://www.litle.com/developers). XML API. This SDK was created to make it as easy as possible to connect process your payments with Litle.  This SDK utilizes  the HTTPS protocol to securely connect to Litle.  Using the SDK requires coordination with the Litle team in order to be provided with credentials for accessing our systems.
 
 Our Python supports all of the functionality present in Litle XML v8. Please see the online copy of our XSD for Litle XML to get more details on what is supported by the Litle payments engine.
 
@@ -18,29 +18,27 @@ See LICENSE file for details on using this software.
 
 Source Code available from : https://github.com/LitleCo/litle-sdk-for-Python
 
-Please contact [Litle &amp; Co.](http://www.litle.com) to receive valid merchant credentials in order to run tests successfully or if you require assistance in any way.  We are reachable at sdksupport@litle.com
+Please contact [Litle &amp; Co.](http://www.litle.com/developers) to receive valid merchant credentials in order to run tests successfully or if you require assistance in any way.  We are reachable at sdksupport@litle.com
 
 SDK Python Dependencies
 ----------------------
-pyxb
+pyxb : available at http://pyxb.sourceforge.net/overview_how.html
 
-mock
+mock(only for running tests): available at http://pypi.python.org/pypi/mock
 
 Setup
 -----
-1) Download and install the PyXB library from http://pyxb.sourceforge.net/overview_how.html
+1) Get the LitleOnline Python SDK from the downloads page and install by running
 
-2) Download and install the mock library from http://pypi.python.org/pypi/mock
+>tar xf LitleSdkPython-VERSION.tar.gz
 
-3) Install the LitleOnline Python SDK.
+>cd LitleSdkPython-VERSION
 
->git clone git://github.com/LitleCo/litle-sdk-for-python.git
+>python setup.py install
 
-4) Add the LitleSdkPython library to your Project References or interpreter path
+2) To run tests see [SDK Testing Info](https://github.com/LitleCo/litle-sdk-for-python/wiki/Testing)
 
-5) To run tests see [SDK Testing Info](https://github.com/LitleCo/litle-sdk-for-python/wiki/Testing)
-
-6) Create a python file similar to:
+3) Create a python file similar to:
 
 ```python
 from litleSdkPython.litleOnlineRequest import *
@@ -81,7 +79,7 @@ print "LitleTransaction ID: " + str(response.transactionResponse.litleTxnId)
 ```
 NOTE: you may need to edit the proxy to to work for your system
 
-8) Next run this file.  You should see the following result provided you have connectivity to the Litle certification environment.  You will see an HTTP error if you don't have access to the Litle URL.
+4) Next run this file.  You should see the following result.
 
     Message: Valid Format
     Litle Transaction ID: <your-numeric-litle-txn-id>
