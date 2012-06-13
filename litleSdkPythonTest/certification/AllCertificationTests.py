@@ -22,17 +22,17 @@
 #OTHER DEALINGS IN THE SOFTWARE.
 
 import unittest
-import certTest1
-import certTest2
-import certTest3
-import certTest4
-import certTest5
+import TestCert1
+import TestCert2
+import TestCert3
+import TestCert4
+import TestCert5
 
-ct1 = certTest1.suite()
-ct2 = certTest2.suite()
-ct3 = certTest3.suite()
-ct4 = certTest4.suite()
-ct5 = certTest5.suite()
+ct1 = TestCert1.suite()
+ct2 = TestCert2.suite()
+ct3 = TestCert3.suite()
+ct4 = TestCert4.suite()
+ct5 = TestCert5.suite()
 
 unittest.TextTestRunner().run(ct1)
 unittest.TextTestRunner().run(ct2)
