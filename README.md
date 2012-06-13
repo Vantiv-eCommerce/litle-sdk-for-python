@@ -28,7 +28,15 @@ mock(only for running tests): available at http://pypi.python.org/pypi/mock
 
 Setup
 -----
-1) Get the LitleOnline Python SDK from the downloads page and install by running
+1) To download and install:
+
+Using pip 
+
+>pip install LitleSdkPython
+
+Without Pip
+
+>wget http://pypi.python.org/packages/source/L/LitleSdkPython/LitleSdkPython-8.13.0.tar.gz#md5=30c83ed753f37482ce5f04e84836a74d
 
 >tar xf LitleSdkPython-VERSION.tar.gz
 
