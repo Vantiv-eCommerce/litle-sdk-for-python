@@ -94,4 +94,6 @@ NOTE: you may need to edit the proxy to to work for your system
     
 For information on cofiguration settings go to: [SDK Config Info](https://github.com/LitleCo/litle-sdk-for-python/wiki/Config-Settings).
 
+More examples can be found here [Python Gists](https://gist.github.com/gists/search?q=Litle+Python+SDK&page=1)
+
 Please contact Litle & Co. with any further questions.   You can reach us at SDKSupport@litle.com
