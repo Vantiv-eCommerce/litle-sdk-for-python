@@ -48,7 +48,7 @@ class litleOnlineRequest:
         except pyxb.BindingValidationError,e:
             raise Exception("Invalid Number of Choices, Fill Out One and Only One Choice",e)
         
-    def sendRequest(self,transaction, user=None, password=None, merchantId=None, reportGroup=None, 
+    def sendRequest(self,transaction, user=None, password=None, version=None, merchantId=None, reportGroup=None, 
                     timeout=None, url=None, proxy=None):
         if (user != None):
             self.User = user

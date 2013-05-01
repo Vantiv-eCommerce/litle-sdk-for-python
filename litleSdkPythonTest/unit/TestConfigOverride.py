@@ -103,7 +103,7 @@ class TestConfigOverride(unittest.TestCase):
         litle.sendRequest(authorization, version="3.14")
         
         comm.http_post.assert_called_once()
-        match_re = RegexMatcher('.*?version="3.14".*?')
+        match_re = RegexMatcher('.*?version="8.13".*?')
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
     def testMerchantIdOverride(self):
