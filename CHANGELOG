@@ -1,5 +1,9 @@
- = Litle Online
- 
- == Version 8.13.0 (June 8, 2012)
- 
- * Initial Release
+= Litle Online
+
+== Version 8.13.1 (May 1, 2013)
+
+* Bugfix: handling of Japanese Characters.  We now set the encoding explicitly to utf-8
+
+== Version 8.13.0 (June 8, 2012)
+
+* Initial Release

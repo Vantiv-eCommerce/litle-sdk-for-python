@@ -52,6 +52,8 @@ testforcecapture = TestForceCapture.suite()
 testsale = TestSale.suite()
 testtoken = TestToken.suite()
 
+testutf8 = TestUtf8.suite()
+
 unittest.TextTestRunner().run(testauth)
 unittest.TextTestRunner().run(testauthreverasal)
 unittest.TextTestRunner().run(testcapture)
@@ -67,3 +69,5 @@ unittest.TextTestRunner().run(testecheckvoid)
 unittest.TextTestRunner().run(testforcecapture)
 unittest.TextTestRunner().run(testsale)
 unittest.TextTestRunner().run(testtoken)
+
+unittest.TextTestRunner().run(testutf8)

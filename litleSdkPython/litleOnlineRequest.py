@@ -35,27 +35,25 @@ class litleOnlineRequest:
         self.MerchantId = Configuration.getMerchantId()
         self.User = Configuration.getUser()
         self.Password = Configuration.getPassword()
-        self.Version = Configuration.getVersion()
         self.ReportGroup = Configuration.getReportGroup()
         self.communications = Communications(self.Configuration)
         self.printXml = Configuration.getPrintXml()
         
     def _litleToXml(self,litleOnline):
         try :
-            temp =litleOnline.toxml()
+            dom = litleOnline.toDOM()
+            temp = dom.toxml('utf-8')
             temp= temp.replace('ns1:','')
             return temp.replace(':ns1','')
         except pyxb.BindingValidationError,e:
             raise Exception("Invalid Number of Choices, Fill Out One and Only One Choice",e)
         
-    def sendRequest(self,transaction, user=None, password=None, version=None, merchantId=None, reportGroup=None, 
+    def sendRequest(self,transaction, user=None, password=None, merchantId=None, reportGroup=None, 
                     timeout=None, url=None, proxy=None):
         if (user != None):
             self.User = user
         if (password != None):
             self.Password = password
-        if (version != None):
-            self.Version = version
         if (merchantId != None):
             self.MerchantId = merchantId
         if (reportGroup != None):
@@ -77,7 +75,8 @@ class litleOnlineRequest:
     def _createTxn(self, transaction):
         litleOnline = litleXmlFields.litleOnlineRequest()
         litleOnline.merchantId = self.MerchantId
-        litleOnline.version = self.Version
+        litleOnline.version = '8.13'
+        litleOnline.merchantSdk = '8.13.1'
         authentication = litleXmlFields.authentication()
         authentication.user = self.User
         authentication.password =  self.Password 
