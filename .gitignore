@@ -1,0 +1,5 @@
+/build
+/dist
+/LitleSdkPython.egg-info
+.project
+.pydevproject
