@@ -3,3 +3,4 @@
 /LitleSdkPython.egg-info
 .project
 .pydevproject
+/nosetests.xml
