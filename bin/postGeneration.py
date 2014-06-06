@@ -155,7 +155,7 @@ def fixChoices(xfile):
     line = "._GroupModel_.*?, min_occurs=1, max_occurs=1\)"
     lineToSkip = findAnon(xfile, "authorization") + "._GroupModel_,"
     lineToSkip2 = findAnon(xfile, "credit") + "._GroupModel_2"
-    lineToSkip3 = findAnon(xfile, "echeckCredit") + "._GroupModel_,"
+    lineToSkip3 = findAnon(xfile, "echeckCredit") + "._GroupModel_2,"
     lineToSkip4 = findAnon(xfile, "echeckSale") + "._GroupModel_,"
     rightLine = re.compile(line)
     readlines = open(xfile, 'r').readlines()
