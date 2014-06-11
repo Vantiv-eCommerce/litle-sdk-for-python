@@ -391,6 +391,290 @@ class TestLitleOnline(unittest.TestCase):
             card.type = 'VC'
             auth.card = card
 
+    def testCustomerInfoDob(self):
+        auth = litleXmlFields.authorization();
+        auth.reportGroup = 'Planets'
+        auth.orderId = '12344'
+        auth.amount = 106
+        auth.orderSource = 'ecommerce'
+
+        card = litleXmlFields.cardType()
+        card.type = 'VI'
+        card.number = '4100000000000002'
+        card.expDate = '1210'
+        auth.card = card
+        customerInfo = litleXmlFields.customerInfo()
+        customerInfo.dob = '1980-04-14'
+        auth.customerInfo = customerInfo
+
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(auth)
+
+        comm.http_post.assert_called_once()
+        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<authorization.*?<dob>1980-04-14</dob>.*?</authorization>.*?")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+
+    def testCancelSubscription(self):
+        cancel = litleXmlFields.cancelSubscription()
+        cancel.subscriptionId = '12345'
+
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(cancel)
+
+        comm.http_post.assert_called_once()
+        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<cancelSubscription><subscriptionId>12345</subscriptionId></cancelSubscription></litleOnlineRequest>*?")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+
+    def testUpdateSubscription(self):
+        update = litleXmlFields.updateSubscription()
+        update.billingDate = '2013-08-07'
+        billToAddress = litleXmlFields.contact()
+        billToAddress.name = 'Greg Dake'
+        billToAddress.city = 'Lowell'
+        billToAddress.state = 'MA'
+        billToAddress.email = "sdksupport@litle.com"
+        update.billToAddress = billToAddress
+        card = litleXmlFields.cardType()
+        card.number = '4100000000000001'
+        card.expDate = '1215'
+        card.type = 'VI'
+        update.card = card
+        update.planCode = 'abcdefg'
+        update.subscriptionId = '12345'
+
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(update)
+
+        comm.http_post.assert_called_once()
+        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<updateSubscription><subscriptionId>12345</subscriptionId><planCode>abcdefg</planCode><billToAddress><name>Greg Dake</name><city>Lowell</city><state>MA</state><email>sdksupport@litle.com</email></billToAddress><card><type>VI</type><number>4100000000000001</number><expDate>1215</expDate></card><billingDate>2013-08-07</billingDate></updateSubscription></litleOnlineRequest>.*?")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+
+    def testUpdatePlan(self):
+        update = litleXmlFields.updatePlan()
+        update.active = True
+        update.planCode = 'abc'
+
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(update)
+
+        comm.http_post.assert_called_once()
+        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<updatePlan><planCode>abc</planCode><active>true</active></updatePlan></litleOnlineRequest>.*?")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+
+    def testCreatePlan(self):
+        create = litleXmlFields.createPlan()
+        create.planCode = 'abc'
+        create.active = True
+
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(create)
+
+        comm.http_post.assert_called_once()
+        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<createPlan><planCode>abc</planCode><active>true</active></createPlan></litleOnlineRequest>.*?")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+
+    def testActivate(self):
+        activate = litleXmlFields.activate()
+        activate.amount = 100
+
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(activate)
+
+        comm.http_post.assert_called_once()
+        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<activate.*?<amount>100</amount></activate></litleOnlineRequest>.*?")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+
+    def testDeactivate(self):
+        deactivate = litleXmlFields.deactivate()
+        deactivate.orderId = '123'
+
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(deactivate)
+
+        comm.http_post.assert_called_once()
+        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<deactivate.*?<orderId>123</orderId></deactivate></litleOnlineRequest>.*?")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+
+    def testLoad(self):
+        load = litleXmlFields.load()
+        load.orderId = '123'
+
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(load)
+
+        comm.http_post.assert_called_once()
+        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<load.*?<orderId>123</orderId></load></litleOnlineRequest>.*?")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+
+    def testUnload(self):
+        unload = litleXmlFields.unload()
+        unload.orderId = '123'
+
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(unload)
+
+        comm.http_post.assert_called_once()
+        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<unload.*?<orderId>123</orderId></unload></litleOnlineRequest>.*?")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+
+    def testBalanceInquiry(self):
+        balanceInquiry = litleXmlFields.balanceInquiry()
+        balanceInquiry.orderId = '123'
+
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(balanceInquiry)
+
+        comm.http_post.assert_called_once()
+        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<balanceInquiry.*?<orderId>123</orderId></balanceInquiry></litleOnlineRequest>.*?")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+
+    def testActivateReversal(self):
+        activateReversal = litleXmlFields.activateReversal()
+        activateReversal.litleTxnId = '123'
+
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(activateReversal)
+
+        comm.http_post.assert_called_once()
+        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<activateReversal.*?<litleTxnId>123</litleTxnId></activateReversal></litleOnlineRequest>.*?")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+
+    def testDeactivateReversal(self):
+        deactivateReversal = litleXmlFields.deactivateReversal()
+        deactivateReversal.litleTxnId = '123'
+
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(deactivateReversal)
+
+        comm.http_post.assert_called_once()
+        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<deactivateReversal.*?<litleTxnId>123</litleTxnId></deactivateReversal></litleOnlineRequest>.*?")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+
+    def testLoadReversal(self):
+        loadReversal = litleXmlFields.loadReversal()
+        loadReversal.litleTxnId = '123'
+
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(loadReversal)
+
+        comm.http_post.assert_called_once()
+        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<loadReversal.*?<litleTxnId>123</litleTxnId></loadReversal></litleOnlineRequest>.*?")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+
+    def testUnloadReversal(self):
+        unloadReversal = litleXmlFields.unloadReversal()
+        unloadReversal.litleTxnId = '123'
+
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(unloadReversal)
+
+        comm.http_post.assert_called_once()
+        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<unloadReversal.*?<litleTxnId>123</litleTxnId></unloadReversal></litleOnlineRequest>.*?")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+
+    def testRefundReversal(self):
+        refundReversal = litleXmlFields.refundReversal()
+        refundReversal.litleTxnId = '123'
+
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(refundReversal)
+
+        comm.http_post.assert_called_once()
+        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<refundReversal.*?<litleTxnId>123</litleTxnId></refundReversal></litleOnlineRequest>.*?")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+
+    def testDepositReversal(self):
+        depositReversal = litleXmlFields.depositReversal()
+        depositReversal.litleTxnId = '123'
+
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(depositReversal)
+
+        comm.http_post.assert_called_once()
+        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<depositReversal.*?<litleTxnId>123</litleTxnId></depositReversal></litleOnlineRequest>.*?")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+
+
 def suite():
     suite = unittest.TestSuite()
     suite = unittest.TestLoader().loadTestsFromTestCase(TestLitleOnline)

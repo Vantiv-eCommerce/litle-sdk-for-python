@@ -38,7 +38,7 @@ class litleOnlineRequest:
         self.ReportGroup = Configuration.getReportGroup()
         self.communications = Communications(self.Configuration)
         self.printXml = Configuration.getPrintXml()
-        
+
     def _litleToXml(self,litleOnline):
         try :
             dom = litleOnline.toDOM()
@@ -48,7 +48,7 @@ class litleOnlineRequest:
         except pyxb.BindingValidationError,e:
             raise Exception("Invalid Number of Choices, Fill Out One and Only One Choice",e)
         
-    def sendRequest(self,transaction, user=None, password=None, version=None, merchantId=None, reportGroup=None, 
+    def sendRequest(self,transaction, user=None, password=None, version=None, merchantId=None, reportGroup=None,
                     timeout=None, url=None, proxy=None):
         if (user != None):
             self.User = user
@@ -58,7 +58,7 @@ class litleOnlineRequest:
             self.MerchantId = merchantId
         if (reportGroup != None):
             self.ReportGroup = reportGroup
-            
+
         litleOnline = self._createTxn(transaction)
         requestXml = self._litleToXml(litleOnline)
         if(self.printXml):
@@ -82,7 +82,10 @@ class litleOnlineRequest:
         authentication.password =  self.Password 
         litleOnline.authentication = authentication
         transaction.reportGroup = self.ReportGroup
-        litleOnline.transaction = transaction
+        if isinstance(transaction, litleXmlFields.recurringTransactionType):
+            litleOnline.recurringTransaction = transaction
+        else:
+            litleOnline.transaction = transaction
         return litleOnline
     
     def _addNamespace(self, responseXml):

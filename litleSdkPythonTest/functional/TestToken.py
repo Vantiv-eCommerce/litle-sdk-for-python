@@ -68,6 +68,15 @@ class TestToken(unittest.TestCase):
         with self.assertRaises(Exception):
             litle.sendRequest(token)
 
+    def testCovertPaypageRegistrationIdIntoToken(self):
+        tokenRequest = litleXmlFields.registerTokenRequest()
+        tokenRequest.orderId = '12345'
+        tokenRequest.paypageRegistrationId = '123456789012345678901324567890abcdefghi'
+
+        litleXml =  litleOnlineRequest(config)
+        tokenResponse = litleXml.sendRequest(tokenRequest)
+        self.assertEquals(tokenResponse.litleToken, "1111222233334444")
+
 def suite():
     suite = unittest.TestSuite()
     suite = unittest.TestLoader().loadTestsFromTestCase(TestToken)

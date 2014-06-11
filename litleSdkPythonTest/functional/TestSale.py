@@ -64,6 +64,22 @@ class TestSale(unittest.TestCase):
         response = litleXml.sendRequest(sale)
         self.assertEquals("Approved",response.message)
 
+    def testSimpleSaleWithToken(self):
+        sale = litleXmlFields.sale()
+        sale.amount = 106
+        sale.orderId = '12344'
+        sale.orderSource = 'ecommerce'
+        token = litleXmlFields.cardTokenType()
+        token.cardValidationNum = '349'
+        token.expDate = '1214'
+        token.litleToken = '1111222233334000'
+        token.type = 'VI'
+        sale.token = token
+
+        litleXml =  litleOnlineRequest(config)
+        response = litleXml.sendRequest(sale)
+        self.assertEquals("Approved",response.message)
+
 def suite():
     suite = unittest.TestSuite()
     suite = unittest.TestLoader().loadTestsFromTestCase(TestSale)

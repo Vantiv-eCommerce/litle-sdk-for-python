@@ -110,6 +110,61 @@ class TestAuth(unittest.TestCase):
         response = litleXml.sendRequest(authorization)
             
         self.assertEquals("4100100000000000",response.accountUpdater.originalCardInfo.number)
+
+    def testTrackData(self):
+        authorization = litleXmlFields.authorization()
+        authorization.id = 'AX54321678'
+        authorization.reportGroup = 'RG27'
+        authorization.orderId = '12z58743y1'
+        authorization.amount = 12522
+        authorization.orderSource = 'retail'
+
+        billToAddress = litleXmlFields.contact()
+        billToAddress.zip = '95032'
+        authorization.billToAddress = billToAddress
+
+        card = litleXmlFields.cardType()
+        card.track = "%B40000001^Doe/JohnP^06041...?;40001=0604101064200?"
+        authorization.card = card
+
+        pos = litleXmlFields.pos()
+        pos.capability = 'magstripe'
+        pos.entryMode = 'completeread'
+        pos.cardholderId = 'signature'
+        authorization.pos = pos
+
+        litleXml =  litleOnlineRequest(config)
+        response = litleXml.sendRequest(authorization)
+
+        self.assertEquals('Approved', response.message)
+
+    def testListOfTaxAmounts(self):
+        authorization = litleXmlFields.authorization()
+        authorization.id = '12345'
+        authorization.reportGroup = 'Default'
+        authorization.orderId = '67890'
+        authorization.amount = 10000
+        authorization.orderSource = 'ecommerce'
+
+        enhanced = litleXmlFields.enhancedData()
+        dt1 = litleXmlFields.detailTax()
+        dt1.taxAmount = 100
+        enhanced.detailTax.append(dt1)
+        dt2 = litleXmlFields.detailTax()
+        dt2.taxAmount = 200
+        enhanced.detailTax.append(dt2)
+        authorization.enhancedData = enhanced
+
+        card = litleXmlFields.cardType()
+        card.number = '4100000000000001'
+        card.expDate = '1215'
+        card.type = 'VI'
+        authorization.card = card
+
+        litleXml =  litleOnlineRequest(config)
+        response = litleXml.sendRequest(authorization)
+
+        self.assertEquals('Approved', response.message)
     
 def suite():
     suite = unittest.TestSuite()
