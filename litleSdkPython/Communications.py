@@ -22,6 +22,13 @@
 #OTHER DEALINGS IN THE SOFTWARE.
 
 import urllib2
+import paramiko
+import os
+import time
+import socket
+import io
+import ssl
+import errno
 
 class Communications:
     def __init__(self, Configuration):
@@ -52,4 +59,85 @@ class Communications:
         
         responseXml = response.read()
         return responseXml
+
+    def sendRequestFileToSFTP(self, requestFile, config):
+        username = config.getSftpUsername()
+        password = config.getSftpPassword()
+        hostname = config.getBatchHost()
+        transport = paramiko.Transport((hostname, 22))
+        try:
+            transport.connect(username=username, password=password)
+        except SSHException, e:
+            raise Exception("Exception connect to litle")
+        sftp = paramiko.SFTPClient.from_transport(transport)
+        sftp.put(requestFile, 'inbound/' + os.path.basename(requestFile) + '.prg')
+        sftp.rename('inbound/' + os.path.basename(requestFile) + '.prg', 'inbound/' + os.path.basename(requestFile) + '.asc' )
+        sftp.close()
+        transport.close()
+
+    def receiveResponseFileFromSFTP(self, requestFile, responseFile, config):
+        username = config.getSftpUsername()
+        password = config.getSftpPassword()
+        hostname = config.getBatchHost()
+        transport = paramiko.Transport((hostname, 22))
+        try:
+            transport.connect(username=username, password=password)
+        except SSHException, e:
+            raise Exception("Exception connect to litle")
+        sftp = paramiko.SFTPClient.from_transport(transport)
+        timeout = config.getSftpTimeout()
+        start = time.time()
+        print "Retrieving from SFTP..."
+        while (time.time()-start) * 1000 < timeout:
+            time.sleep(45)
+            success = True
+            try:
+                sftp.get('outbound/' + os.path.basename(requestFile) + '.asc', responseFile)
+            except Exception, e:
+                success = False
+            if success:
+                sftp.remove('outbound/' + os.path.basename(requestFile) + '.asc')
+                break
+        sftp.close()
+        transport.close()
+
+    def sendRequestFileToIBC(self, requestFile, responseFile, config):
+        hostName = config.getBatchHost()
+        hostPort = int(config.getBatchPort())
+
+        s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        s.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+        s.settimeout(int(config.getBatchTcpTimeout()))
+
+        if config.getBatchUseSSL() == 'true':
+            s = ssl.wrap_socket(s)
+        s.connect((hostName, hostPort))
+        request = io.open(requestFile, 'r')
+        ch = request.read(1)
+        while ch != '':
+            s.send(ch)
+            ch = request.read(1)
+            if not ch:
+                break
+
+        request.close()
+
+        buf = bytearray(2048)
+        buf[:] = ''
+        with open(responseFile,'w') as respFile:
+            while True:
+                try:
+                    s.recv_into(buf, 2048)
+                    if buf == '':
+                        break
+                    respFile.write(buf)
+                    buf[:] = ''
+                except socket.error as e:
+                    if e.errno != errno.ECONNRESET:
+                        raise Exception("Exception receiving response")
+            respFile.close()
+        s.close()
+
+
+
 

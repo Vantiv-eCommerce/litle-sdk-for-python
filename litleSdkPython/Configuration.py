@@ -30,6 +30,10 @@ class Configuration:
         self._proxy = None
         self._timeout = 65
         self._printXml = False
+        self._batchRequestPath = None
+        self._batchResponsePath = None
+        self._maxTransactionsPerBatch = '10000'
+        self._maxAllowedTransactionsPerFile = '1000'
         
     def getUser(self):
         return self._user
@@ -84,7 +88,73 @@ class Configuration:
     
     def setPrintXml(self, printXml):
         self._printXml = printXml
-        
+
+    def setBatchRequestPath(self, batchRequestPath):
+        self._batchRequestPath = batchRequestPath
+
+    def getBatchRequestPath(self):
+        return self._batchRequestPath
+
+    def setBatchResponsePath(self, batchResponsePath):
+        self._batchResponsePath = batchResponsePath
+
+    def getBatchResponsePath(self):
+        return self._batchResponsePath
+
+    def getMaxTransactionsPerBatch(self):
+        return self._maxTransactionsPerBatch
+
+    def setMaxTransactionsPerBatch(self,maxTransactionsPerBatch):
+        self._maxTransactionsPerBatch = maxTransactionsPerBatch
+
+    def getMaxAllowedTransactionsPerFile(self):
+        return self._maxAllowedTransactionsPerFile
+
+    def setMaxAllowedTransactionsPerFile(self,maxAllowedTransactionsPerFile):
+        self._maxAllowedTransactionsPerFile = maxAllowedTransactionsPerFile
+
+    def setSftpUsername(self, sftpUsername):
+        self._sftpUsername = sftpUsername
+
+    def getSftpUsername(self):
+        return self._sftpUsername
+
+    def setSftpPassword(self, sftpPassword):
+        self._sftpPassword = sftpPassword
+
+    def getSftpPassword(self):
+        return self._sftpPassword
+
+    def setBatchHost(self, batchHost):
+        self._batchHost = batchHost
+
+    def getBatchHost(self):
+        return self._batchHost
+
+    def setSftpTimeout(self, sftpTimeout):
+        self._sftpTimeout = sftpTimeout
+
+    def getSftpTimeout(self):
+        return self._sftpTimeout
+
+    def setBatchPort(self, batchPort):
+        self._batchPort = batchPort
+
+    def getBatchPort(self):
+        return self._batchPort
+
+    def setBatchTcpTimeout(self, batchTcpTimeout):
+        self._batchTcpTimeout = batchTcpTimeout
+
+    def getBatchTcpTimeout(self):
+        return self._batchTcpTimeout
+
+    def setBatchUseSSL(self, batchUseSSL):
+        self._batchUseSSL = batchUseSSL
+
+    def getBatchUseSSL(self):
+        return self._batchUseSSL
+
     def _urlMapper(self,target):
         if (target == "Cert"):
             return 'https://cert.litle.com/vap/communicator/online'
