@@ -9,10 +9,10 @@ import time
 from ConfigParser import *
 
 class litleBatchRequest:
-    def __init__(self, fileRequest):
+    def __init__(self, fileRequest, merchantId = None):
         self.lbfr = fileRequest
         self.config = fileRequest.config
-        self.MerchantId = self.config.getMerchantId()
+        self.MerchantId = self.config.getMerchantId() if merchantId is None else merchantId
         self.numOfTxn = 0
         self.__litleLimit_maxTransactionsPerBatch = 100000
 
@@ -230,11 +230,11 @@ class litleBatchRequest:
                 __batchFile.write(self.lbfr.tnxToXml(transaction))
             except pyxb.BindingValidationError,e:
                 raise Exception("There was an exception while translating the transaction object.",e)
+            __batchFile.close()
             return TransactionCode.SUCCESS
         else:
+            __batchFile.close()
             return TransactionCode.FAILURE
-
-
 
     def verifyFileThresholds(self):
         if self.lbfr.getNumberOfTransactionInFile() == int(self.config.getMaxAllowedTransactionsPerFile()):
@@ -265,7 +265,14 @@ class litleBatchFileRequest:
         if config is None:
             self.config = Configuration()
         confParser = ConfigParser()
-        confParser.read('/usr/local/litle-home/ashinde/repos/litle-sdk-for-python/litleSdkPython/.litle_Python_SDK_config')
+
+        configFilePath = self.config.getProperty('configFolder') + '/' + self.config.getConfigFileName()
+
+        if not os.path.exists(configFilePath):
+            f = open(configFilePath, 'a')
+            f.close()
+
+        confParser.read(configFilePath)
         propertyList = ["username", "password", "merchantId", "proxyHost",
 			 		    "proxyPort", "batchHost", "batchPort",
 			 		    "batchTcpTimeout", "batchUseSSL",
@@ -298,8 +305,8 @@ class litleBatchFileRequest:
         self.responseFile = open(__dirResponse + '/' + self._requestFileName,'a')
         self.responseFile.close()
 
-    def createBatch(self):
-        request = litleBatchRequest(self)
+    def createBatch(self, merchantId = None):
+        request = litleBatchRequest(self, merchantId)
         self.batchRequestList.append(request)
         return request
 
@@ -341,7 +348,6 @@ class litleBatchFileRequest:
             self.tempBatchRequestFile.write(batchHeader.replace('/>' , '>'))
             with open(batch._filePath,'rb') as batchFile:
                 shutil.copyfileobj(batchFile, self.tempBatchRequestFile,4096)
-                batchFile.close()
             self.tempBatchRequestFile.write('</batchRequest>\n')
             os.remove(batch._filePath)
         self.tempBatchRequestFile.close()
@@ -364,7 +370,6 @@ class litleBatchFileRequest:
         requestFile.write(self.tnxToXml(litleRequest).replace('</litleRequest>', ''))
         with open(self.tempBatchRequestFile.name,'rb') as tempBatchFile:
             shutil.copyfileobj(tempBatchFile, requestFile, 4096)
-            tempBatchFile.close()
         requestFile.write('</litleRequest>\n')
         requestFile.close()
         os.remove(self.tempBatchRequestFile.name)

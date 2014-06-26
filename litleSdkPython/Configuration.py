@@ -21,6 +21,8 @@
 #FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 #OTHER DEALINGS IN THE SOFTWARE.
 
+import os
+
 class Configuration:
 
     def __init__(self):
@@ -31,6 +33,9 @@ class Configuration:
         self.__dict['proxy'] = None
         self.__dict['timeout'] = 65
         self.__dict['printXml'] = False
+        self.__dict['configFolder'] = os.path.expanduser('~')
+
+        self.__LITLE_SDK_CONFIG = '.litle_Python_SDK_config'
 
     def setProperty(self, key, value):
         self.__dict[key] = value
@@ -46,6 +51,9 @@ class Configuration:
 
     def hasProperty(self, key):
         return self.__dict.has_key(key)
+
+    def getConfigFileName(self):
+        return self.__LITLE_SDK_CONFIG
 
     def getUser(self):
         return self.getProperty('username')

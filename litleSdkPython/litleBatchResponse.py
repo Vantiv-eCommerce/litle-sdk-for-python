@@ -1,10 +1,5 @@
 import litleXmlFields
-import pyxb
-import os
-import shutil
 from responseParser import *
-from Communications import *
-from Configuration import *
 
 class litleBatchResponse:
     def __init__(self, parser):

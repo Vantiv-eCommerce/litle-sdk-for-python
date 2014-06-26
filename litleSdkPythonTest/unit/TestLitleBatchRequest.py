@@ -149,6 +149,10 @@ class TestLitleBatchRequest(unittest.TestCase):
 
         self.assertTrue(fileFullException)
 
+    def testOverrideMerchantId(self):
+        batchRequest = self.litleBatchFileRequest.createBatch('101')
+        self.assertEqual(batchRequest._batchRequest.merchantId, '101')
+
     def testAddSale(self):
         batchRequest = self.litleBatchFileRequest.createBatch()
         sale = litleXmlFields.sale()

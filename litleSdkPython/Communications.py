@@ -111,7 +111,12 @@ class Communications:
 
         if config.getBatchUseSSL() == 'true':
             s = ssl.wrap_socket(s)
-        s.connect((hostName, hostPort))
+
+        try:
+            s.connect((hostName, hostPort))
+        except:
+            raise Exception("Exception connect to litle")
+
         request = io.open(requestFile, 'r')
         ch = request.read(1)
         while ch != '':

@@ -21,4 +21,4 @@
 #FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 #OTHER DEALINGS IN THE SOFTWARE.
 
-__all__ = ["Communications", "Configuration", "litleOnline", "litleOnlineRequest", "litleXmlFields", "litleBatchRequest", "litleBatchResponse", "responseParser"]
+__all__ = ["Communications", "Configuration", "litleOnlineRequest", "litleXmlFields", "litleBatchRequest", "litleBatchResponse", "responseParser"]
