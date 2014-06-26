@@ -27,6 +27,8 @@ import re
 import litleSdkPython
 
 from litleSdkPython.litleOnlineRequest import *
+from litleSdkPython.litleBatchRequest import *
+from litleSdkPython.litleBatchResponse import *
 
 try:
     lib_path = os.path.abspath('../')

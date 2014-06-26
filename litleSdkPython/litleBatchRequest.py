@@ -25,8 +25,8 @@ class litleBatchRequest:
         self._batchRequest.saleAmount = 0
         self._batchRequest.numCredits = 0
         self._batchRequest.creditAmount = 0
-        self._batchRequest.numTokenRegistration = 0
-        self._batchRequest.numCaptureGivenAuth = 0
+        self._batchRequest.numTokenRegistrations = 0
+        self._batchRequest.numCaptureGivenAuths = 0
         self._batchRequest.captureGivenAuthAmount = 0
         self._batchRequest.numForceCaptures = 0
         self._batchRequest.forceCaptureAmount = 0
@@ -41,7 +41,7 @@ class litleBatchRequest:
         self._batchRequest.numEcheckRedeposit = 0
         self._batchRequest.numEcheckSales = 0
         self._batchRequest.echeckSalesAmount = 0
-        self._batchRequest.numUpdateCardValidationNumOnToken = 0
+        self._batchRequest.numUpdateCardValidationNumOnTokens = 0
         self._batchRequest.numAccountUpdates = 0
         self._batchRequest.total = 0
         self._batchRequest.numCancelSubscriptions = 0
@@ -59,7 +59,7 @@ class litleBatchRequest:
         self._batchRequest.merchantSdk = None
 
         __tmpDir = self.config.getBatchRequestPath()+'/tmp'
-        _maxTransactionsPerBatch_ = int(self.config.getMaxTransactionsPerBatch())
+        self._maxTransactionsPerBatch = int(self.config.getProperty('maxTransactionsPerBatch', '10000'))
         if not os.path.exists(__tmpDir):
             os.makedirs(__tmpDir)
         _timeInMillisec_ = int(round( time.time() * 1000 ))
@@ -108,12 +108,12 @@ class litleBatchRequest:
             self.numOfTxn += 1
 
         elif isinstance(transaction, litleXmlFields.registerTokenRequest.typeDefinition()):
-            self._batchRequest.numTokenRegistration += 1
+            self._batchRequest.numTokenRegistrations += 1
             __transactionAdded = True
             self.numOfTxn += 1
 
         elif isinstance(transaction, litleXmlFields.captureGivenAuth.typeDefinition()):
-            self._batchRequest.numCaptureGivenAuth += 1
+            self._batchRequest.numCaptureGivenAuths += 1
             self._batchRequest.captureGivenAuthAmount += transaction.amount
             __transactionAdded = True
             self.numOfTxn += 1
@@ -160,7 +160,7 @@ class litleBatchRequest:
             self.numOfTxn += 1
 
         elif isinstance(transaction, litleXmlFields.updateCardValidationNumOnToken.typeDefinition()):
-            self._batchRequest.numUpdateCardValidationNumOnToken += 1
+            self._batchRequest.numUpdateCardValidationNumOnTokens += 1
             __transactionAdded = True
             self.numOfTxn += 1
 
@@ -191,8 +191,7 @@ class litleBatchRequest:
             self.numOfTxn += 1
 
         elif isinstance(transaction, litleXmlFields.deactivate.typeDefinition()):
-            self._batchRequest.numActivates += 1
-            self._batchRequest.numDeactivates += transaction.amount
+            self._batchRequest.numDeactivates += 1
             __transactionAdded = True
             self.numOfTxn += 1
 
@@ -225,6 +224,8 @@ class litleBatchRequest:
             return TransactionCode.BATCHFULL
 
         if __transactionAdded:
+            if hasattr(transaction, 'reportGroup') and transaction.reportGroup is None:
+                transaction.reportGroup = self.config.getProperty('reportGroup')
             try:
                 __batchFile.write(self.lbfr.tnxToXml(transaction))
             except pyxb.BindingValidationError,e:
@@ -236,11 +237,14 @@ class litleBatchRequest:
 
 
     def verifyFileThresholds(self):
-        if self.lbfr.getNumberOfTransactionInFile() == self.config.getMaxAllowedTransactionsPerFile():
+        if self.lbfr.getNumberOfTransactionInFile() == int(self.config.getMaxAllowedTransactionsPerFile()):
             return TransactionCode.FILEFULL
-        elif self.numOfTxn == self.config.getMaxTransactionsPerBatch():
+        elif self.numOfTxn == int(self.config.getMaxTransactionsPerBatch()):
             return TransactionCode.BATCHFULL
         return TransactionCode.SUCCESS
+
+    def isFull(self):
+        return self.numOfTxn == self._maxTransactionsPerBatch
 
 class TransactionCode:
     SUCCESS = "Success"
@@ -260,43 +264,38 @@ class litleBatchFileRequest:
 
         if config is None:
             self.config = Configuration()
-            confParser = ConfigParser()
-            confParser.read('/usr/local/litle-home/ashinde/repos/litle-sdk-for-python/litleSdkPython/.litle_Python_SDK_config')
-        # propertyList = ["username", "password", "proxyHost",
-			# 		"proxyPort", "batchHost", "batchPort",
-			# 		"batchTcpTimeout", "batchUseSSL",
-			# 		"maxAllowedTransactionsPerFile", "maxTransactionsPerBatch",
-			# 		"batchRequestFolder", "batchResponseFolder", "sftpUsername", "sftpPassword"]
-        # for p in propertyList:
-            self.config.setUser(confParser.get('PythonSDK', 'username'))
-            self.config.setPassword(confParser.get('PythonSDK', 'password'))
-            self.config.setBatchHost(confParser.get('PythonSDK', 'batchHost'))
-            self.config.setBatchPort(confParser.get('PythonSDK', 'batchPort'))
-            self.config.setBatchTcpTimeout(confParser.get('PythonSDK', 'batchTcpTimeout'))
-            self.config.setBatchUseSSL(confParser.get('PythonSDK', 'batchUseSSL'))
-            self.config.setMaxAllowedTransactionsPerFile(confParser.get('PythonSDK', 'maxAllowedTransactionsPerFile'))
-            self.config.setMaxTransactionsPerBatch(confParser.get('PythonSDK', 'maxTransactionsPerBatch'))
-            self.config.setBatchRequestPath(confParser.get('PythonSDK', 'batchRequestFolder'))
-            self.config.setBatchResponsePath(confParser.get('PythonSDK', 'batchResponseFolder'))
-            self.config.setSftpUsername(confParser.get('PythonSDK', 'sftpUsername'))
-            self.config.setSftpPassword(confParser.get('PythonSDK', 'sftpPassword'))
-            self.config.setMerchantId(confParser.get('PythonSDK', 'merchantId'))
+        confParser = ConfigParser()
+        confParser.read('/usr/local/litle-home/ashinde/repos/litle-sdk-for-python/litleSdkPython/.litle_Python_SDK_config')
+        propertyList = ["username", "password", "merchantId", "proxyHost",
+			 		    "proxyPort", "batchHost", "batchPort",
+			 		    "batchTcpTimeout", "batchUseSSL",
+			 		    "maxAllowedTransactionsPerFile", "maxTransactionsPerBatch",
+			 		    "batchRequestFolder", "batchResponseFolder", "sftpUsername", "sftpPassword", "sftpTimeout"]
 
+        for prop in propertyList:
+            if confParser.has_option('PythonSDK', prop) and not self.config.hasProperty(prop):
+                self.config.setProperty(prop, confParser.get('PythonSDK', prop))
 
         self.communication = Communications(self.config)
-        if int(self.config.getMaxAllowedTransactionsPerFile()) > self.__litleLimit_maxAllowedTransactionsPerFile:
+
+        self._maxAllowedTransactionsPerFile = int(self.config.getProperty('maxAllowedTransactionsPerFile', '1000'))
+        if self._maxAllowedTransactionsPerFile > self.__litleLimit_maxAllowedTransactionsPerFile:
             raise Exception('maxAllowedTransactionsPerFile property value cannot exceed'+ \
                             str(self.__litleLimit_maxAllowedTransactionsPerFile))
 
         __dirRequest = self.config.getBatchRequestPath()
         if not os.path.exists(__dirRequest):
             os.makedirs(__dirRequest)
-        self.requestFile = open(__dirRequest + '/' + self._requestFileName,'w')
+
+
+        self.requestFile = open(__dirRequest + '/' + self._requestFileName,'a')
         self.requestFile.close()
+
         __dirResponse = self.config.getBatchResponsePath()
         if not os.path.exists(__dirResponse):
             os.makedirs(__dirResponse)
-        self.responseFile = open(__dirResponse + '/' + self._requestFileName,'w')
+
+        self.responseFile = open(__dirResponse + '/' + self._requestFileName,'a')
         self.responseFile.close()
 
     def createBatch(self):
@@ -320,6 +319,16 @@ class litleBatchFileRequest:
         if not useExistingFile:
             self.prepareForDelivery()
         self.communication.sendRequestFileToSFTP(self.requestFile.name, self.config)
+        self.communication.receiveResponseFileFromSFTP(self.requestFile.name, self.responseFile.name, self.config)
+        response = litleBatchFileResponse(self.responseFile.name)
+        return response
+
+    def sendRequestOnlyToSFTP(self, useExistingFile = False):
+        if not useExistingFile:
+            self.prepareForDelivery()
+        self.communication.sendRequestFileToSFTP(self.requestFile.name, self.config)
+
+    def retrieveOnlyFromSFTP(self):
         self.communication.receiveResponseFileFromSFTP(self.requestFile.name, self.responseFile.name, self.config)
         response = litleBatchFileResponse(self.responseFile.name)
         return response
@@ -366,3 +375,12 @@ class litleBatchFileRequest:
         temp= temp.replace('ns1:','')
         temp =  temp.replace(':ns1','')
         return temp.replace('<?xml version="1.0" encoding="utf-8"?>','')
+
+    def getNumberOfBatches(self):
+        return len(self.batchRequestList)
+
+    def isEmpty(self):
+        return True if self.getNumberOfTransactionInFile() == 0 else False
+
+    def isFull(self):
+        return self.getNumberOfTransactionInFile() == self._maxAllowedTransactionsPerFile

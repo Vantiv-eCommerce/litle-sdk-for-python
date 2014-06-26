@@ -16,12 +16,12 @@ class litleBatchResponse:
 
     def getNextTransaction(self):
         if self.allTransactionRetrieved:
-            raise Exception("All transactions from this batch have already been retrieved")
+            raise NoTransactionException("All transactions from this batch have already been retrieved")
         try:
             self.txnXML = self.parser.getNextTag("transactionResponse")
         except:
             self.allTransactionRetrieved = True
-            raise Exception("All transactions from this batch have already been retrieved")
+            raise NoTransactionException("All transactions from this batch have already been retrieved")
         self.txnXML = responseUtil.addNamespace(self.txnXML)
         self.transaction = litleXmlFields.CreateFromDocument(self.txnXML)
         return self.transaction
@@ -46,3 +46,6 @@ class responseUtil:
             return responseXml.replace('>', ' xmlns="http://www.litle.com/schema">', 1)
         return responseXml
 
+class NoTransactionException(Exception):
+    def __init__(self, value):
+        self.value = value
