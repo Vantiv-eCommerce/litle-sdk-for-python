@@ -35,7 +35,7 @@ class litleBatchRequest:
     def __init__(self, fileRequest, merchantId = None):
         self.lbfr = fileRequest
         self.config = fileRequest.config
-        self.MerchantId = self.config.getMerchantId() if merchantId is None else merchantId
+        self.MerchantId = self.config.merchantId if merchantId is None else merchantId
         self.numOfTxn = 0
         self.__litleLimit_maxTransactionsPerBatch = 100000
 
@@ -81,14 +81,14 @@ class litleBatchRequest:
         self._batchRequest.numBalanceInquirys = 0
         self._batchRequest.merchantSdk = None
 
-        __tmpDir = self.config.getBatchRequestPath()+'/tmp'
-        self._maxTransactionsPerBatch = int(self.config.getProperty('maxTransactionsPerBatch', '10000'))
+        __tmpDir = self.config.batchRequestFolder+'/tmp'
+        self._maxTransactionsPerBatch = int(getattr(self.config, 'maxTransactionsPerBatch', '10000'))
         if not os.path.exists(__tmpDir):
             os.makedirs(__tmpDir)
         _timeInMillisec_ = int(round( time.time() * 1000 ))
         self._filePath = __tmpDir+'/Transactions' + self.MerchantId + str(_timeInMillisec_)
 
-        if int(self.config.getMaxTransactionsPerBatch()) > self.__litleLimit_maxTransactionsPerBatch:
+        if int(self.config.maxTransactionsPerBatch) > self.__litleLimit_maxTransactionsPerBatch:
             raise Exception('maxTransactionsPerBatch property value cannot exceed'+ \
                             str(self.__litleLimit_maxTransactionsPerBatch))
 
@@ -248,7 +248,7 @@ class litleBatchRequest:
 
         if __transactionAdded:
             if hasattr(transaction, 'reportGroup') and transaction.reportGroup is None:
-                transaction.reportGroup = self.config.getProperty('reportGroup')
+                transaction.reportGroup = self.config.reportGroup
             try:
                 __batchFile.write(self.lbfr.tnxToXml(transaction))
             except pyxb.BindingValidationError,e:
@@ -260,9 +260,9 @@ class litleBatchRequest:
             return TransactionCode.FAILURE
 
     def verifyFileThresholds(self):
-        if self.lbfr.getNumberOfTransactionInFile() == int(self.config.getMaxAllowedTransactionsPerFile()):
+        if self.lbfr.getNumberOfTransactionInFile() == self.lbfr._maxAllowedTransactionsPerFile:
             return TransactionCode.FILEFULL
-        elif self.numOfTxn == int(self.config.getMaxTransactionsPerBatch()):
+        elif self.numOfTxn == self._maxTransactionsPerBatch:
             return TransactionCode.BATCHFULL
         return TransactionCode.SUCCESS
 
@@ -289,7 +289,7 @@ class litleBatchFileRequest:
             self.config = Configuration()
         confParser = ConfigParser()
 
-        configFilePath = self.config.getProperty('configFolder') + '/' + self.config.getConfigFileName()
+        configFilePath = self.config.configFolder + '/' + self.config.getConfigFileName()
 
         if not os.path.exists(configFilePath):
             f = open(configFilePath, 'a')
@@ -303,17 +303,17 @@ class litleBatchFileRequest:
 			 		    "batchRequestFolder", "batchResponseFolder", "sftpUsername", "sftpPassword", "sftpTimeout"]
 
         for prop in propertyList:
-            if confParser.has_option('PythonSDK', prop) and not self.config.hasProperty(prop):
-                self.config.setProperty(prop, confParser.get('PythonSDK', prop))
+            if confParser.has_option('PythonSDK', prop) and not hasattr(self.config, prop):
+                setattr(self.config, prop, confParser.get('PythonSDK', prop))
 
         self.communication = Communications(self.config)
 
-        self._maxAllowedTransactionsPerFile = int(self.config.getProperty('maxAllowedTransactionsPerFile', '1000'))
+        self._maxAllowedTransactionsPerFile = int(getattr(self.config, 'maxAllowedTransactionsPerFile', '1000'))
         if self._maxAllowedTransactionsPerFile > self.__litleLimit_maxAllowedTransactionsPerFile:
             raise Exception('maxAllowedTransactionsPerFile property value cannot exceed'+ \
                             str(self.__litleLimit_maxAllowedTransactionsPerFile))
 
-        __dirRequest = self.config.getBatchRequestPath()
+        __dirRequest = self.config.batchRequestFolder
         if not os.path.exists(__dirRequest):
             os.makedirs(__dirRequest)
 
@@ -321,7 +321,7 @@ class litleBatchFileRequest:
         self.requestFile = open(__dirRequest + '/' + self._requestFileName,'a')
         self.requestFile.close()
 
-        __dirResponse = self.config.getBatchResponsePath()
+        __dirResponse = self.config.batchResponseFolder
         if not os.path.exists(__dirResponse):
             os.makedirs(__dirResponse)
 
@@ -364,7 +364,7 @@ class litleBatchFileRequest:
         return response
 
     def prepareForDelivery(self):
-        writeFolderPath = self.config.getBatchRequestPath()
+        writeFolderPath = self.config.batchRequestFolder
         self.tempBatchRequestFile = open(writeFolderPath + '/tmp/tempBatchFile','wb')
         for batch in self.batchRequestList:
             batchHeader = self.tnxToXml(batch._batchRequest)
@@ -379,8 +379,8 @@ class litleBatchFileRequest:
 
     def generateRequestFile(self):
         authentication = litleXmlFields.authentication()
-        authentication.password = self.config.getPassword()
-        authentication.user = self.config.getUser()
+        authentication.password = self.config.password
+        authentication.user = self.config.username
 
         litleRequest = litleXmlFields.litleRequest()
         if self.requestId is not None and len(self.requestId) != 0:

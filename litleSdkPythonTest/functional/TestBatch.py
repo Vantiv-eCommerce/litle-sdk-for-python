@@ -41,13 +41,13 @@ class TestBatch(unittest.TestCase):
         request = litleBatchFileRequest(requestFileName)
         self.assertTrue(os.path.exists(request.requestFile.name))
         configFromFile = request.config
-        self.assertEqual('prelive.litle.com', configFromFile.getProperty('batchHost'))
-        self.assertEqual('15000', configFromFile.getProperty('batchPort'))
+        self.assertEqual('prelive.litle.com', configFromFile.batchHost)
+        self.assertEqual('15000', configFromFile.batchPort)
         self.prepareTestRequest(request)
         response = request.sendRequestTCP()
         self.assertPythonApi(request, response)
-        requestDir = configFromFile.getProperty('batchRequestFolder')
-        responseDir = configFromFile.getProperty('batchResponseFolder')
+        requestDir = configFromFile.batchRequestFolder
+        responseDir = configFromFile.batchResponseFolder
         self.assertGeneratedFiles(requestDir, responseDir, requestFileName, request)
 
     def testSendToLitle_WithConfigOverrides(self):
@@ -55,10 +55,10 @@ class TestBatch(unittest.TestCase):
         responseDir = tempfile.gettempdir() + '/' + 'response'
 
         configOverrides = Configuration()
-        configOverrides.setProperty('batchHost', 'prelive.litle.com')
-        configOverrides.setProperty('batchPort', '15000')
-        configOverrides.setProperty('batchRequestFolder', requestDir)
-        configOverrides.setProperty('batchResponseFolder', responseDir)
+        configOverrides.batchHost = 'prelive.litle.com'
+        configOverrides.batchPort = '15000'
+        configOverrides.batchRequestFolder = requestDir
+        configOverrides.batchResponseFolder = responseDir
 
         requestFileName = "litleSdk-testBatchFile-fileConfig.xml"
         request = litleBatchFileRequest(requestFileName, configOverrides)
@@ -74,10 +74,10 @@ class TestBatch(unittest.TestCase):
         requestFile = request.requestFile.name
         self.assertTrue(os.path.exists(requestFile))
         configFromFile = request.config
-        self.assertEqual('prelive.litle.com', configFromFile.getProperty('batchHost'))
-        self.assertEqual('15000', configFromFile.getProperty('batchPort'))
-        requestDir = configFromFile.getProperty('batchRequestFolder')
-        responseDir = configFromFile.getProperty('batchResponseFolder')
+        self.assertEqual('prelive.litle.com', configFromFile.batchHost)
+        self.assertEqual('15000', configFromFile.batchPort)
+        requestDir = configFromFile.batchRequestFolder
+        responseDir = configFromFile.batchResponseFolder
         self.prepareTestRequest(request)
         request.prepareForDelivery()
         self.assertTrue(os.path.exists(requestFile))
@@ -93,10 +93,10 @@ class TestBatch(unittest.TestCase):
         requestFile = request.requestFile.name
         self.assertTrue(os.path.exists(requestFile))
         configFromFile = request.config
-        self.assertEqual('prelive.litle.com', configFromFile.getProperty('batchHost'))
-        self.assertEqual('15000', configFromFile.getProperty('batchPort'))
-        requestDir = configFromFile.getProperty('batchRequestFolder')
-        responseDir = configFromFile.getProperty('batchResponseFolder')
+        self.assertEqual('prelive.litle.com', configFromFile.batchHost)
+        self.assertEqual('15000', configFromFile.batchPort)
+        requestDir = configFromFile.batchRequestFolder
+        responseDir = configFromFile.batchResponseFolder
         self.prepareTestRequest(request)
         request.prepareForDelivery()
         self.assertTrue(os.path.exists(requestFile))
@@ -109,7 +109,7 @@ class TestBatch(unittest.TestCase):
         newRequestFileName = 'litle.xml'
         shutil.copyfile(requestFile, newRequestDir + '/' + newRequestFileName)
         configForRequest2 = copy.deepcopy(configFromFile)
-        configForRequest2.setProperty('batchRequestFolder', newRequestDir)
+        configForRequest2.batchRequestFolder = newRequestDir
 
         request2 = litleBatchFileRequest(newRequestFileName, configForRequest2)
         request2.sendRequestOnlyToSFTP(True)
@@ -127,10 +127,10 @@ class TestBatch(unittest.TestCase):
         requestFile = request.requestFile.name
         self.assertTrue(os.path.exists(requestFile))
         configFromFile = request.config
-        self.assertEqual('prelive.litle.com', configFromFile.getProperty('batchHost'))
-        self.assertEqual('15000', configFromFile.getProperty('batchPort'))
-        requestDir = configFromFile.getProperty('batchRequestFolder')
-        responseDir = configFromFile.getProperty('batchResponseFolder')
+        self.assertEqual('prelive.litle.com', configFromFile.batchHost)
+        self.assertEqual('15000', configFromFile.batchPort)
+        requestDir = configFromFile.batchRequestFolder
+        responseDir = configFromFile.batchResponseFolder
 
         self.prepareTestRequest(request)
 
@@ -143,10 +143,11 @@ class TestBatch(unittest.TestCase):
         responseDir = tempfile.gettempdir() + '/' + 'response'
 
         configOverrides = Configuration()
-        configOverrides.setProperty('batchHost', 'prelive.litle.com')
-        configOverrides.setProperty('sftpTimeout', '720000')
-        configOverrides.setProperty('batchRequestFolder', requestDir)
-        configOverrides.setProperty('batchResponseFolder', responseDir)
+
+        configOverrides.batchHost = 'prelive.litle.com'
+        configOverrides.sftpTimeout = '720000'
+        configOverrides.batchRequestFolder = requestDir
+        configOverrides.batchResponseFolder = responseDir
 
         requestFileName = "litleSdk-testBatchFile-configOverridesSFTP.xml"
         request = litleBatchFileRequest(requestFileName, configOverrides)
@@ -165,8 +166,8 @@ class TestBatch(unittest.TestCase):
         request = litleBatchFileRequest(requestFileName)
 
         configFromFile = request.config
-        self.assertEqual('prelive.litle.com', configFromFile.getProperty('batchHost'))
-        self.assertEqual('15000', configFromFile.getProperty('batchPort'))
+        self.assertEqual('prelive.litle.com', configFromFile.batchHost)
+        self.assertEqual('15000', configFromFile.batchPort)
 
         batch = request.createBatch()
 
@@ -329,8 +330,8 @@ class TestBatch(unittest.TestCase):
         requestFileName = "litleSdk-testBatchFile-GIFTCARD.xml"
         request = litleBatchFileRequest(requestFileName)
         configFromFile = request.config
-        self.assertEqual('prelive.litle.com', configFromFile.getProperty('batchHost'))
-        self.assertEqual('15000', configFromFile.getProperty('batchPort'))
+        self.assertEqual('prelive.litle.com', configFromFile.batchHost)
+        self.assertEqual('15000', configFromFile.batchPort)
         batch = request.createBatch()
 
         giftCard = litleXmlFields.cardType()
@@ -401,8 +402,8 @@ class TestBatch(unittest.TestCase):
         requestFileName = "litleSdk-testBatchFile-RECURRING.xml"
         request = litleBatchFileRequest(requestFileName)
         configFromFile = request.config
-        self.assertEqual('prelive.litle.com', configFromFile.getProperty('batchHost'))
-        self.assertEqual('15000', configFromFile.getProperty('batchPort'))
+        self.assertEqual('prelive.litle.com', configFromFile.batchHost)
+        self.assertEqual('15000', configFromFile.batchPort)
 
         batch = request.createBatch()
         cancelSubscription = litleXmlFields.cancelSubscription()
@@ -453,8 +454,8 @@ class TestBatch(unittest.TestCase):
         requestFileName = "litleSdk-testBatchFile-AU.xml"
         request = litleBatchFileRequest(requestFileName)
         configFromFile = request.config
-        self.assertEqual('prelive.litle.com', configFromFile.getProperty('batchHost'))
-        self.assertEqual('15000', configFromFile.getProperty('batchPort'))
+        self.assertEqual('prelive.litle.com', configFromFile.batchHost)
+        self.assertEqual('15000', configFromFile.batchPort)
         batch = request.createBatch()
 
         #card

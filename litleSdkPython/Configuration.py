@@ -23,157 +23,28 @@
 
 import os
 
-class Configuration:
+class Configuration(object):
 
     def __init__(self):
-        self.__dict = {}
-        self.__dict['version'] = 8.25
-        self.__dict['reportGroup'] = 'Default Report Group'
-        self.__dict['url'] = 'Sandbox'
-        self.__dict['proxy'] = None
-        self.__dict['timeout'] = 65
-        self.__dict['printXml'] = False
-        self.__dict['configFolder'] = os.path.expanduser('~')
-
+        self.version = 8.25
+        self.reportGroup = 'Default Report Group'
+        self._url = 'Sandbox'
+        self.proxy = None
+        self.timeout = 65
+        self.printXml = False
+        self.configFolder = os.path.expanduser('~')
         self.__LITLE_SDK_CONFIG = '.litle_Python_SDK_config'
 
-    def setProperty(self, key, value):
-        self.__dict[key] = value
+    @property
+    def url(self):
+        return self._urlMapper(self._url)
 
-    def getProperty(self, key, default = None):
-        if not self.__dict.has_key(key):
-            if default is None:
-                raise AttributeError('Property %s has not been set' % key)
-            else:
-                return default
-        else:
-            return self.__dict[key]
-
-    def hasProperty(self, key):
-        return self.__dict.has_key(key)
+    @url.setter
+    def url(self, value):
+        self._url = value
 
     def getConfigFileName(self):
         return self.__LITLE_SDK_CONFIG
-
-    def getUser(self):
-        return self.getProperty('username')
-
-    def setUser(self, user):
-        self.setProperty('username',user)
-
-    def getMerchantId(self):
-        return self.getProperty('merchantId')
-
-    def setMerchantId(self, merchantId):
-        self.setProperty('merchantId', merchantId)
-
-    def getPassword(self):
-        return self.getProperty('password')
-
-    def setPassword(self, password):
-        self.setProperty('password', password)
-
-    def getVersion(self):
-        return self.getProperty('version')
-
-    def setVersion(self, version):
-        self.setProperty('version', version)
-
-    def getReportGroup(self):
-        return self.getProperty('reportGroup')
-
-    def setReportGroup(self, reportGroup):
-        self.setProperty('reportGroup', reportGroup)
-
-    def getUrl(self):
-        return self._urlMapper(self.getProperty('url'))
-
-    def setUrl(self, url):
-        self.setProperty('reportGroup', url)
-
-    def getProxy(self):
-        return self.getProperty('proxy')
-
-    def setProxy(self, proxy):
-        self.setProperty('proxy', proxy)
-
-    def getTimeout(self):
-        return self.getProperty('timeout')
-
-    def setTimeout(self, timeout):
-        self.setProperty('timeout', timeout)
-
-    def getBatchHost(self):
-        return self.getProperty('batchHost')
-
-    def setBatchHost(self, batchHost):
-        self.setProperty('batchHost', batchHost)
-
-    def getSftpTimeout(self):
-        return self.getProperty('sftpTimeout')
-
-    def setSftpTimeout(self, sftpTimeout):
-        self.setProperty('sftpTimeout', sftpTimeout)
-
-    def getBatchPort(self):
-        return self.getProperty('batchPort')
-
-    def setBatchPort(self, batchPort):
-        self.setProperty('batchPort', batchPort)
-
-    def getBatchTcpTimeout(self):
-        return self.getProperty('batchTcpTimeout')
-
-    def setBatchTcpTimeout(self, batchTcpTimeout):
-        self.setProperty('batchTcpTimeout', batchTcpTimeout)
-
-    def getBatchUseSSL(self):
-        return self.getProperty('batchUseSSL')
-
-    def setBatchUseSSL(self, batchUseSSL):
-        self.setProperty('batchUseSSL', batchUseSSL)
-
-    def getPrintXml(self):
-        return self.getProperty('printXml')
-
-    def setPrintXml(self, printXml):
-        self.setProperty('printXml', printXml)
-
-    def getBatchRequestPath(self):
-        return self.getProperty('batchRequestFolder')
-
-    def setBatchRequestPath(self, batchRequestPath):
-        self.setProperty('batchRequestFolder', batchRequestPath)
-
-    def getBatchResponsePath(self):
-        return self.getProperty('batchResponseFolder')
-
-    def setBatchResponsePath(self, batchResponsePath):
-        self.setProperty('batchResponseFolder', batchResponsePath)
-
-    def getMaxTransactionsPerBatch(self):
-        return self.getProperty('maxTransactionsPerBatch')
-
-    def setMaxTransactionsPerBatch(self,maxTransactionsPerBatch):
-        self.setProperty('batchResponsePath', maxTransactionsPerBatch)
-
-    def getMaxAllowedTransactionsPerFile(self):
-        return self.getProperty('maxAllowedTransactionsPerFile')
-
-    def setMaxAllowedTransactionsPerFile(self,maxAllowedTransactionsPerFile):
-        self.setProperty('maxAllowedTransactionsPerFile', maxAllowedTransactionsPerFile)
-
-    def getSftpUsername(self):
-        return self.getProperty('sftpUsername')
-
-    def setSftpUsername(self, sftpUsername):
-        self.setProperty('sftpUsername', sftpUsername)
-
-    def getSftpPassword(self):
-        return self.getProperty('sftpPassword')
-
-    def setSftpPassword(self, sftpPassword):
-        self.setProperty('sftpPassword', sftpPassword)
 
     def _urlMapper(self,target):
         if (target == "Cert"):

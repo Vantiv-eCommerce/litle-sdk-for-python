@@ -32,12 +32,12 @@ class litleOnlineRequest:
         
     def __init__(self, Configuration):
         self.Configuration = Configuration
-        self.MerchantId = Configuration.getMerchantId()
-        self.User = Configuration.getUser()
-        self.Password = Configuration.getPassword()
-        self.ReportGroup = Configuration.getReportGroup()
+        self.MerchantId = Configuration.merchantId
+        self.User = Configuration.username
+        self.Password = Configuration.password
+        self.ReportGroup = Configuration.reportGroup
         self.communications = Communications(self.Configuration)
-        self.printXml = Configuration.getPrintXml()
+        self.printXml = Configuration.printXml
 
     def _litleToXml(self,litleOnline):
         try :
@@ -75,8 +75,8 @@ class litleOnlineRequest:
     def _createTxn(self, transaction):
         litleOnline = litleXmlFields.litleOnlineRequest()
         litleOnline.merchantId = self.MerchantId
-        litleOnline.version = '8.13'
-        litleOnline.merchantSdk = '8.13.1'
+        litleOnline.version = '8.25'
+        litleOnline.merchantSdk = '8.25.0'
         authentication = litleXmlFields.authentication()
         authentication.user = self.User
         authentication.password =  self.Password 

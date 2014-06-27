@@ -32,9 +32,9 @@ import errno
 
 class Communications:
     def __init__(self, Configuration):
-        self.Timeout = Configuration.getTimeout()
-        self.Proxy = Configuration.getProxy()
-        self.Url = Configuration.getUrl()
+        self.Timeout = Configuration.timeout
+        self.Proxy = Configuration.proxy
+        self.Url = Configuration.url
         
     def http_post(self, post_data, url=None, proxy=None, timeout=None):
         if (url != None):
@@ -61,9 +61,9 @@ class Communications:
         return responseXml
 
     def sendRequestFileToSFTP(self, requestFile, config):
-        username = config.getSftpUsername()
-        password = config.getSftpPassword()
-        hostname = config.getBatchHost()
+        username = config.sftpUsername
+        password = config.sftpPassword
+        hostname = config.batchHost
         transport = paramiko.Transport((hostname, 22))
         try:
             transport.connect(username=username, password=password)
@@ -76,16 +76,16 @@ class Communications:
         transport.close()
 
     def receiveResponseFileFromSFTP(self, requestFile, responseFile, config):
-        username = config.getSftpUsername()
-        password = config.getSftpPassword()
-        hostname = config.getBatchHost()
+        username = config.sftpUsername
+        password = config.sftpPassword
+        hostname = config.batchHost
         transport = paramiko.Transport((hostname, 22))
         try:
             transport.connect(username=username, password=password)
         except SSHException, e:
             raise Exception("Exception connect to litle")
         sftp = paramiko.SFTPClient.from_transport(transport)
-        timeout = config.getSftpTimeout()
+        timeout = config.sftpTimeout
         start = time.time()
         print "Retrieving from SFTP..."
         while (time.time()-start) * 1000 < timeout:
@@ -102,14 +102,14 @@ class Communications:
         transport.close()
 
     def sendRequestFileToIBC(self, requestFile, responseFile, config):
-        hostName = config.getBatchHost()
-        hostPort = int(config.getBatchPort())
+        hostName = config.batchHost
+        hostPort = int(config.batchPort)
 
         s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         s.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
-        s.settimeout(int(config.getBatchTcpTimeout()))
+        s.settimeout(int(config.batchTcpTimeout))
 
-        if config.getBatchUseSSL() == 'true':
+        if config.batchUseSSL == 'true':
             s = ssl.wrap_socket(s)
 
         try:

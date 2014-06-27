@@ -32,45 +32,45 @@ from mock import *
 class TestLitleBatchRequest(unittest.TestCase):
     def setUp(self):
         config = Configuration()
-        config.setProperty("username", "PHXMLTEST")
-        config.setProperty("password", "password")
-        config.setProperty("version", "8.25")
-        config.setProperty("maxAllowedTransactionsPerFile", "6")
-        config.setProperty("maxTransactionsPerBatch", "4")
-        config.setProperty("batchHost", "localhost")
-        config.setProperty("batchPort", "2104")
-        config.setProperty("batchTcpTimeout", "10000")
-        config.setProperty("batchUseSSL", "false")
-        config.setProperty("merchantId", "101")
-        config.setProperty("proxyHost", "")
-        config.setProperty("proxyPort", "")
-        config.setProperty("reportGroup", "test")
-        config.setProperty("batchRequestFolder", "test/unit/")
-        config.setProperty("batchResponseFolder", "test/unit/")
-        config.setProperty("sftpUsername", "sftp")
-        config.setProperty("sftpPassword", "password")
+        config.username = "PHXMLTEST"
+        config.password = "password"
+        config.version = "8.25"
+        config.maxAllowedTransactionsPerFile = "6"
+        config.maxTransactionsPerBatch = "4"
+        config.batchHost = "localhost"
+        config.batchPort = "2104"
+        config.batchTcpTimeout = "10000"
+        config.batchUseSSL = "false"
+        config.merchantId = "101"
+        config.proxyHost = ""
+        config.proxyPort = ""
+        config.reportGroup = "test"
+        config.batchRequestFolder = "test/unit/"
+        config.batchResponseFolder = "test/unit/"
+        config.sftpUsername = "sftp"
+        config.sftpPassword = "password"
         self.litleBatchFileRequest = litleBatchFileRequest("testFile.xml", config)
 
     # Tests for litleBatchFileRequest
 
     def testInit(self):
-        self.assertEqual(self.litleBatchFileRequest.config.getProperty("username"),'PHXMLTEST')
-        self.assertEqual(self.litleBatchFileRequest.config.getProperty("password"),'password')
-        self.assertEqual(self.litleBatchFileRequest.config.getProperty("version"),'8.25')
-        self.assertEqual(self.litleBatchFileRequest.config.getProperty("maxAllowedTransactionsPerFile"),'6')
-        self.assertEqual(self.litleBatchFileRequest.config.getProperty("maxTransactionsPerBatch"),'4')
-        self.assertEqual(self.litleBatchFileRequest.config.getProperty("batchHost"),'localhost')
-        self.assertEqual(self.litleBatchFileRequest.config.getProperty("batchPort"),'2104')
-        self.assertEqual(self.litleBatchFileRequest.config.getProperty("batchTcpTimeout"),'10000')
-        self.assertEqual(self.litleBatchFileRequest.config.getProperty("batchUseSSL"),'false')
-        self.assertEqual(self.litleBatchFileRequest.config.getProperty("merchantId"),'101')
-        self.assertEqual(self.litleBatchFileRequest.config.getProperty("proxyHost"),'')
-        self.assertEqual(self.litleBatchFileRequest.config.getProperty("proxyPort"),'')
-        self.assertEqual(self.litleBatchFileRequest.config.getProperty("reportGroup"),'test')
-        self.assertEqual(self.litleBatchFileRequest.config.getProperty("batchRequestFolder"),'test/unit/')
-        self.assertEqual(self.litleBatchFileRequest.config.getProperty("batchResponseFolder"),'test/unit/')
-        self.assertEqual(self.litleBatchFileRequest.config.getProperty("sftpUsername"),'sftp')
-        self.assertEqual(self.litleBatchFileRequest.config.getProperty("sftpPassword"),'password')
+        self.assertEqual(self.litleBatchFileRequest.config.username,'PHXMLTEST')
+        self.assertEqual(self.litleBatchFileRequest.config.password,'password')
+        self.assertEqual(self.litleBatchFileRequest.config.version,'8.25')
+        self.assertEqual(self.litleBatchFileRequest.config.maxAllowedTransactionsPerFile,'6')
+        self.assertEqual(self.litleBatchFileRequest.config.maxTransactionsPerBatch,'4')
+        self.assertEqual(self.litleBatchFileRequest.config.batchHost,'localhost')
+        self.assertEqual(self.litleBatchFileRequest.config.batchPort,'2104')
+        self.assertEqual(self.litleBatchFileRequest.config.batchTcpTimeout,'10000')
+        self.assertEqual(self.litleBatchFileRequest.config.batchUseSSL,'false')
+        self.assertEqual(self.litleBatchFileRequest.config.merchantId,'101')
+        self.assertEqual(self.litleBatchFileRequest.config.proxyHost,'')
+        self.assertEqual(self.litleBatchFileRequest.config.proxyPort,'')
+        self.assertEqual(self.litleBatchFileRequest.config.reportGroup,'test')
+        self.assertEqual(self.litleBatchFileRequest.config.batchRequestFolder,'test/unit/')
+        self.assertEqual(self.litleBatchFileRequest.config.batchResponseFolder,'test/unit/')
+        self.assertEqual(self.litleBatchFileRequest.config.sftpUsername,'sftp')
+        self.assertEqual(self.litleBatchFileRequest.config.sftpPassword,'password')
 
     def testCreateBatchAndGetNumberOfBatches(self):
         self.assertEqual(self.litleBatchFileRequest.getNumberOfBatches(), 0)
@@ -99,23 +99,26 @@ class TestLitleBatchRequest(unittest.TestCase):
 
     def testFileIsFull(self):
         config = Configuration()
-        config.setProperty("username", "PHXMLTEST")
-        config.setProperty("password", "password")
-        config.setProperty("version", "8.25")
-        config.setProperty("maxAllowedTransactionsPerFile", "4")
-        config.setProperty("maxTransactionsPerBatch", "4")
-        config.setProperty("batchHost", "localhost")
-        config.setProperty("batchPort", "2104")
-        config.setProperty("batchTcpTimeout", "10000")
-        config.setProperty("batchUseSSL", "false")
-        config.setProperty("merchantId", "101")
-        config.setProperty("proxyHost", "")
-        config.setProperty("proxyPort", "")
-        config.setProperty("reportGroup", "test")
-        config.setProperty("batchRequestFolder", "test/unit/")
-        config.setProperty("batchResponseFolder", "test/unit/")
-        config.setProperty("sftpUsername", "sftp")
-        config.setProperty("sftpPassword", "password")
+
+        config = Configuration()
+        config.username = "PHXMLTEST"
+        config.password = "password"
+        config.version = "8.25"
+        config.maxAllowedTransactionsPerFile = "4"
+        config.maxTransactionsPerBatch = "4"
+        config.batchHost = "localhost"
+        config.batchPort = "2104"
+        config.batchTcpTimeout = "10000"
+        config.batchUseSSL = "false"
+        config.merchantId = "101"
+        config.proxyHost = ""
+        config.proxyPort = ""
+        config.reportGroup = "test"
+        config.batchRequestFolder = "test/unit/"
+        config.batchResponseFolder = "test/unit/"
+        config.sftpUsername = "sftp"
+        config.sftpPassword = "password"
+
         self.litleBatchFileRequest = litleBatchFileRequest("testFile.xml", config)
 
         self.assertTrue(not self.litleBatchFileRequest.isFull())
