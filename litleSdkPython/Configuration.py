@@ -32,7 +32,8 @@ class Configuration(object):
         self.proxy = None
         self.timeout = 65
         self.printXml = False
-        self.configFolder = os.path.expanduser('~')
+        self.configFolder = os.environ['LITLE_SDK_CONFIG']\
+            if 'LITLE_SDK_CONFIG' in os.environ else os.path.expanduser('~')
         self.__LITLE_SDK_CONFIG = '.litle_Python_SDK_config'
 
     @property
