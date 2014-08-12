@@ -155,75 +155,57 @@ def fixChoices(xfile):
     line = "._GroupModel_.*?, min_occurs=1, max_occurs=1\)"
     lineToSkip = findAnon(xfile, "authorization") + "._GroupModel_,"
     lineToSkip2 = findAnon(xfile, "credit") + "._GroupModel_2"
-    lineToSkip3 = findAnon(xfile, "echeckCredit") + "._GroupModel_,"
+    lineToSkip3 = findAnon(xfile, "echeckCredit") + "._GroupModel_2,"
     lineToSkip4 = findAnon(xfile, "echeckSale") + "._GroupModel_,"
+    lineToSkip5 = "cardType._GroupModel_2"
     rightLine = re.compile(line)
     readlines = open(xfile, 'r').readlines()
     count2 = 0;
+
+    cardTypeSequenceLine = ".*?cardType.*?\'type\'.*?min_occurs"
+    cardTypeSequenceReg = re.compile(cardTypeSequenceLine)
+
     for currentline in readlines:
         if(rightLine.search(currentline)):
-            if (currentline.count(lineToSkip2) == 0 and 
+            if (currentline.count(lineToSkip2) == 0 and
                 currentline.count(lineToSkip) == 0 and 
                 currentline.count(lineToSkip3) == 0 and 
-                currentline.count(lineToSkip4) == 0):
+                currentline.count(lineToSkip4) == 0 and
+                currentline.count(lineToSkip5) == 0):
                 temp = currentline
                 count2 = count2 + 1
                 toReplace = temp.replace("min_occurs=1,", "min_occurs=0L,")
                 currentline = currentline.replace(')', '\)')
                 currentline = currentline.replace('(', '\(')
                 replace_in_file(xfile, currentline, toReplace)
-            
-#reorders the fields in echeckSale to be right
-def fixecheckSale(xfile):
-    tx = "__litleTxnId.name\(\) : __litleTxnId,"
-    am = "__amount.name\(\) : __amount,"
-    ve = '__verify.name\(\) : __verify,'
-    alr = '__litleTxnId.name\(\) : __litleTxnId, __amount.name\(\) : __amount, __verify.name\(\) : __verify,'
-    anon = 'class '+findAnon(lib_path, 'echeckSale')
-        
-    tx2 = "__litleTxnId.name() : __litleTxnId,"
-    am2 = "__amount.name() : __amount,"
-    ve2 = '__verify.name() : __verify,'
-    
-    echeck = re.compile(anon)
-    txnid = re.compile(tx)
-    amount = re.compile(am)
-    verify = re.compile(ve)
-    already = re.compile(alr)
-    echeckFlag = 0
-    txnFlag = 0
-    readlines = open(xfile, 'r').readlines()
+        elif cardTypeSequenceReg.search(currentline):
+            temp = currentline
+            toReplace = temp.replace("min_occurs=0L,", "min_occurs=1,")
+            currentline = currentline.replace(')', '\)')
+            currentline = currentline.replace('(', '\(')
+            replace_in_file(xfile, currentline, toReplace)
 
-    listindex = -1
+def removeAbsolutePath(xfile):
+    readlines = open(xfile, 'r').readlines()
+    decLocationStr = "_DeclarationLocation"
+    useLocationStr = "_UseLocation"
+    defLocationStr = "_DefinitionLocation"
 
     for currentline in readlines:
-             # increment the list counter
-            listindex = listindex + 1
-
-            # if the regexp is found
-            if(already.search(currentline)):
-                print 'the file has already been processed'
-                break
-            if ((not echeckFlag) and echeck.search(currentline)):
-                echeckFlag = 1
-            elif (echeckFlag and (not txnFlag) and txnid.search(currentline)):
-                txnFlag = 1
-                cregex(tx, tx2 + ' ' + am2 + ' ' + ve2, currentline, xfile, 
-                       listindex, readlines)
-            elif (txnFlag and amount.search(currentline)):
-                cregex(am, '', currentline, xfile, listindex, readlines)
-            elif (txnFlag and verify.search(currentline)):
-                cregex(ve, '', currentline, xfile, listindex, readlines)
-                echeckFlag = 0
-                txnFlag = 0
+        if currentline.find(decLocationStr) >= 0 \
+            or currentline.find(useLocationStr) >= 0 \
+            or currentline.find(defLocationStr) >= 0:
+            currentline = currentline.replace(')', '\)')
+            currentline = currentline.replace('(', '\(')
+            replace_in_file(xfile, currentline, "")
 
 # Run actual Changes
-fixecheckSale(lib_path)
 removeMinOccurs(lib_path)
 if (not isInFile(lib_path, "import xml.dom")):
     replace_in_file(lib_path, "import sys", "import sys\nimport xml.dom")
 fixPaypalinCredit(lib_path)
 fixChoices(lib_path)
+removeAbsolutePath(lib_path)
 
 changeCreateFromDom(lib_path)
 if (not isInFile(lib_path, "def LitleAnyCreateFromDOM \(cls, node, _fallback_namespace\):")):

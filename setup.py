@@ -3,16 +3,14 @@
 #from distutils.core import setup
 from setuptools import setup, find_packages
 setup(name='LitleSdkPython',
-      version='8.13.1',
+      version='8.25.0',
       description='Litle & Co. SDK for Python',
       author='Litle & Co',
       author_email='SDKSupport@litle.com',
       url='http://www.litle.com/developers',
       packages=['litleSdkPython'],
       install_requires=[
-                        'PyXB'],
-      dependency_links =[
-                         'http://pypi.python.org/packages/source/P/PyXB/PyXB-full-1.1.3.tar.gz#md5=62f4e37baa59d9fc9df5f7186e7d63a2'],
+                        'PyXB==1.1.5'],
       classifiers=[
           'Development Status :: 5 - Production/Stable',
           'Environment :: Console',

@@ -24,7 +24,7 @@
 class Configuration:
 
     def __init__(self):
-        self._version = '8.13'
+        self._version = '8.25'
         self._reportGroup = 'Default Report Group'
         self._url = "Sandbox"
         self._proxy = None
