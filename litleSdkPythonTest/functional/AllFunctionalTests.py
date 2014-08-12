@@ -24,6 +24,7 @@
 import unittest
 import TestAuth
 import TestAuthReversal
+import TestBatch
 import TestCapture
 import TestCaptureGivenAuth
 import TestCredit
@@ -40,6 +41,9 @@ import TestUtf8
 
 testauth = TestAuth.suite()
 testauthreverasal = TestAuthReversal.suite()
+
+testbatch = TestBatch.suite()
+
 testcapture = TestCapture.suite()
 testcapturegivenauth = TestCaptureGivenAuth.suite()
 testcredit = TestCredit.suite()
@@ -60,6 +64,7 @@ testutf8 = TestUtf8.suite()
 
 unittest.TextTestRunner().run(testauth)
 unittest.TextTestRunner().run(testauthreverasal)
+unittest.TextTestRunner().run(testbatch)
 unittest.TextTestRunner().run(testcapture)
 unittest.TextTestRunner().run(testcapturegivenauth)
 unittest.TextTestRunner().run(testcredit)

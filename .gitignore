@@ -4,3 +4,5 @@
 .project
 .pydevproject
 /nosetests.xml
+.idea/
+/litleSdkPythonTest/unit/test/

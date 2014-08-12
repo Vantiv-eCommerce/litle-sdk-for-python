@@ -103,7 +103,7 @@ class TestConfigOverride(unittest.TestCase):
         litle.sendRequest(authorization, version="3.14")
         
         comm.http_post.assert_called_once()
-        match_re = RegexMatcher('.*?version="8.13".*?')
+        match_re = RegexMatcher('.*?version="8.25".*?')
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
     def testMerchantIdOverride(self):
@@ -227,8 +227,8 @@ class TestConfigOverride(unittest.TestCase):
         
     def testMissingUser(self):
         config2 = Configuration()
-        config2.setPassword("Pass")
-        config2.setMerchantId("12345")
+        config2.password = 'Pass'
+        config2.merchantId = '12345'
         
         authorization = litleXmlFields.authorization()
         authorization.orderId = '1234'
@@ -249,8 +249,8 @@ class TestConfigOverride(unittest.TestCase):
             
     def testMissingPassword(self):
         config3 = Configuration()
-        config3.setUser("User")
-        config3.setMerchantId("12345")
+        config3.username = 'User'
+        config3.merchantId = '12345'
         
         authorization = litleXmlFields.authorization()
         authorization.orderId = '1234'
@@ -271,8 +271,8 @@ class TestConfigOverride(unittest.TestCase):
             
     def testMissingId(self):
         config4 = Configuration()
-        config4.setUser("User")
-        config4.setPassword("Pass")
+        config4.username = 'User'
+        config4.password = 'Pass'
         
         authorization = litleXmlFields.authorization()
         authorization.orderId = '1234'
