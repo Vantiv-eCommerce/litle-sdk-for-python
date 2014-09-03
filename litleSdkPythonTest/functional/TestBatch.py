@@ -498,7 +498,7 @@ class TestBatch(unittest.TestCase):
         self.assertNotEqual(None, response.litleResponse.litleSessionId)
         self.assertEqual('0', response.litleResponse.response)
         self.assertEqual('Valid Format', response.litleResponse.message)
-        self.assertEqual('8.25', response.litleResponse.version)
+        self.assertEqual('8.27', response.litleResponse.version)
 
         batchResponse = response.getNextBatchResponse()
         self.assertNotEqual(None, response)
