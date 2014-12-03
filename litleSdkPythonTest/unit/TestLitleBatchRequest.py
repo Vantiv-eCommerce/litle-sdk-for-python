@@ -34,7 +34,7 @@ class TestLitleBatchRequest(unittest.TestCase):
         config = Configuration()
         config.username = "PHXMLTEST"
         config.password = "password"
-        config.version = "9.0"
+        config.version = "8.27"
         config.maxAllowedTransactionsPerFile = "6"
         config.maxTransactionsPerBatch = "4"
         config.batchHost = "localhost"
@@ -56,7 +56,7 @@ class TestLitleBatchRequest(unittest.TestCase):
     def testInit(self):
         self.assertEqual(self.litleBatchFileRequest.config.username,'PHXMLTEST')
         self.assertEqual(self.litleBatchFileRequest.config.password,'password')
-        self.assertEqual(self.litleBatchFileRequest.config.version,'9.0')
+        self.assertEqual(self.litleBatchFileRequest.config.version,'8.27')
         self.assertEqual(self.litleBatchFileRequest.config.maxAllowedTransactionsPerFile,'6')
         self.assertEqual(self.litleBatchFileRequest.config.maxTransactionsPerBatch,'4')
         self.assertEqual(self.litleBatchFileRequest.config.batchHost,'localhost')
