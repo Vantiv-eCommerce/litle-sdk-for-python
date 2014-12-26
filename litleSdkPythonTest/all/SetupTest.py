@@ -24,7 +24,12 @@
 import os
 import sys
 import re
-import litleSdkPython
+try:
+    sdk_path = os.path.abspath('../../')
+    sys.path.append(sdk_path)
+    import litleSdkPython
+except:
+    raise Exception('Could not import litleSdkPython from ' + sdk_path)
 
 from litleSdkPython.litleOnlineRequest import *
 from litleSdkPython.litleBatchRequest import *
