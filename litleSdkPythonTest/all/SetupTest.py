@@ -35,7 +35,7 @@ try:
     sys.path.append(lib_path)
     import testConfig
 except:
-    raise Exception('Run setupConfig.py before running tests')
+    raise Exception('Could not find testConfig.py in ' + lib_path + '. Run setupConfig.py before running tests')
 config = testConfig.config
 
 class RegexMatcher(object):
