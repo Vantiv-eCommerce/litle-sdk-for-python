@@ -24,23 +24,15 @@
 import os
 import sys
 import re
-try:
-    sdk_path = os.path.abspath('../../')
-    sys.path.append(sdk_path)
-    import litleSdkPython
-except:
-    raise Exception('Could not import litleSdkPython from ' + sdk_path)
+import litleSdkPython
 
 from litleSdkPython.litleOnlineRequest import *
 from litleSdkPython.litleBatchRequest import *
 from litleSdkPython.litleBatchResponse import *
 
-try:
-    lib_path = os.path.abspath('../')
-    sys.path.append(lib_path)
-    import testConfig
-except:
-    raise Exception('Could not find testConfig.py in ' + lib_path + '. Run setupConfig.py before running tests')
+lib_path = os.path.abspath('../')
+sys.path.append(lib_path)
+import testConfig
 config = testConfig.config
 
 class RegexMatcher(object):
