@@ -287,10 +287,10 @@ class litleBatchFileRequest:
 
         if config is None:
             self.config = Configuration()
+            self.config.printXml = None
         confParser = ConfigParser()
 
         configFilePath = self.config.configFolder + '/' + self.config.getConfigFileName()
-
         if not os.path.exists(configFilePath):
             f = open(configFilePath, 'a')
             f.close()
@@ -305,6 +305,9 @@ class litleBatchFileRequest:
         for prop in propertyList:
             if confParser.has_option('PythonSDK', prop) and not hasattr(self.config, prop):
                 setattr(self.config, prop, confParser.get('PythonSDK', prop))
+        
+        if confParser.has_option('PythonSDK', 'printXml') and hasattr(self.config, 'printXml') and self.config.printXml == None :
+            setattr(self.config, 'printXml', confParser.get('PythonSDK','printXml'))
 
         self.communication = Communications(self.config)
 

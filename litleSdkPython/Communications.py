@@ -29,6 +29,7 @@ import socket
 import io
 import ssl
 import errno
+from time import gmtime, strftime
 
 class Communications:
     def __init__(self, Configuration):
@@ -61,45 +62,76 @@ class Communications:
         return responseXml
 
     def sendRequestFileToSFTP(self, requestFile, config):
+        if (config.printXml) :
+            print "\n",strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime()),"Entered sendRequestFileToSFTP"
         username = config.sftpUsername
         password = config.sftpPassword
         hostname = config.batchHost
         transport = paramiko.Transport((hostname, 22))
         try:
+            if (config.printXml) :
+                print strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime()),"Connecting with username ", username
             transport.connect(username=username, password=password)
         except SSHException, e:
             raise Exception("Exception connect to litle")
         sftp = paramiko.SFTPClient.from_transport(transport)
-        sftp.put(requestFile, 'inbound/' + os.path.basename(requestFile) + '.prg')
-        sftp.rename('inbound/' + os.path.basename(requestFile) + '.prg', 'inbound/' + os.path.basename(requestFile) + '.asc' )
+        remoteFileNameProgress = 'inbound/' + os.path.basename(requestFile) + '.prg'
+        remoteFileNameComplete = 'inbound/' + os.path.basename(requestFile) + '.asc'
+        if (config.printXml) :
+            print strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime()),"Putting local file ", requestFile, " to remote file ", remoteFileNameProgress
+        sftp.put(requestFile, remoteFileNameProgress)
+        if (config.printXml) :
+            print strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime()),"Renaming remote file ", remoteFileNameProgress, " to ", remoteFileNameComplete
+        sftp.rename(remoteFileNameProgress,  remoteFileNameComplete)
+        if (config.printXml) :
+            print strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime()),"Closing connection"
         sftp.close()
         transport.close()
+        if (config.printXml) :
+            print strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime()),"Closed connection"
 
     def receiveResponseFileFromSFTP(self, requestFile, responseFile, config):
+        if (config.printXml) :
+            print strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime()),"Entered receiveResponseFileFromSFTP"
         username = config.sftpUsername
         password = config.sftpPassword
         hostname = config.batchHost
         transport = paramiko.Transport((hostname, 22))
         try:
+            if (config.printXml) :
+                print strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime()),"Connecting with username ", username
             transport.connect(username=username, password=password)
         except SSHException, e:
             raise Exception("Exception connect to litle")
         sftp = paramiko.SFTPClient.from_transport(transport)
         timeout = config.sftpTimeout
         start = time.time()
-        print "Retrieving from SFTP..."
         while (time.time()-start) * 1000 < timeout:
+            if (config.printXml) :
+                print strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime()),"...Waiting 45 seconds..."
             time.sleep(45)
             success = True
+            remoteFileName = 'outbound/' + os.path.basename(requestFile) + '.asc'
             try:
-                sftp.get('outbound/' + os.path.basename(requestFile) + '.asc', responseFile)
+                if (config.printXml) :
+                    print strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime()),"Attempting to GET file ", remoteFileName, " and copy it locally to ", responseFile
+                sftp.get(remoteFileName, responseFile)
             except Exception, e:
                 success = False
+            if (config.printXml) :
+                print strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime()),"SFTP GET Succeeded: ", success
             if success:
-                sftp.remove('outbound/' + os.path.basename(requestFile) + '.asc')
+                if (config.printXml) :
+                    print strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime()),"Removing remote file: ", success
+                sftp.remove(remoteFileName)
                 break
+
+        if (config.printXml) :
+            print strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime()),"Closing connection"        
         sftp.close()
         transport.close()
+        if (config.printXml) :
+            print strftime("%a, %d %b %Y %H:%M:%S +0000", gmtime()),"Closed connection"
 
     def sendRequestFileToIBC(self, requestFile, responseFile, config):
         hostName = config.batchHost
