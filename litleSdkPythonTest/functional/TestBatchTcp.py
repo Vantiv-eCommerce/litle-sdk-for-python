@@ -454,7 +454,7 @@ class TestBatchTcp(unittest.TestCase):
 
 def suite():
     suite = unittest.TestSuite()
-    suite = unittest.TestLoader().loadTestsFromTestCase(TestBatch)
+    suite = unittest.TestLoader().loadTestsFromTestCase(TestBatchTcp)
     return suite
 
 if __name__ =='__main__':
