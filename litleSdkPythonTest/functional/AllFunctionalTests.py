@@ -25,6 +25,7 @@ import unittest
 import TestAuth
 import TestAuthReversal
 import TestBatch
+import TestBatchTcp
 import TestCapture
 import TestCaptureGivenAuth
 import TestCredit
