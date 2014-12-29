@@ -8,5 +8,8 @@
 /litleSdkPythonTest/unit/test/
 /.settings
 /litleSdkPython/*.pyc
-/litleSdkPythonTest/unit/*.pyc
 /litleSdkPythonTest/all/*.pyc
+/litleSdkPythonTest/certification/*.pyc
+/litleSdkPythonTest/functional/*.pyc
+/litleSdkPythonTest/unit/*.pyc
+/litleSdkPythonTest/*.pyc
