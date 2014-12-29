@@ -22,12 +22,35 @@
 #FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 #OTHER DEALINGS IN THE SOFTWARE.
 
+from __future__ import print_function
+from __future__ import unicode_literals
+
+
 import os, sys
 lib_path = os.path.abspath('../all')
 sys.path.append(lib_path)
 
 from SetupTest import *
 import unittest
+
+import re
+import sys
+import os
+
+if not (("PYTHONIOENCODING" in os.environ)
+            and
+        re.search("^utf-?8$", os.environ["PYTHONIOENCODING"], re.I)):
+    sys.stderr.write(sys.argv[0] + ": Please set your PYTHONIOENCODING envariable to utf8\n")
+    sys.exit(1)
+
+import unicodedata
+if unicodedata.unidata_version < "6.0.0":
+    print("WARNING: Your old UCD is out of date, expected at least 6.0.0 but got", 
+           unicodedata.unidata_version)
+
+wide_enough = (sys.maxunicode >= 0x10FFFF)
+if not wide_enough:
+    print("WARNING: Narrow build detected, your Python lacks full Unicode support!!")
 
 class TestUtf8(unittest.TestCase):
     
