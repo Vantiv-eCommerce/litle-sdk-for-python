@@ -6,3 +6,7 @@
 /nosetests.xml
 .idea/
 /litleSdkPythonTest/unit/test/
+/.settings
+/litleSdkPython/*.pyc
+/litleSdkPythonTest/unit/*.pyc
+/litleSdkPythonTest/all/*.pyc
