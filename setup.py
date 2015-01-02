@@ -16,9 +16,9 @@ setup(name='LitleSdkPython',
           'Development Status :: 5 - Production/Stable',
           'Environment :: Console',
           'Environment :: Web Environment',
-          'Environment :: MacOS X'
-          'Environment :: Plugins'
-          'Environment :: Win32 (MS Windows)'
+          'Environment :: MacOS X',
+          'Environment :: Plugins',
+          'Environment :: Win32 (MS Windows)',
           'Intended Audience :: Developers',
           'Intended Audience :: System Administrators',
           'Intended Audience :: Information Technology',
