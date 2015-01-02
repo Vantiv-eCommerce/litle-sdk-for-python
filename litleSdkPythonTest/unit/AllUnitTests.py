@@ -29,6 +29,7 @@ import TestPostGenerationScript
 import TestProcessResponse
 import TestLitleBatchRequest
 import TestLitleBatchResponse
+import TestConfiguration
 
 testconfigoverride = TestConfigOverride.suite()
 testcreatefromdom = TestCreateFromDom.suite()
@@ -37,6 +38,7 @@ testpostgenerationscript = TestPostGenerationScript.suite()
 testprocessresponse = TestProcessResponse.suite()
 testlitlebatchrequest = TestLitleBatchRequest.suite()
 testlitlebatchresponse = TestLitleBatchResponse.suite()
+testconfiguration = TestConfiguration.suite()
 
 
 unittest.TextTestRunner().run(testconfigoverride)
@@ -46,3 +48,4 @@ unittest.TextTestRunner().run(testpostgenerationscript)
 unittest.TextTestRunner().run(testprocessresponse)
 unittest.TextTestRunner().run(testlitlebatchrequest)
 unittest.TextTestRunner().run(testlitlebatchresponse)
+unittest.TextTestRunner().run(testconfiguration)

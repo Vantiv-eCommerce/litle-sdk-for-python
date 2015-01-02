@@ -44,6 +44,9 @@ class Configuration(object):
     def url(self, value):
         self._url = value
 
+    def setUser(self, user):
+        self.username = user
+
     def getConfigFileName(self):
         return self.__LITLE_SDK_CONFIG
 
