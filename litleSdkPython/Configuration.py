@@ -26,7 +26,6 @@ import os
 class Configuration(object):
 
     def __init__(self):
-        self.version = 8.27
         self.reportGroup = 'Default Report Group'
         self._url = 'Sandbox'
         self.proxy = None
@@ -43,6 +42,33 @@ class Configuration(object):
     @url.setter
     def url(self, value):
         self._url = value
+
+    def setUser(self, user):
+        self.username = user
+        
+    def setPassword(self, password):
+        self.password = password
+        
+    def setMerchantId(self, merchantId):
+        self.merchantId = merchantId
+        
+    def setUrl(self, url):
+        self.url = url
+        
+    def setProxy(self, proxy):
+        self.proxy = proxy
+        
+    def setVersion(self, version):
+        self.version = version
+        
+    def setReportGroup(self, reportGroup):
+        self.reportGroup = reportGroup
+        
+    def setTimeout(self, timeout):
+        self.timeout = timeout
+        
+    def setPrintXml(self, printXml):
+        self.printXml = printXml
 
     def getConfigFileName(self):
         return self.__LITLE_SDK_CONFIG
