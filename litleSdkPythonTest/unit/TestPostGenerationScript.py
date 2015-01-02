@@ -51,8 +51,22 @@ class TestPostGenerationScript(unittest.TestCase):
         litle.sendRequest(authorization)
         
         comm.http_post.assert_called_once()
-        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<authorization.*?<card>.*?<number>4100000000000000</number>.*?</card>.*?</authorization>.*?")
-        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        expected = """<?xml version="1.0" encoding="utf-8"?>
+<litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
+  <authentication>
+    <user>jenkins</user>
+    <password>PYTHON</password>
+  </authentication>
+  <authorization reportGroup="DefaultReportGroup">
+    <card>
+      <type>VI</type>
+      <number>4100000000000000</number>
+      <expDate>1210</expDate>
+    </card>
+  </authorization>
+</litleOnlineRequest>
+"""
+        comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
 
     def test_minOccurs_zero_on_number_expDate(self):
         authorization = litleXmlFields.authorization()        
@@ -68,8 +82,20 @@ class TestPostGenerationScript(unittest.TestCase):
         litle.sendRequest(authorization)
         
         comm.http_post.assert_called_once()
-        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<authorization.*?<card>.*?.*?</card>.*?</authorization>.*?")
-        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        expected = """<?xml version="1.0" encoding="utf-8"?>
+<litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
+  <authentication>
+    <user>jenkins</user>
+    <password>PYTHON</password>
+  </authentication>
+  <authorization reportGroup="DefaultReportGroup">
+    <card>
+      <type>VI</type>
+    </card>
+  </authorization>
+</litleOnlineRequest>
+"""
+        comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
         
     def test_minOccurs_postDate_message_response_responseTime(self):
       
@@ -101,8 +127,22 @@ class TestPostGenerationScript(unittest.TestCase):
         litle.sendRequest(capturegivenauth)
         
         comm.http_post.assert_called_once()
-        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<captureGivenAuth.*?<card>.*?<number>4100000000000001</number>.*?</card>.*?</captureGivenAuth>.*?")
-        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        expected = """<?xml version="1.0" encoding="utf-8"?>
+<litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
+  <authentication>
+    <user>jenkins</user>
+    <password>PYTHON</password>
+  </authentication>
+  <captureGivenAuth reportGroup="DefaultReportGroup">
+    <card>
+      <type>VI</type>
+      <number>4100000000000001</number>
+      <expDate>1210</expDate>
+    </card>
+  </captureGivenAuth>
+</litleOnlineRequest>
+"""
+        comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
         
     def test_minOccurs_authDate_authCode_capability_entryMode_cardHolderId_litleToken(self):
         CaptureGivenAuth = litleXmlFields.captureGivenAuth()
@@ -127,8 +167,29 @@ class TestPostGenerationScript(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(CaptureGivenAuth)
         comm.http_post.assert_called_once()
-        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<captureGivenAuth.*?<token>.*?</token>.*?</captureGivenAuth>.*?")
-        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        expected = """<?xml version="1.0" encoding="utf-8"?>
+<litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
+  <authentication>
+    <user>jenkins</user>
+    <password>PYTHON</password>
+  </authentication>
+  <captureGivenAuth reportGroup="DefaultReportGroup">
+    <orderId>12344</orderId>
+    <authInformation>
+      <authAmount>12345</authAmount>
+    </authInformation>
+    <amount>106</amount>
+    <orderSource>ecommerce</orderSource>
+    <token>
+      <expDate>1210</expDate>
+      <cardValidationNum>555</cardValidationNum>
+      <type>VI</type>
+    </token>
+    <pos/>
+  </captureGivenAuth>
+</litleOnlineRequest>
+"""
+        comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
         
     def test_minOccurs_echeckOrEcheckToken(self):
         echeckCredit = litleXmlFields.echeckCredit()
@@ -143,8 +204,20 @@ class TestPostGenerationScript(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(echeckCredit)
         comm.http_post.assert_called_once()
-        match_re = RegexMatcher(".*?<litleOnlineRequest.*?")
-        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        expected = """<?xml version="1.0" encoding="utf-8"?>
+<litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
+  <authentication>
+    <user>jenkins</user>
+    <password>PYTHON</password>
+  </authentication>
+  <echeckCredit reportGroup="DefaultReportGroup">
+    <orderId>12345</orderId>
+    <amount>12</amount>
+    <orderSource>ecommerce</orderSource>
+  </echeckCredit>
+</litleOnlineRequest>
+"""
+        comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
     
     def test_minOccurs_routingNum_accType_accNum(self):
         echeckCredit = litleXmlFields.echeckCredit()
@@ -161,8 +234,21 @@ class TestPostGenerationScript(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(echeckCredit)
         comm.http_post.assert_called_once()
-        match_re = RegexMatcher(".*?<litleOnlineRequest.*?")
-        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        expected = """<?xml version="1.0" encoding="utf-8"?>
+<litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
+  <authentication>
+    <user>jenkins</user>
+    <password>PYTHON</password>
+  </authentication>
+  <echeckCredit reportGroup="DefaultReportGroup">
+    <orderId>12345</orderId>
+    <amount>12</amount>
+    <orderSource>ecommerce</orderSource>
+    <echeck/>
+  </echeckCredit>
+</litleOnlineRequest>
+"""
+        comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
         
     def test_minOccurs_taxAmount_itemDescription(self):
         Capture = litleXmlFields.capture()
@@ -183,8 +269,25 @@ class TestPostGenerationScript(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(Capture)
         comm.http_post.assert_called_once()
-        match_re = RegexMatcher(".*?<litleOnlineRequest.*?")
-        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        expected = """<?xml version="1.0" encoding="utf-8"?>
+<litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
+  <authentication>
+    <user>jenkins</user>
+    <password>PYTHON</password>
+  </authentication>
+  <capture reportGroup="DefaultReportGroup">
+    <litleTxnId>123456000</litleTxnId>
+    <amount>106</amount>
+    <enhancedData>
+      <lineItemData>
+        <lineItemTotalWithTax>123</lineItemTotalWithTax>
+      </lineItemData>
+    </enhancedData>
+    <payPalNotes>Notes</payPalNotes>
+  </capture>
+</litleOnlineRequest>
+"""
+        comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
 
     def test_minOccurs_payerId_transactionId_healthcareAmounts_IIASFlag_totalHealthCareAmount(self):
         authorization = litleXmlFields.authorization()
@@ -208,8 +311,25 @@ class TestPostGenerationScript(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(authorization)
         comm.http_post.assert_called_once()
-        match_re = RegexMatcher(".*?<litleOnlineRequest.*?")
-        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        expected = """<?xml version="1.0" encoding="utf-8"?>
+<litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
+  <authentication>
+    <user>jenkins</user>
+    <password>PYTHON</password>
+  </authentication>
+  <authorization reportGroup="DefaultReportGroup">
+    <orderId>12344</orderId>
+    <amount>106</amount>
+    <orderSource>ecommerce</orderSource>
+    <paypal>
+      <token>1234</token>
+    </paypal>
+    <amexAggregatorData/>
+    <healthcareIIAS/>
+  </authorization>
+</litleOnlineRequest>
+"""
+        comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
         
     def test_minOccurs_tokenResponseCode_tokenMessage(self):
         outputString = "<litleOnlineResponse version='8.13' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse id='' reportGroup='DefaultReportGroup' customerId=''><litleTxnId>057484783403434000</litleTxnId><orderId>12344</orderId><response>000</response><responseTime>2012-06-05T16:36:39</responseTime><message>Approved</message><tokenResponse><litleToken>4242424242424242</litleToken><tokenResponseCode>111</tokenResponseCode><bin>bin</bin></tokenResponse></authorizationResponse></litleOnlineResponse>"
@@ -238,8 +358,20 @@ class TestPostGenerationScript(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(authorization)
         comm.http_post.assert_called_once()
-        match_re = RegexMatcher(".*?<litleOnlineRequest.*?")
-        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        expected = """<?xml version="1.0" encoding="utf-8"?>
+<litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
+  <authentication>
+    <user>jenkins</user>
+    <password>PYTHON</password>
+  </authentication>
+  <authorization reportGroup="DefaultReportGroup">
+    <orderId>12344</orderId>
+    <amount>106</amount>
+    <orderSource>ecommerce</orderSource>
+  </authorization>
+</litleOnlineRequest>
+"""
+        comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
         
     def test_minOccurs_paypageRegistrationId(self):
         sale = litleXmlFields.sale()
@@ -255,8 +387,21 @@ class TestPostGenerationScript(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(sale)
         comm.http_post.assert_called_once()
-        match_re = RegexMatcher(".*?<litleOnlineRequest.*?")
-        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        expected = """<?xml version="1.0" encoding="utf-8"?>
+<litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
+  <authentication>
+    <user>jenkins</user>
+    <password>PYTHON</password>
+  </authentication>
+  <sale reportGroup="DefaultReportGroup">
+    <orderId>12344</orderId>
+    <amount>106</amount>
+    <orderSource>ecommerce</orderSource>
+    <paypage/>
+  </sale>
+</litleOnlineRequest>
+"""
+        comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
 
 def suite():
     suite = unittest.TestSuite()

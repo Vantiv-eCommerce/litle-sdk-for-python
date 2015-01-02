@@ -25,6 +25,7 @@
 import litleXmlFields
 import pyxb
 import os
+import re
 from Communications import *
 from Configuration import *
 
@@ -42,7 +43,10 @@ class litleOnlineRequest:
     def _litleToXml(self,litleOnline):
         try :
             dom = litleOnline.toDOM()
-            temp = dom.toxml('utf-8')
+            #dom = dom.toprettyxml()
+            temp = dom.toprettyxml(encoding='utf-8', indent="  ")
+            text_re = re.compile('>\n\s+([^<>\s].*?)\n\s+</', re.DOTALL)    
+            temp = text_re.sub('>\g<1></', temp)
             temp= temp.replace('ns1:','')
             return temp.replace(':ns1','')
         except pyxb.BindingValidationError,e:

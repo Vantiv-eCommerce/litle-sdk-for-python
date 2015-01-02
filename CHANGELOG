@@ -1,5 +1,35 @@
 = Litle Online
 
+== Version 8.27.0
+* Feature: Add support for MasterPass wallet to authorization and sale
+* Feature: Add support for order source echeckppd for echeck sales
+
+== Version 8.25.0 (August 12, 2014)
+
+* Feature: Adding support for batch processing
+* Feature: Add support for MasterPass wallet to authorization and sale
+* Feature: Add support for order source echeckppd for echeck sales
+* Feature: Added support for ROAM: Authorization, ForceCapture, CaptureGivenAuth, Sale, Credit
+* Feature: Added new element triggered rule in support of advancedFraudResultsType
+* Feature: Advanced Fraud Tool Support
+* Feature: Added new elements in support of CAT transactions.
+* Feature: Support for the following new gift card transactions: ActivateReversal, DeactivateReversal, LoadReversal, RefundReversal, UnloadReversal, DepositReversal
+* Feature: UpdateSubscription now can take token or paypage updates, and can return token in the response
+* Feature: Support for virtualGiftCard in giftCard activations and can be returned in EnhancedAuthResponses
+* Feature: Gift Card responses can be returned from AuthReversal
+* Feature: Support for the following new gift card transactions: Activate, Deactivate, Load, Unload, Balance Inquiry
+* Feature: Gift card responses are now returned as part of authorzationResponse, authReversalResponse, captureResponse, forceCapture, captureGivenAuthResponse, saleResponse, creditResponse
+* Feature: fraudResult is now returned as part of captureResponse, forceCaptureResponse, captureGivenAuthResponse, creditResponse
+* Feature: Added deptRepayment as a choice for authorizations, forceCapture, captureGivenAuth, sale
+* Feature: Add support for Recurring
+* Feature: Add support for surcharging credit card transactions
+* Feature: Add support for specifying the terminalId on a pos transaction
+* Feature: Add support for pos transactions on tied refunds
+* Feature: Add recyling to voidResponse
+* Feature: Add merchantData to echeck verifications and echeck redeposits
+* Feature: Temporary storage of card validation num on tokens
+* Feature: Updating card validation numbers on tokens
+
 == Version 8.13.1 (May 1, 2013)
 
 * Bugfix: handling of Japanese Characters.  We now set the encoding explicitly to utf-8
