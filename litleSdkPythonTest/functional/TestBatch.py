@@ -197,6 +197,7 @@ class TestBatch(unittest.TestCase):
         auth.orderId = '12344'
         auth.amount = 106
         auth.orderSource = 'ecommerce'
+        auth.secondaryAmount = 100 #test use
         auth.card = card
 
         batch.addTransaction(auth)

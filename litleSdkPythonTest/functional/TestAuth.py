@@ -20,7 +20,7 @@
 #WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 #FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 #OTHER DEALINGS IN THE SOFTWARE.
-
+import base64
 import os, sys
 lib_path = os.path.abspath('../all')
 sys.path.append(lib_path)
@@ -47,8 +47,35 @@ class TestAuth(unittest.TestCase):
         response = litleXml.sendRequest(authorization)
             
         self.assertEquals("000",response.response)
-
-
+    
+    #8.29
+    def testSimpleAuthWithSecondaryAmountAndApplepay(self):
+        
+        authorization = litleXmlFields.authorization()
+        authorization.orderId = '1234'
+        authorization.amount = 106
+        authorization.orderSource = 'ecommerce'
+        authorization.secondaryAmount = '10'
+        
+        
+        applepay = litleXmlFields.applepayType()
+        applepay.data = "4100000000000000"
+        applepay.signature = "yoyo"
+        applepay.version = '8.29'
+        header=litleXmlFields.applepayHeaderType()
+        header.applicationData='e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
+        header.ephemeralPublicKey ='e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
+        header.publicKeyHash='e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
+        header.transactionId='1024'
+        applepay.header=header
+        authorization.applepay = applepay
+        
+        litleXml =  litleOnlineRequest(config)
+        response = litleXml.sendRequest(authorization)
+            
+        self.assertEquals("Approved",response.message)
+        self.assertEquals(106,response.applepayResponse.transactionAmount) #test for response
+        
     def testSimpleAuthWithPaypal(self):
         authorization = litleXmlFields.authorization()
         authorization.orderId = '12344'
@@ -68,7 +95,7 @@ class TestAuth(unittest.TestCase):
             
         self.assertEquals("Approved",response.message)
        
-
+    
     def testPosWithoutCapabilityAndEntryMode(self):
         authorization = litleXmlFields.authorization()
         authorization.orderId = '123456'
@@ -165,7 +192,43 @@ class TestAuth(unittest.TestCase):
         response = litleXml.sendRequest(authorization)
 
         self.assertEquals('Approved', response.message)
+        
+    def testAuthenticationValueMaxlength(self):
+        authorization = litleXmlFields.authorization()
+        authorization.orderId = '1234'
+        authorization.amount = 106
+        authorization.orderSource = 'ecommerce'
+        authorization.secondaryAmount = '10'
+        
+        card = litleXmlFields.cardType()
+        card.number = '4100000000000001'
+        card.expDate = '1215'
+        card.type = 'VI'
+        authorization.card = card
+        
+        fraudCheck=litleXmlFields.fraudCheckType()
+        encoded = base64.b64encode('data to be encodedaaaaaaaaaabbbbbbbbbbcc') #generating a base64 encoded data of length 56, expect no exception
+        fraudCheck.authenticationValue=encoded
+        authorization.cardholderAuthentication=fraudCheck
+        litleXml =  litleOnlineRequest(config)
+        response = litleXml.sendRequest(authorization)
+        self.assertEquals('Approved', response.message)
     
+    def testOrderSourceTypeWithApplePay(self):
+        authorization = litleXmlFields.authorization()
+        authorization.orderId = '1234'
+        authorization.amount = 106
+        authorization.orderSource = 'applepay'
+         
+        card = litleXmlFields.cardType()
+        card.number = "4100000000000000"
+        card.expDate = "1210"
+        card.type='VI'
+        
+        authorization.card = card
+        litleXml =  litleOnlineRequest(config)
+        response = litleXml.sendRequest(authorization)
+        self.assertEquals('Approved', response.message)
 def suite():
     suite = unittest.TestSuite()
     suite = unittest.TestLoader().loadTestsFromTestCase(TestAuth)

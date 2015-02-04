@@ -189,6 +189,18 @@ class TestLitleBatchRequest(unittest.TestCase):
         self.assertEqual(batchRequest._batchRequest.saleAmount, 25)
         self.assertEqual(batchRequest._batchRequest.numSales, 1)
         self.assertEqual(batchRequest.numOfTxn, 1)
+        
+    def testAddSaleWithSecondaryAmountAndApplepay(self):
+        batchRequest = self.litleBatchFileRequest.createBatch()
+        sale = litleXmlFields.sale()
+        sale.amount = 25
+        sale.secondaryAmount=100
+        self.litleBatchFileRequest.tnxToXml = MagicMock(return_value='')
+        sale.applepay=self.CreateApplepayForBatch()
+        batchRequest.addTransaction(sale)
+        self.assertEqual(batchRequest._batchRequest.saleAmount, 25)
+        self.assertEqual(batchRequest._batchRequest.numSales, 1)
+        self.assertEqual(batchRequest.numOfTxn, 1)
 
     def testAddAuth(self):
         batchRequest = self.litleBatchFileRequest.createBatch()
@@ -198,6 +210,21 @@ class TestLitleBatchRequest(unittest.TestCase):
 
         batchRequest.addTransaction(auth)
         self.assertEqual(batchRequest._batchRequest.authAmount, 25)
+        self.assertEqual(batchRequest._batchRequest.numAuths, 1)
+        self.assertEqual(batchRequest.numOfTxn, 1)
+     #8.29   
+    def testAddAuthWithSecondaryAmountAndApplepay(self):
+        batchRequest = self.litleBatchFileRequest.createBatch()
+        authorization = litleXmlFields.authorization()
+        authorization.orderId = '1234'
+        authorization.amount = 106
+        authorization.orderSource = 'ecommerce'
+        authorization.secondaryAmount = '10'
+        
+        authorization.applepay=self.CreateApplepayForBatch()
+
+        batchRequest.addTransaction(authorization)
+        self.assertEqual(batchRequest._batchRequest.authAmount, 106)
         self.assertEqual(batchRequest._batchRequest.numAuths, 1)
         self.assertEqual(batchRequest.numOfTxn, 1)
 
@@ -211,10 +238,33 @@ class TestLitleBatchRequest(unittest.TestCase):
         self.assertEqual(batchRequest._batchRequest.creditAmount, 25)
         self.assertEqual(batchRequest._batchRequest.numCredits, 1)
         self.assertEqual(batchRequest.numOfTxn, 1)
+    #8.29
+    def testAddCreditWithSecondaryAmount(self):
+        batchRequest = self.litleBatchFileRequest.createBatch()
+        credit = litleXmlFields.credit()
+        credit.amount = 25
+        credit.secondaryAmount= 100
+        self.litleBatchFileRequest.tnxToXml = MagicMock(return_value='')
+
+        batchRequest.addTransaction(credit)
+        self.assertEqual(batchRequest._batchRequest.creditAmount, 25)
+        self.assertEqual(batchRequest._batchRequest.numCredits, 1)
+        self.assertEqual(batchRequest.numOfTxn, 1)
+        
 
     def testAddRegisterTokenRequest(self):
         batchRequest = self.litleBatchFileRequest.createBatch()
         registerTokenRequest = litleXmlFields.registerTokenRequest()
+        self.litleBatchFileRequest.tnxToXml = MagicMock(return_value='')
+
+        batchRequest.addTransaction(registerTokenRequest)
+        self.assertEqual(batchRequest._batchRequest.numTokenRegistrations, 1)
+        self.assertEqual(batchRequest.numOfTxn, 1)
+
+    def testAddRegisterTokenRequestWithApplepay(self):
+        batchRequest = self.litleBatchFileRequest.createBatch()
+        registerTokenRequest = litleXmlFields.registerTokenRequest()
+        registerTokenRequest.applepay=self.CreateApplepayForBatch()
         self.litleBatchFileRequest.tnxToXml = MagicMock(return_value='')
 
         batchRequest.addTransaction(registerTokenRequest)
@@ -231,6 +281,20 @@ class TestLitleBatchRequest(unittest.TestCase):
         self.assertEqual(batchRequest._batchRequest.captureGivenAuthAmount, 25)
         self.assertEqual(batchRequest._batchRequest.numCaptureGivenAuths, 1)
         self.assertEqual(batchRequest.numOfTxn, 1)
+    
+    # 8.29    
+    def testAddCaptureGivenAuthWithSecondaryAmount(self):
+        batchRequest = self.litleBatchFileRequest.createBatch()
+        captureGivenAuth = litleXmlFields.captureGivenAuth()
+        captureGivenAuth.amount = 25
+        captureGivenAuth.secondaryAmount=100
+        self.litleBatchFileRequest.tnxToXml = MagicMock(return_value='')
+
+        batchRequest.addTransaction(captureGivenAuth)
+        self.assertEqual(batchRequest._batchRequest.captureGivenAuthAmount, 25)
+        self.assertEqual(batchRequest._batchRequest.numCaptureGivenAuths, 1)
+        self.assertEqual(batchRequest.numOfTxn, 1)
+        
 
     def testAddForceCapture(self):
         batchRequest = self.litleBatchFileRequest.createBatch()
@@ -242,7 +306,29 @@ class TestLitleBatchRequest(unittest.TestCase):
         self.assertEqual(batchRequest._batchRequest.forceCaptureAmount, 25)
         self.assertEqual(batchRequest._batchRequest.numForceCaptures, 1)
         self.assertEqual(batchRequest.numOfTxn, 1)
-
+        
+        
+        
+    #new for 8.29
+    def testAddForceCaptureWithSecondaryAmount(self):
+        batchRequest = self.litleBatchFileRequest.createBatch()
+        forcecapture = litleXmlFields.forceCapture()
+        forcecapture.amount = 106
+        forcecapture.orderId = "12344"
+        forcecapture.orderSource = 'ecommerce'
+        forcecapture.secondaryAmount=100
+        self.litleBatchFileRequest.tnxToXml = MagicMock(return_value='')
+         
+        card = litleXmlFields.cardType()
+        card.type = 'VI'
+        card.number = "4100000000000001"
+        card.expDate = "1210"
+        forcecapture.card = card
+        
+        batchRequest.addTransaction(forcecapture)
+        self.assertEqual(batchRequest._batchRequest.forceCaptureAmount, 106)
+        self.assertEqual(batchRequest._batchRequest.numForceCaptures, 1)
+        self.assertEqual(batchRequest.numOfTxn, 1)
     def testAddAuthReversal(self):
         batchRequest = self.litleBatchFileRequest.createBatch()
         authReversal = litleXmlFields.authReversal()
@@ -286,6 +372,18 @@ class TestLitleBatchRequest(unittest.TestCase):
         self.assertEqual(batchRequest._batchRequest.echeckCreditAmount, 25)
         self.assertEqual(batchRequest._batchRequest.numEcheckCredit, 1)
         self.assertEqual(batchRequest.numOfTxn, 1)
+        
+    def testAddEcheckCreditWithSecondaryAmount(self):
+        batchRequest = self.litleBatchFileRequest.createBatch()
+        echeckCredit = litleXmlFields.echeckCredit()
+        echeckCredit.amount = 25
+        echeckCredit.secondaryAmount = 100
+        self.litleBatchFileRequest.tnxToXml = MagicMock(return_value='')
+
+        batchRequest.addTransaction(echeckCredit)
+        self.assertEqual(batchRequest._batchRequest.echeckCreditAmount, 25)
+        self.assertEqual(batchRequest._batchRequest.numEcheckCredit, 1)
+        self.assertEqual(batchRequest.numOfTxn, 1)
 
     def testAddEcheckRedeposit(self):
         batchRequest = self.litleBatchFileRequest.createBatch()
@@ -300,6 +398,18 @@ class TestLitleBatchRequest(unittest.TestCase):
         batchRequest = self.litleBatchFileRequest.createBatch()
         echeckSale = litleXmlFields.echeckSale()
         echeckSale.amount = 25
+        self.litleBatchFileRequest.tnxToXml = MagicMock(return_value='')
+
+        batchRequest.addTransaction(echeckSale)
+        self.assertEqual(batchRequest._batchRequest.echeckSalesAmount, 25)
+        self.assertEqual(batchRequest._batchRequest.numEcheckSales, 1)
+        self.assertEqual(batchRequest.numOfTxn, 1)
+        
+    def testAddEcheckSaleWithSecondaryAmount(self):
+        batchRequest = self.litleBatchFileRequest.createBatch()
+        echeckSale = litleXmlFields.echeckSale()
+        echeckSale.amount = 25
+        echeckSale.secondaryAmount= 100
         self.litleBatchFileRequest.tnxToXml = MagicMock(return_value='')
 
         batchRequest.addTransaction(echeckSale)
@@ -358,9 +468,19 @@ class TestLitleBatchRequest(unittest.TestCase):
 
         with self.assertRaises(Exception):
             batchRequest.addTransaction(accountUpdate)
-
-
-
+    
+    def CreateApplepayForBatch(self):
+        applepay = litleXmlFields.applepayType()
+        applepay.data = "4100000000000000"
+        applepay.signature = "yoyo"
+        applepay.version = '8.29'
+        header=litleXmlFields.applepayHeaderType()
+        header.applicationData='applicationData'
+        header.ephemeralPublicKey ='UWIRNRSKSXMXEYEINR'
+        header.publicKeyHash='UYTGHJKMNBVFYWUWI'
+        header.transactionId='1024'
+        applepay.header=header
+        return applepay
 def suite():
     suite = unittest.TestSuite()
     suite = unittest.TestLoader().loadTestsFromTestCase(TestLitleBatchRequest)

@@ -59,6 +59,23 @@ class TestCredit(unittest.TestCase):
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(credit)
         self.assertEquals("Approved", response.message)
+        
+    def testSimpleCreditWithSecondaryAmountAndCard(self):
+        credit = litleXmlFields.credit()
+        credit.orderId = "12344"
+        credit.orderSource = 'ecommerce'
+        credit.amount= 106
+        credit.secondaryAmount =100
+        
+        card = litleXmlFields.cardType()
+        card.type = 'VI'
+        card.number = "4100000000000001"
+        card.expDate = "1210"
+        credit.card = card
+        
+        litleXml =  litleOnlineRequest(config)
+        response = litleXml.sendRequest(credit)
+        self.assertEquals("Approved", response.message)
 
     def testPaypalNotes(self):
         credit = litleXmlFields.credit()

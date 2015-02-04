@@ -72,7 +72,29 @@ class TestCaptureGivenAuth(unittest.TestCase):
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(CaptureGivenAuth)
         self.assertEquals("Approved",response.message)
+    #8.29
+    def testSimpleCaptureGivenAuthWithSecondaryAmount(self):
+        capturegivenauth = litleXmlFields.captureGivenAuth()
+        capturegivenauth.amount = 106
+        capturegivenauth.orderId = "12344"
+        authinfo = litleXmlFields.authInformation()
+        date = pyxb.binding.datatypes.date(2002, 10, 9)
+        authinfo.authDate = date
+        authinfo.authCode = "543216"
+        authinfo.authAmount = 12345
+        capturegivenauth.authInformation = authinfo
         
+        capturegivenauth.orderSource = 'ecommerce'
+        
+        card = litleXmlFields.cardType()
+        card.type = 'VI'
+        card.number = "4100000000000001"
+        card.expDate = "1210"
+        capturegivenauth.card = card
+        litleXml =  litleOnlineRequest(config)
+        response = litleXml.sendRequest(capturegivenauth)
+        self.assertEquals("Approved",response.message)
+      
     def testComplexCaptureGivenAuth(self):
         CaptureGivenAuth = litleXmlFields.captureGivenAuth()
         CaptureGivenAuth.amount = 106
@@ -102,7 +124,38 @@ class TestCaptureGivenAuth(unittest.TestCase):
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(CaptureGivenAuth)
         self.assertEquals("Approved",response.message)
-        
+    
+    #8.29
+    def testComplexCaptureGivenAuthWithSecondaryAmount(self):
+        CaptureGivenAuth = litleXmlFields.captureGivenAuth()
+        CaptureGivenAuth.amount = 106
+        CaptureGivenAuth.orderId = "12344"
+        CaptureGivenAuth.secondaryAmount=100
+        AuthInfo = litleXmlFields.authInformation()
+        date = pyxb.binding.datatypes.date(2002, 10, 9)
+        AuthInfo.authDate = date
+        AuthInfo.authCode = "543216"
+        AuthInfo.authAmount = 12345
+        CaptureGivenAuth.authInformation = AuthInfo
+        Contact = litleXmlFields.contact();
+        Contact.name="Bob"
+        Contact.city="lowell"
+        Contact.state="MA"
+        Contact.email="litle.com"
+        CaptureGivenAuth.billToAddress = Contact
+        ProcessingInstruct = litleXmlFields.processingInstructions()
+        ProcessingInstruct.bypassVelocityCheck = True
+        CaptureGivenAuth.processingInstructions = ProcessingInstruct
+        CaptureGivenAuth.orderSource = "ecommerce"
+        Card = litleXmlFields.cardType()
+        Card.number = "4100000000000000"
+        Card.expDate = "1210"
+        Card.type = 'VI'
+        Card.cardValidationNum = '1210'
+        CaptureGivenAuth.card = Card
+        litleXml =  litleOnlineRequest(config)
+        response = litleXml.sendRequest(CaptureGivenAuth)
+        self.assertEquals("Approved",response.message)    
         
     def testAuthInfo(self):
         CaptureGivenAuth = litleXmlFields.captureGivenAuth()

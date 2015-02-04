@@ -53,7 +53,30 @@ class TestEcheckSale(unittest.TestCase):
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(echecksale)
         self.assertEquals("Approved",response.message)
-
+    def testSimpleEcheckSaleWithSecondaryAmount(self):
+        echecksale = litleXmlFields.echeckSale()
+        echecksale.amount = 123456
+        echecksale.orderId = "12345"
+        echecksale.orderSource = 'ecommerce'
+        echecksale.secondaryAmount= 100
+         
+        echeck = litleXmlFields.echeck()
+        echeck.accType = 'Checking'
+        echeck.accNum = "12345657890"
+        echeck.routingNum = "123456789"
+        echeck.checkNum = "123455"
+        echecksale.echeckOrEcheckToken = echeck
+         
+        contact = litleXmlFields.contact()
+        contact.name = "Bob"
+        contact.city = "lowell"
+        contact.state = "MA"
+        contact.email = "litle.com"
+        echecksale.billToAddress = contact
+        
+        litleXml =  litleOnlineRequest(config)
+        response = litleXml.sendRequest(echecksale)
+        self.assertEquals("Approved",response.message)
     def testNoAmount(self):
         echecksale = litleXmlFields.echeckSale()
         echecksale.reportGroup = "Planets"

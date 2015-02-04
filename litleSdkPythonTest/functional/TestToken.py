@@ -76,6 +76,44 @@ class TestToken(unittest.TestCase):
         litleXml =  litleOnlineRequest(config)
         tokenResponse = litleXml.sendRequest(tokenRequest)
         self.assertEquals(tokenResponse.litleToken, "1111222233334444")
+        
+    def testSimpleTokenWithApplepay(self):
+        token = litleXmlFields.registerTokenRequest()
+        token.orderId = '12344'
+        applepay = litleXmlFields.applepayType()
+        applepay.data = "4100000000000000"
+        applepay.signature = "yoyo"
+        applepay.version = '8.29'
+        header=litleXmlFields.applepayHeaderType()
+        header.applicationData='applicationData'
+        header.ephemeralPublicKey ='UWIRNR SKSXMXEYEINR'
+        header.publicKeyHash='UYTGHJKMNBVFYWUWI'
+        header.transactionId='1024'
+        applepay.header=header
+        token.applepay = applepay
+        litleXml =  litleOnlineRequest(config)
+        response = litleXml.sendRequest(token)
+        self.assertEquals(response.message, "Account number was successfully registered")
+        self.assertEquals('840', response.applepayResponse.currencyCode)
+        
+    def testSimpleTokenWithApplepayMissingField(self):
+        token = litleXmlFields.registerTokenRequest()
+        token.orderId = '12344'
+        applepay = litleXmlFields.applepayType()
+        applepay.data = "4100000000000000"
+        applepay.signature = "yoyo"
+        applepay.version = '8.29'
+        header=litleXmlFields.applepayHeaderType()
+        header.applicationData='applicationData'
+        header.ephemeralPublicKey ='UWIRNR SKSXMXEYEINR'
+        header.publicKeyHash='UYTGHJKMNBVFYWUWI'
+        
+        applepay.header=header
+        token.applepay = applepay
+        litleXml =  litleOnlineRequest(config)
+
+        with self.assertRaises(Exception):
+            litle.sendRequest(token)
 
 def suite():
     suite = unittest.TestSuite()

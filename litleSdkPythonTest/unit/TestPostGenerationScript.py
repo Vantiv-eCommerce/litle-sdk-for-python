@@ -288,8 +288,9 @@ class TestPostGenerationScript(unittest.TestCase):
 </litleOnlineRequest>
 """
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
-
-    def test_minOccurs_payerId_transactionId_healthcareAmounts_IIASFlag_totalHealthCareAmount(self):
+        
+        # what does this trying to achieve? The minoccur seems can't be checked here. It is trying to validate that with 'minoccur=0', if the element can be presented? Yet the minoccur=1 is not workin 
+    def test_minOccurs_payerId_transactionId_healthcareAmounts_IIASFlag_totalHealthCareAmount_SecondaryAmount(self):
         authorization = litleXmlFields.authorization()
         authorization.orderId = '12344'
         authorization.amount = 106
@@ -372,7 +373,8 @@ class TestPostGenerationScript(unittest.TestCase):
 </litleOnlineRequest>
 """
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
-        
+    
+    #this not working either    
     def test_minOccurs_paypageRegistrationId(self):
         sale = litleXmlFields.sale()
         sale.orderId = '12344'

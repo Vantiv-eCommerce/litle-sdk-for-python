@@ -79,6 +79,30 @@ class TestSale(unittest.TestCase):
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(sale)
         self.assertEquals("Approved",response.message)
+        
+    def testSimpleSaleWithApplepayAndSecondaryAmount(self):
+        sale = litleXmlFields.sale()
+        sale.amount = 107
+        sale.orderId = '12344'
+        sale.orderSource = 'ecommerce'
+        sale.secondaryAmount=100
+         
+        applepay = litleXmlFields.applepayType()
+        applepay.data = "4100000000000000"
+        applepay.signature = "yoyo"
+        applepay.version = '8.29'
+        header=litleXmlFields.applepayHeaderType()
+        header.applicationData='applicationData'
+        header.ephemeralPublicKey ='UWIRNRSKSXMXEYEINR'
+        header.publicKeyHash='UYTGHJKMNBVFYWUWI'
+        header.transactionId='1024'
+        applepay.header=header
+        sale.applepay = applepay
+
+        litleXml =  litleOnlineRequest(config)
+        response = litleXml.sendRequest(sale)
+        self.assertEquals("Approved",response.message)
+        self.assertEquals(107,response.applepayResponse.transactionAmount)
 
 def suite():
     suite = unittest.TestSuite()
