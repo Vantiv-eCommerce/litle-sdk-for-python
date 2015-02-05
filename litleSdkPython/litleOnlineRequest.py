@@ -100,10 +100,10 @@ class litleOnlineRequest:
     
     def _processResponse(self, responseXml):
         temp = self._addNamespace(responseXml)
-#        try:
-        response =litleXmlFields.CreateFromDocument(temp)
-#        except Exception, e:
-#            raise Exception("Error Processing Response", e)    
+        try:
+            response =litleXmlFields.CreateFromDocument(temp)
+        except Exception, e:
+            raise Exception("Error Processing Response", e)    
         if (response.response == '0'):
             return response.transactionResponse
         else:
