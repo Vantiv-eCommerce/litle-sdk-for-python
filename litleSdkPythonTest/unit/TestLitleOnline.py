@@ -104,14 +104,13 @@ class TestLitleOnline(unittest.TestCase):
         
         fraudCheck=litleXmlFields.fraudCheckType()
         encoded = base64.b64encode('data to be encodedaaaaaaaaaabbbbbbbbbbcc') #generating a base64 encoded data of length 56, expect no exception
-        print len(encoded)
         fraudCheck.authenticationValue=encoded
         authorization.cardholderAuthentication=fraudCheck
         
         comm = Communications(config) #create an communication using config
         comm.http_post = MagicMock() #go deep into mock, some magic happened and http_post was set for com
 
-        litle = litleOnlineRequest(config) #initial litleonlinerequest
+        litle = litleOnlineRequest(config) #inlitial litleonlinerequest
         litle.setCommunications(comm) #use previous settled comm
         litle._processResponse = MagicMock(return_value=None) 
         litle.sendRequest(authorization) #trick happend here, in inner self.communications.http_post method sent the request xml to mock
@@ -158,7 +157,7 @@ class TestLitleOnline(unittest.TestCase):
         
         comm.http_post.assert_called_once()
         expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
+<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
   <authentication>
     <user>jenkins</user>
     <password>PYTHON</password>
@@ -188,7 +187,7 @@ class TestLitleOnline(unittest.TestCase):
         
         comm.http_post.assert_called_once()
         expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
+<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
   <authentication>
     <user>jenkins</user>
     <password>PYTHON</password>
@@ -232,7 +231,7 @@ class TestLitleOnline(unittest.TestCase):
         
         comm.http_post.assert_called_once()
         expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
+<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
   <authentication>
     <user>jenkins</user>
     <password>PYTHON</password>
@@ -288,7 +287,7 @@ class TestLitleOnline(unittest.TestCase):
         
         comm.http_post.assert_called_once()
         expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
+<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
   <authentication>
     <user>jenkins</user>
     <password>PYTHON</password>
@@ -335,7 +334,7 @@ class TestLitleOnline(unittest.TestCase):
         
         comm.http_post.assert_called_once()
         expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
+<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
   <authentication>
     <user>jenkins</user>
     <password>PYTHON</password>
@@ -376,7 +375,7 @@ class TestLitleOnline(unittest.TestCase):
         
         comm.http_post.assert_called_once()
         expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
+<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
   <authentication>
     <user>jenkins</user>
     <password>PYTHON</password>
@@ -410,7 +409,7 @@ class TestLitleOnline(unittest.TestCase):
         
         comm.http_post.assert_called_once()
         expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
+<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
   <authentication>
     <user>jenkins</user>
     <password>PYTHON</password>
@@ -439,7 +438,7 @@ class TestLitleOnline(unittest.TestCase):
         
         comm.http_post.assert_called_once()
         expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
+<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
   <authentication>
     <user>jenkins</user>
     <password>PYTHON</password>
@@ -451,32 +450,32 @@ class TestLitleOnline(unittest.TestCase):
 </litleOnlineRequest>
 """
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
-# 
-#     def testEcheckRedeposit(self):
-#         echeckredeposit = litleXmlFields.echeckRedeposit()
-#         echeckredeposit.litleTxnId = 123456
-#         
-#         comm = Communications(config)
-#         comm.http_post = MagicMock()
-# 
-#         litle = litleOnlineRequest(config)
-#         litle.setCommunications(comm)
-#         litle._processResponse = MagicMock(return_value=None)
-#         litle.sendRequest(echeckredeposit)
-#         
-#         comm.http_post.assert_called_once()
-#         expected = """<?xml version="1.0" encoding="utf-8"?>
-# <litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
-#   <authentication>
-#     <user>jenkins</user>
-#     <password>PYTHON</password>
-#   </authentication>
-#   <echeckRedeposit reportGroup="DefaultReportGroup">
-#     <litleTxnId>123456</litleTxnId>
-#   </echeckRedeposit>
-# </litleOnlineRequest>
-# """
-#         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
+ 
+    def testEcheckRedeposit(self):
+        echeckredeposit = litleXmlFields.echeckRedeposit()
+        echeckredeposit.litleTxnId = 123456
+         
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+ 
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(echeckredeposit)
+         
+        comm.http_post.assert_called_once()
+        expected = """<?xml version="1.0" encoding="utf-8"?>
+<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
+  <authentication>
+    <user>jenkins</user>
+    <password>PYTHON</password>
+  </authentication>
+  <echeckRedeposit reportGroup="DefaultReportGroup">
+    <litleTxnId>123456</litleTxnId>
+  </echeckRedeposit>
+</litleOnlineRequest>
+"""
+        comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
 
     def testEcheckSale(self):
         echecksale = litleXmlFields.echeckSale()
@@ -508,7 +507,7 @@ class TestLitleOnline(unittest.TestCase):
          
         comm.http_post.assert_called_once()
         expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
+<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
   <authentication>
     <user>jenkins</user>
     <password>PYTHON</password>
@@ -566,7 +565,7 @@ class TestLitleOnline(unittest.TestCase):
          
         comm.http_post.assert_called_once()
         expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
+<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
   <authentication>
     <user>jenkins</user>
     <password>PYTHON</password>
@@ -592,88 +591,88 @@ class TestLitleOnline(unittest.TestCase):
 </litleOnlineRequest>
 """
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
-#     def testEcheckVoid(self):
-#         echeckvoid = litleXmlFields.echeckVoid()
-#         echeckvoid.litleTxnId = 12345
-#         
-#         comm = Communications(config)
-#         comm.http_post = MagicMock()
-# 
-#         litle = litleOnlineRequest(config)
-#         litle.setCommunications(comm)
-#         litle._processResponse = MagicMock(return_value=None)
-#         litle.sendRequest(echeckvoid)
-#         
-#         comm.http_post.assert_called_once()
-#         expected = """<?xml version="1.0" encoding="utf-8"?>
-# <litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
-#   <authentication>
-#     <user>jenkins</user>
-#     <password>PYTHON</password>
-#   </authentication>
-#   <echeckVoid reportGroup="DefaultReportGroup">
-#     <litleTxnId>12345</litleTxnId>
-#   </echeckVoid>
-# </litleOnlineRequest>
-# """
-#         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
-# 
-#     def testEcheckVerification(self):
-#         echeckverification = litleXmlFields.echeckVerification()
-#         echeckverification.amount = 123456
-#         echeckverification.orderId = "12345"
-#         echeckverification.orderSource = 'ecommerce'
-#         
-#         echeck = litleXmlFields.echeck()
-#         echeck.accType = 'Checking'
-#         echeck.accNum = '12345657890'
-#         echeck.routingNum = '123456789'
-#         echeck.checkNum = '123455'
-#         echeckverification.echeckOrEcheckToken = echeck
-#         
-#         contact = litleXmlFields.contact()
-#         contact.name = "Bob"
-#         contact.city = "lowell"
-#         contact.state = "MA"
-#         contact.email = "litle.com"
-#         echeckverification.billToAddress = contact
-#         
-#         comm = Communications(config)
-#         comm.http_post = MagicMock()
-# 
-#         litle = litleOnlineRequest(config)
-#         litle.setCommunications(comm)
-#         litle._processResponse = MagicMock(return_value=None)
-#         litle.sendRequest(echeckverification)
-#         
-#         comm.http_post.assert_called_once()
-#         expected = """<?xml version="1.0" encoding="utf-8"?>
-# <litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
-#   <authentication>
-#     <user>jenkins</user>
-#     <password>PYTHON</password>
-#   </authentication>
-#   <echeckVerification reportGroup="DefaultReportGroup">
-#     <orderId>12345</orderId>
-#     <amount>123456</amount>
-#     <orderSource>ecommerce</orderSource>
-#     <billToAddress>
-#       <name>Bob</name>
-#       <city>lowell</city>
-#       <state>MA</state>
-#       <email>litle.com</email>
-#     </billToAddress>
-#     <echeck>
-#       <accType>Checking</accType>
-#       <accNum>12345657890</accNum>
-#       <routingNum>123456789</routingNum>
-#       <checkNum>123455</checkNum>
-#     </echeck>
-#   </echeckVerification>
-# </litleOnlineRequest>
-# """
-#         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
-# 
+    def testEcheckVoid(self):
+        echeckvoid = litleXmlFields.echeckVoid()
+        echeckvoid.litleTxnId = 12345
+         
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+ 
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(echeckvoid)
+         
+        comm.http_post.assert_called_once()
+        expected = """<?xml version="1.0" encoding="utf-8"?>
+<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
+  <authentication>
+    <user>jenkins</user>
+    <password>PYTHON</password>
+  </authentication>
+  <echeckVoid reportGroup="DefaultReportGroup">
+    <litleTxnId>12345</litleTxnId>
+  </echeckVoid>
+</litleOnlineRequest>
+"""
+        comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
+ 
+    def testEcheckVerification(self):
+        echeckverification = litleXmlFields.echeckVerification()
+        echeckverification.amount = 123456
+        echeckverification.orderId = "12345"
+        echeckverification.orderSource = 'ecommerce'
+         
+        echeck = litleXmlFields.echeck()
+        echeck.accType = 'Checking'
+        echeck.accNum = '12345657890'
+        echeck.routingNum = '123456789'
+        echeck.checkNum = '123455'
+        echeckverification.echeckOrEcheckToken = echeck
+         
+        contact = litleXmlFields.contact()
+        contact.name = "Bob"
+        contact.city = "lowell"
+        contact.state = "MA"
+        contact.email = "litle.com"
+        echeckverification.billToAddress = contact
+         
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+ 
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(echeckverification)
+         
+        comm.http_post.assert_called_once()
+        expected = """<?xml version="1.0" encoding="utf-8"?>
+<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
+  <authentication>
+    <user>jenkins</user>
+    <password>PYTHON</password>
+  </authentication>
+  <echeckVerification reportGroup="DefaultReportGroup">
+    <orderId>12345</orderId>
+    <amount>123456</amount>
+    <orderSource>ecommerce</orderSource>
+    <billToAddress>
+      <name>Bob</name>
+      <city>lowell</city>
+      <state>MA</state>
+      <email>litle.com</email>
+    </billToAddress>
+    <echeck>
+      <accType>Checking</accType>
+      <accNum>12345657890</accNum>
+      <routingNum>123456789</routingNum>
+      <checkNum>123455</checkNum>
+    </echeck>
+  </echeckVerification>
+</litleOnlineRequest>
+"""
+        comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
+ 
     def testForceCapture(self):
         forcecapture = litleXmlFields.forceCapture()
         forcecapture.amount = 106
@@ -696,7 +695,7 @@ class TestLitleOnline(unittest.TestCase):
          
         comm.http_post.assert_called_once()
         expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
+<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
   <authentication>
     <user>jenkins</user>
     <password>PYTHON</password>
@@ -739,7 +738,7 @@ class TestLitleOnline(unittest.TestCase):
          
         comm.http_post.assert_called_once()
         expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
+<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
   <authentication>
     <user>jenkins</user>
     <password>PYTHON</password>
@@ -782,7 +781,7 @@ class TestLitleOnline(unittest.TestCase):
          
         comm.http_post.assert_called_once()
         expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
+<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
   <authentication>
     <user>jenkins</user>
     <password>PYTHON</password>
@@ -833,7 +832,7 @@ class TestLitleOnline(unittest.TestCase):
          
         comm.http_post.assert_called_once()
         expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
+<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
   <authentication>
     <user>jenkins</user>
     <password>PYTHON</password>
@@ -887,7 +886,7 @@ class TestLitleOnline(unittest.TestCase):
          
         comm.http_post.assert_called_once()
         expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
+<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
   <authentication>
     <user>jenkins</user>
     <password>PYTHON</password>
@@ -925,7 +924,7 @@ class TestLitleOnline(unittest.TestCase):
          
         comm.http_post.assert_called_once()
         expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
+<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
   <authentication>
     <user>jenkins</user>
     <password>PYTHON</password>
@@ -937,641 +936,641 @@ class TestLitleOnline(unittest.TestCase):
 </litleOnlineRequest>
 """
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
-#         
-#     def testExtraField(self):
-#         auth = litleXmlFields.authorization()
-#         auth.orderId = '1234'
-#         auth.amount = 106
-#         auth.orderSource = 'ecommerce'
-#         auth.extraField = "extra"
-#         
-#         card = litleXmlFields.cardType()
-#         card.number = "4100000000000000"
-#         card.expDate = "1210"
-#         card.type = 'VI'
-#         auth.card = card
-# 
-#         comm = Communications(config)
-#         comm.http_post = MagicMock()
-# 
-#         litle = litleOnlineRequest(config)
-#         litle.setCommunications(comm)
-#         litle._processResponse = MagicMock(return_value=None)
-#         litle.sendRequest(auth)
-#         
-#         comm.http_post.assert_called_once()
-#         expected = """<?xml version="1.0" encoding="utf-8"?>
-# <litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
-#   <authentication>
-#     <user>jenkins</user>
-#     <password>PYTHON</password>
-#   </authentication>
-#   <authorization reportGroup="DefaultReportGroup">
-#     <orderId>1234</orderId>
-#     <amount>106</amount>
-#     <orderSource>ecommerce</orderSource>
-#     <card>
-#       <type>VI</type>
-#       <number>4100000000000000</number>
-#       <expDate>1210</expDate>
-#     </card>
-#   </authorization>
-# </litleOnlineRequest>
-# """
-#         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
-# 
-#     def testExtraChoices(self):
-#         auth = litleXmlFields.authorization()
-#         auth.orderId = '1234'
-#         auth.amount = 106
-#         auth.orderSource = 'ecommerce'
-#         
-#         card = litleXmlFields.cardType()
-#         card.number = "4100000000000000"
-#         card.expDate = "1210"
-#         card.type = 'VI'
-#         auth.card = card
-# 
-#         paypal = litleXmlFields.payPal()
-#         paypal.payerId = "1234"
-#         paypal.token = "1234"
-#         paypal.transactionId = '123456'
-#         auth.paypal = paypal
-# 
-#         litle = litleOnlineRequest(config)
-#         with self.assertRaises(Exception):
-#             litle.sendRequest(auth)
-# 
-#     def testInvalidEnum(self):
-#         auth = litleXmlFields.authorization()
-#         auth.orderId = '1234'
-#         auth.amount = 106
-#         auth.orderSource = 'ecommerce'
-#         auth.extraField = "extra"
-#         
-#         card = litleXmlFields.cardType()
-#         card.number = "4100000000000000"
-#         card.expDate = "1210"
-#         
-#         with self.assertRaises(pyxb.BadTypeValueError):
-#             card.type = 'VC'
-#             auth.card = card
-# 
-#     def testCustomerInfoDob(self):
-#         auth = litleXmlFields.authorization();
-#         auth.reportGroup = 'Planets'
-#         auth.orderId = '12344'
-#         auth.amount = 106
-#         auth.orderSource = 'ecommerce'
-# 
-#         card = litleXmlFields.cardType()
-#         card.type = 'VI'
-#         card.number = '4100000000000002'
-#         card.expDate = '1210'
-#         auth.card = card
-#         customerInfo = litleXmlFields.customerInfo()
-#         customerInfo.dob = '1980-04-14'
-#         auth.customerInfo = customerInfo
-# 
-#         comm = Communications(config)
-#         comm.http_post = MagicMock()
-# 
-#         litle = litleOnlineRequest(config)
-#         litle.setCommunications(comm)
-#         litle._processResponse = MagicMock(return_value=None)
-#         litle.sendRequest(auth)
-# 
-#         comm.http_post.assert_called_once()
-#         expected = """<?xml version="1.0" encoding="utf-8"?>
-# <litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
-#   <authentication>
-#     <user>jenkins</user>
-#     <password>PYTHON</password>
-#   </authentication>
-#   <authorization reportGroup="DefaultReportGroup">
-#     <orderId>12344</orderId>
-#     <amount>106</amount>
-#     <orderSource>ecommerce</orderSource>
-#     <customerInfo>
-#       <dob>1980-04-14</dob>
-#     </customerInfo>
-#     <card>
-#       <type>VI</type>
-#       <number>4100000000000002</number>
-#       <expDate>1210</expDate>
-#     </card>
-#   </authorization>
-# </litleOnlineRequest>
-# """
-#         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
-# 
-#     def testCancelSubscription(self):
-#         cancel = litleXmlFields.cancelSubscription()
-#         cancel.subscriptionId = '12345'
-# 
-#         comm = Communications(config)
-#         comm.http_post = MagicMock()
-# 
-#         litle = litleOnlineRequest(config)
-#         litle.setCommunications(comm)
-#         litle._processResponse = MagicMock(return_value=None)
-#         litle.sendRequest(cancel)
-# 
-#         comm.http_post.assert_called_once()
-#         expected = """<?xml version="1.0" encoding="utf-8"?>
-# <litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
-#   <authentication>
-#     <user>jenkins</user>
-#     <password>PYTHON</password>
-#   </authentication>
-#   <cancelSubscription>
-#     <subscriptionId>12345</subscriptionId>
-#   </cancelSubscription>
-# </litleOnlineRequest>
-# """
-#         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
-# 
-#     def testUpdateSubscription(self):
-#         update = litleXmlFields.updateSubscription()
-#         update.billingDate = '2013-08-07'
-#         billToAddress = litleXmlFields.contact()
-#         billToAddress.name = 'Greg Dake'
-#         billToAddress.city = 'Lowell'
-#         billToAddress.state = 'MA'
-#         billToAddress.email = "sdksupport@litle.com"
-#         update.billToAddress = billToAddress
-#         card = litleXmlFields.cardType()
-#         card.number = '4100000000000001'
-#         card.expDate = '1215'
-#         card.type = 'VI'
-#         update.card = card
-#         update.planCode = 'abcdefg'
-#         update.subscriptionId = '12345'
-# 
-#         comm = Communications(config)
-#         comm.http_post = MagicMock()
-# 
-#         litle = litleOnlineRequest(config)
-#         litle.setCommunications(comm)
-#         litle._processResponse = MagicMock(return_value=None)
-#         litle.sendRequest(update)
-# 
-#         comm.http_post.assert_called_once()
-#         expected = """<?xml version="1.0" encoding="utf-8"?>
-# <litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
-#   <authentication>
-#     <user>jenkins</user>
-#     <password>PYTHON</password>
-#   </authentication>
-#   <updateSubscription>
-#     <subscriptionId>12345</subscriptionId>
-#     <planCode>abcdefg</planCode>
-#     <billToAddress>
-#       <name>Greg Dake</name>
-#       <city>Lowell</city>
-#       <state>MA</state>
-#       <email>sdksupport@litle.com</email>
-#     </billToAddress>
-#     <card>
-#       <type>VI</type>
-#       <number>4100000000000001</number>
-#       <expDate>1215</expDate>
-#     </card>
-#     <billingDate>2013-08-07</billingDate>
-#   </updateSubscription>
-# </litleOnlineRequest>
-# """
-#         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
-#         
-#     def testUpdatePlan(self):
-#         update = litleXmlFields.updatePlan()
-#         update.active = True
-#         update.planCode = 'abc'
-# 
-#         comm = Communications(config)
-#         comm.http_post = MagicMock()
-# 
-#         litle = litleOnlineRequest(config)
-#         litle.setCommunications(comm)
-#         litle._processResponse = MagicMock(return_value=None)
-#         litle.sendRequest(update)
-# 
-#         comm.http_post.assert_called_once()
-#         expected = """<?xml version="1.0" encoding="utf-8"?>
-# <litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
-#   <authentication>
-#     <user>jenkins</user>
-#     <password>PYTHON</password>
-#   </authentication>
-#   <updatePlan>
-#     <planCode>abc</planCode>
-#     <active>true</active>
-#   </updatePlan>
-# </litleOnlineRequest>
-# """
-#         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
-# 
-#     def testCreatePlan(self):
-#         create = litleXmlFields.createPlan()
-#         create.planCode = 'abc'
-#         create.active = True
-# 
-#         comm = Communications(config)
-#         comm.http_post = MagicMock()
-# 
-#         litle = litleOnlineRequest(config)
-#         litle.setCommunications(comm)
-#         litle._processResponse = MagicMock(return_value=None)
-#         litle.sendRequest(create)
-# 
-#         comm.http_post.assert_called_once()
-#         expected = """<?xml version="1.0" encoding="utf-8"?>
-# <litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
-#   <authentication>
-#     <user>jenkins</user>
-#     <password>PYTHON</password>
-#   </authentication>
-#   <createPlan>
-#     <planCode>abc</planCode>
-#     <active>true</active>
-#   </createPlan>
-# </litleOnlineRequest>
-# """
-#         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
-# 
-#     def testActivate(self):
-#         activate = litleXmlFields.activate()
-#         activate.amount = 100
-# 
-#         comm = Communications(config)
-#         comm.http_post = MagicMock()
-# 
-#         litle = litleOnlineRequest(config)
-#         litle.setCommunications(comm)
-#         litle._processResponse = MagicMock(return_value=None)
-#         litle.sendRequest(activate)
-# 
-#         comm.http_post.assert_called_once()
-#         expected = """<?xml version="1.0" encoding="utf-8"?>
-# <litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
-#   <authentication>
-#     <user>jenkins</user>
-#     <password>PYTHON</password>
-#   </authentication>
-#   <activate reportGroup="DefaultReportGroup">
-#     <amount>100</amount>
-#   </activate>
-# </litleOnlineRequest>
-# """
-#         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
-# 
-#     def testDeactivate(self):
-#         deactivate = litleXmlFields.deactivate()
-#         deactivate.orderId = '123'
-# 
-#         comm = Communications(config)
-#         comm.http_post = MagicMock()
-# 
-#         litle = litleOnlineRequest(config)
-#         litle.setCommunications(comm)
-#         litle._processResponse = MagicMock(return_value=None)
-#         litle.sendRequest(deactivate)
-# 
-#         comm.http_post.assert_called_once()
-#         expected = """<?xml version="1.0" encoding="utf-8"?>
-# <litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
-#   <authentication>
-#     <user>jenkins</user>
-#     <password>PYTHON</password>
-#   </authentication>
-#   <deactivate reportGroup="DefaultReportGroup">
-#     <orderId>123</orderId>
-#   </deactivate>
-# </litleOnlineRequest>
-# """
-#         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
-# 
-#     def testLoad(self):
-#         load = litleXmlFields.load()
-#         load.orderId = '123'
-# 
-#         comm = Communications(config)
-#         comm.http_post = MagicMock()
-# 
-#         litle = litleOnlineRequest(config)
-#         litle.setCommunications(comm)
-#         litle._processResponse = MagicMock(return_value=None)
-#         litle.sendRequest(load)
-# 
-#         comm.http_post.assert_called_once()
-#         expected = """<?xml version="1.0" encoding="utf-8"?>
-# <litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
-#   <authentication>
-#     <user>jenkins</user>
-#     <password>PYTHON</password>
-#   </authentication>
-#   <load reportGroup="DefaultReportGroup">
-#     <orderId>123</orderId>
-#   </load>
-# </litleOnlineRequest>
-# """
-#         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
-# 
-#     def testUnload(self):
-#         unload = litleXmlFields.unload()
-#         unload.orderId = '123'
-# 
-#         comm = Communications(config)
-#         comm.http_post = MagicMock()
-# 
-#         litle = litleOnlineRequest(config)
-#         litle.setCommunications(comm)
-#         litle._processResponse = MagicMock(return_value=None)
-#         litle.sendRequest(unload)
-# 
-#         comm.http_post.assert_called_once()
-#         expected = """<?xml version="1.0" encoding="utf-8"?>
-# <litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
-#   <authentication>
-#     <user>jenkins</user>
-#     <password>PYTHON</password>
-#   </authentication>
-#   <unload reportGroup="DefaultReportGroup">
-#     <orderId>123</orderId>
-#   </unload>
-# </litleOnlineRequest>
-# """
-#         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
-# 
-#     def testBalanceInquiry(self):
-#         balanceInquiry = litleXmlFields.balanceInquiry()
-#         balanceInquiry.orderId = '123'
-# 
-#         comm = Communications(config)
-#         comm.http_post = MagicMock()
-# 
-#         litle = litleOnlineRequest(config)
-#         litle.setCommunications(comm)
-#         litle._processResponse = MagicMock(return_value=None)
-#         litle.sendRequest(balanceInquiry)
-# 
-#         comm.http_post.assert_called_once()
-#         expected = """<?xml version="1.0" encoding="utf-8"?>
-# <litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
-#   <authentication>
-#     <user>jenkins</user>
-#     <password>PYTHON</password>
-#   </authentication>
-#   <balanceInquiry reportGroup="DefaultReportGroup">
-#     <orderId>123</orderId>
-#   </balanceInquiry>
-# </litleOnlineRequest>
-# """
-#         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
-# 
-#     def testActivateReversal(self):
-#         activateReversal = litleXmlFields.activateReversal()
-#         activateReversal.litleTxnId = '123'
-# 
-#         comm = Communications(config)
-#         comm.http_post = MagicMock()
-# 
-#         litle = litleOnlineRequest(config)
-#         litle.setCommunications(comm)
-#         litle._processResponse = MagicMock(return_value=None)
-#         litle.sendRequest(activateReversal)
-# 
-#         comm.http_post.assert_called_once()
-#         expected = """<?xml version="1.0" encoding="utf-8"?>
-# <litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
-#   <authentication>
-#     <user>jenkins</user>
-#     <password>PYTHON</password>
-#   </authentication>
-#   <activateReversal reportGroup="DefaultReportGroup">
-#     <litleTxnId>123</litleTxnId>
-#   </activateReversal>
-# </litleOnlineRequest>
-# """
-#         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
-# 
-#     def testDeactivateReversal(self):
-#         deactivateReversal = litleXmlFields.deactivateReversal()
-#         deactivateReversal.litleTxnId = '123'
-# 
-#         comm = Communications(config)
-#         comm.http_post = MagicMock()
-# 
-#         litle = litleOnlineRequest(config)
-#         litle.setCommunications(comm)
-#         litle._processResponse = MagicMock(return_value=None)
-#         litle.sendRequest(deactivateReversal)
-# 
-#         comm.http_post.assert_called_once()
-#         expected = """<?xml version="1.0" encoding="utf-8"?>
-# <litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
-#   <authentication>
-#     <user>jenkins</user>
-#     <password>PYTHON</password>
-#   </authentication>
-#   <deactivateReversal reportGroup="DefaultReportGroup">
-#     <litleTxnId>123</litleTxnId>
-#   </deactivateReversal>
-# </litleOnlineRequest>
-# """
-#         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
-# 
-#     def testLoadReversal(self):
-#         loadReversal = litleXmlFields.loadReversal()
-#         loadReversal.litleTxnId = '123'
-# 
-#         comm = Communications(config)
-#         comm.http_post = MagicMock()
-# 
-#         litle = litleOnlineRequest(config)
-#         litle.setCommunications(comm)
-#         litle._processResponse = MagicMock(return_value=None)
-#         litle.sendRequest(loadReversal)
-# 
-#         comm.http_post.assert_called_once()
-#         expected = """<?xml version="1.0" encoding="utf-8"?>
-# <litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
-#   <authentication>
-#     <user>jenkins</user>
-#     <password>PYTHON</password>
-#   </authentication>
-#   <loadReversal reportGroup="DefaultReportGroup">
-#     <litleTxnId>123</litleTxnId>
-#   </loadReversal>
-# </litleOnlineRequest>
-# """
-#         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
-# 
-#     def testUnloadReversal(self):
-#         unloadReversal = litleXmlFields.unloadReversal()
-#         unloadReversal.litleTxnId = '123'
-# 
-#         comm = Communications(config)
-#         comm.http_post = MagicMock()
-# 
-#         litle = litleOnlineRequest(config)
-#         litle.setCommunications(comm)
-#         litle._processResponse = MagicMock(return_value=None)
-#         litle.sendRequest(unloadReversal)
-# 
-#         comm.http_post.assert_called_once()
-#         expected = """<?xml version="1.0" encoding="utf-8"?>
-# <litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
-#   <authentication>
-#     <user>jenkins</user>
-#     <password>PYTHON</password>
-#   </authentication>
-#   <unloadReversal reportGroup="DefaultReportGroup">
-#     <litleTxnId>123</litleTxnId>
-#   </unloadReversal>
-# </litleOnlineRequest>
-# """
-#         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
-# 
-#     def testRefundReversal(self):
-#         refundReversal = litleXmlFields.refundReversal()
-#         refundReversal.litleTxnId = '123'
-# 
-#         comm = Communications(config)
-#         comm.http_post = MagicMock()
-# 
-#         litle = litleOnlineRequest(config)
-#         litle.setCommunications(comm)
-#         litle._processResponse = MagicMock(return_value=None)
-#         litle.sendRequest(refundReversal)
-# 
-#         comm.http_post.assert_called_once()
-#         expected = """<?xml version="1.0" encoding="utf-8"?>
-# <litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
-#   <authentication>
-#     <user>jenkins</user>
-#     <password>PYTHON</password>
-#   </authentication>
-#   <refundReversal reportGroup="DefaultReportGroup">
-#     <litleTxnId>123</litleTxnId>
-#   </refundReversal>
-# </litleOnlineRequest>
-# """
-#         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
-# 
-#     def testDepositReversal(self):
-#         depositReversal = litleXmlFields.depositReversal()
-#         depositReversal.litleTxnId = '123'
-# 
-#         comm = Communications(config)
-#         comm.http_post = MagicMock()
-# 
-#         litle = litleOnlineRequest(config)
-#         litle.setCommunications(comm)
-#         litle._processResponse = MagicMock(return_value=None)
-#         litle.sendRequest(depositReversal)
-# 
-#         comm.http_post.assert_called_once()
-#         expected = """<?xml version="1.0" encoding="utf-8"?>
-# <litleOnlineRequest merchantId="101" merchantSdk="8.27.0" version="8.27" xmlns="http://www.litle.com/schema">
-#   <authentication>
-#     <user>jenkins</user>
-#     <password>PYTHON</password>
-#   </authentication>
-#   <depositReversal reportGroup="DefaultReportGroup">
-#     <litleTxnId>123</litleTxnId>
-#   </depositReversal>
-# </litleOnlineRequest>
-# """
-#         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
-# 
-#     def testAuthorizationIncludesWallet(self):
-#         authorization = litleXmlFields.authorization()
-#         authorization.wallet = litleXmlFields.wallet()
-#         authorization.wallet.walletSourceType = litleXmlFields.walletSourceType.MasterPass
-#         authorization.wallet.walletSourceTypeId = '5'
-#         
-#         comm = Communications(config)
-#         comm.http_post = MagicMock()
-#         
-#         litle = litleOnlineRequest(config)
-#         litle.setCommunications(comm)
-#         litle._processResponse = MagicMock(return_value=None)
-#         litle.sendRequest(authorization)
-#         
-#         comm.http_post.assert_called_once()
-#         expected = """<?xml version="1.0" encoding="utf-8"?>
-# <litleOnlineRequest merchantId="101" merchantSdk="{0}" version="{1}" xmlns="http://www.litle.com/schema">
-#   <authentication>
-#     <user>jenkins</user>
-#     <password>PYTHON</password>
-#   </authentication>
-#   <authorization reportGroup="DefaultReportGroup">
-#     <wallet>
-#       <walletSourceType>MasterPass</walletSourceType>
-#       <walletSourceTypeId>5</walletSourceTypeId>
-#     </wallet>
-#   </authorization>
-# </litleOnlineRequest>
-# """.format("8.27.0", "8.27")
-#         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
-# 
-#     def testSaleIncludesWallet(self):
-#         sale = litleXmlFields.sale()
-#         sale.wallet = litleXmlFields.wallet()
-#         sale.wallet.walletSourceType = litleXmlFields.walletSourceType.MasterPass
-#         sale.wallet.walletSourceTypeId = '5'
-#         
-#         comm = Communications(config)
-#         comm.http_post = MagicMock()
-#         
-#         litle = litleOnlineRequest(config)
-#         litle.setCommunications(comm)
-#         litle._processResponse = MagicMock(return_value=None)
-#         litle.sendRequest(sale)
-#         
-#         comm.http_post.assert_called_once()
-#         expected = """<?xml version="1.0" encoding="utf-8"?>
-# <litleOnlineRequest merchantId="101" merchantSdk="{0}" version="{1}" xmlns="http://www.litle.com/schema">
-#   <authentication>
-#     <user>jenkins</user>
-#     <password>PYTHON</password>
-#   </authentication>
-#   <sale reportGroup="DefaultReportGroup">
-#     <wallet>
-#       <walletSourceType>MasterPass</walletSourceType>
-#       <walletSourceTypeId>5</walletSourceTypeId>
-#     </wallet>
-#   </sale>
-# </litleOnlineRequest>
-# """.format("8.27.0", "8.27")
-#         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
-#         
-#     def testEcheckTxnsCanHavePpdAsOrderSource(self):
-#         echeckSale = litleXmlFields.echeckSale()
-#         echeckSale.orderSource = litleXmlFields.orderSourceType.echeckppd
-#         
-#         comm = Communications(config)
-#         comm.http_post = MagicMock()
-#         
-#         litle = litleOnlineRequest(config)
-#         litle.setCommunications(comm)
-#         litle._processResponse = MagicMock(return_value=None)
-#         litle.sendRequest(echeckSale)
-#         
-#         comm.http_post.assert_called_once()
-#         expected = """<?xml version="1.0" encoding="utf-8"?>
-# <litleOnlineRequest merchantId="101" merchantSdk="{0}" version="{1}" xmlns="http://www.litle.com/schema">
-#   <authentication>
-#     <user>jenkins</user>
-#     <password>PYTHON</password>
-#   </authentication>
-#   <echeckSale reportGroup="DefaultReportGroup">
-#     <orderSource>echeckppd</orderSource>
-#   </echeckSale>
-# </litleOnlineRequest>
-# """.format("8.27.0", "8.27")
-#         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
+         
+    def testExtraField(self):
+        auth = litleXmlFields.authorization()
+        auth.orderId = '1234'
+        auth.amount = 106
+        auth.orderSource = 'ecommerce'
+        auth.extraField = "extra"
+         
+        card = litleXmlFields.cardType()
+        card.number = "4100000000000000"
+        card.expDate = "1210"
+        card.type = 'VI'
+        auth.card = card
+ 
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+ 
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(auth)
+         
+        comm.http_post.assert_called_once()
+        expected = """<?xml version="1.0" encoding="utf-8"?>
+<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
+  <authentication>
+    <user>jenkins</user>
+    <password>PYTHON</password>
+  </authentication>
+  <authorization reportGroup="DefaultReportGroup">
+    <orderId>1234</orderId>
+    <amount>106</amount>
+    <orderSource>ecommerce</orderSource>
+    <card>
+      <type>VI</type>
+      <number>4100000000000000</number>
+      <expDate>1210</expDate>
+    </card>
+  </authorization>
+</litleOnlineRequest>
+"""
+        comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
+ 
+    def testExtraChoices(self):
+        auth = litleXmlFields.authorization()
+        auth.orderId = '1234'
+        auth.amount = 106
+        auth.orderSource = 'ecommerce'
+         
+        card = litleXmlFields.cardType()
+        card.number = "4100000000000000"
+        card.expDate = "1210"
+        card.type = 'VI'
+        auth.card = card
+ 
+        paypal = litleXmlFields.payPal()
+        paypal.payerId = "1234"
+        paypal.token = "1234"
+        paypal.transactionId = '123456'
+        auth.paypal = paypal
+ 
+        litle = litleOnlineRequest(config)
+        with self.assertRaises(Exception):
+            litle.sendRequest(auth)
+ 
+    def testInvalidEnum(self):
+        auth = litleXmlFields.authorization()
+        auth.orderId = '1234'
+        auth.amount = 106
+        auth.orderSource = 'ecommerce'
+        auth.extraField = "extra"
+         
+        card = litleXmlFields.cardType()
+        card.number = "4100000000000000"
+        card.expDate = "1210"
+         
+        with self.assertRaises(pyxb.BadTypeValueError):
+            card.type = 'VC'
+            auth.card = card
+ 
+    def testCustomerInfoDob(self):
+        auth = litleXmlFields.authorization();
+        auth.reportGroup = 'Planets'
+        auth.orderId = '12344'
+        auth.amount = 106
+        auth.orderSource = 'ecommerce'
+ 
+        card = litleXmlFields.cardType()
+        card.type = 'VI'
+        card.number = '4100000000000002'
+        card.expDate = '1210'
+        auth.card = card
+        customerInfo = litleXmlFields.customerInfo()
+        customerInfo.dob = '1980-04-14'
+        auth.customerInfo = customerInfo
+ 
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+ 
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(auth)
+ 
+        comm.http_post.assert_called_once()
+        expected = """<?xml version="1.0" encoding="utf-8"?>
+<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
+  <authentication>
+    <user>jenkins</user>
+    <password>PYTHON</password>
+  </authentication>
+  <authorization reportGroup="DefaultReportGroup">
+    <orderId>12344</orderId>
+    <amount>106</amount>
+    <orderSource>ecommerce</orderSource>
+    <customerInfo>
+      <dob>1980-04-14</dob>
+    </customerInfo>
+    <card>
+      <type>VI</type>
+      <number>4100000000000002</number>
+      <expDate>1210</expDate>
+    </card>
+  </authorization>
+</litleOnlineRequest>
+"""
+        comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
+ 
+    def testCancelSubscription(self):
+        cancel = litleXmlFields.cancelSubscription()
+        cancel.subscriptionId = '12345'
+ 
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+ 
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(cancel)
+ 
+        comm.http_post.assert_called_once()
+        expected = """<?xml version="1.0" encoding="utf-8"?>
+<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
+  <authentication>
+    <user>jenkins</user>
+    <password>PYTHON</password>
+  </authentication>
+  <cancelSubscription>
+    <subscriptionId>12345</subscriptionId>
+  </cancelSubscription>
+</litleOnlineRequest>
+"""
+        comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
+ 
+    def testUpdateSubscription(self):
+        update = litleXmlFields.updateSubscription()
+        update.billingDate = '2013-08-07'
+        billToAddress = litleXmlFields.contact()
+        billToAddress.name = 'Greg Dake'
+        billToAddress.city = 'Lowell'
+        billToAddress.state = 'MA'
+        billToAddress.email = "sdksupport@litle.com"
+        update.billToAddress = billToAddress
+        card = litleXmlFields.cardType()
+        card.number = '4100000000000001'
+        card.expDate = '1215'
+        card.type = 'VI'
+        update.card = card
+        update.planCode = 'abcdefg'
+        update.subscriptionId = '12345'
+ 
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+ 
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(update)
+ 
+        comm.http_post.assert_called_once()
+        expected = """<?xml version="1.0" encoding="utf-8"?>
+<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
+  <authentication>
+    <user>jenkins</user>
+    <password>PYTHON</password>
+  </authentication>
+  <updateSubscription>
+    <subscriptionId>12345</subscriptionId>
+    <planCode>abcdefg</planCode>
+    <billToAddress>
+      <name>Greg Dake</name>
+      <city>Lowell</city>
+      <state>MA</state>
+      <email>sdksupport@litle.com</email>
+    </billToAddress>
+    <card>
+      <type>VI</type>
+      <number>4100000000000001</number>
+      <expDate>1215</expDate>
+    </card>
+    <billingDate>2013-08-07</billingDate>
+  </updateSubscription>
+</litleOnlineRequest>
+"""
+        comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
+         
+    def testUpdatePlan(self):
+        update = litleXmlFields.updatePlan()
+        update.active = True
+        update.planCode = 'abc'
+ 
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+ 
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(update)
+ 
+        comm.http_post.assert_called_once()
+        expected = """<?xml version="1.0" encoding="utf-8"?>
+<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
+  <authentication>
+    <user>jenkins</user>
+    <password>PYTHON</password>
+  </authentication>
+  <updatePlan>
+    <planCode>abc</planCode>
+    <active>true</active>
+  </updatePlan>
+</litleOnlineRequest>
+"""
+        comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
+ 
+    def testCreatePlan(self):
+        create = litleXmlFields.createPlan()
+        create.planCode = 'abc'
+        create.active = True
+ 
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+ 
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(create)
+ 
+        comm.http_post.assert_called_once()
+        expected = """<?xml version="1.0" encoding="utf-8"?>
+<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
+  <authentication>
+    <user>jenkins</user>
+    <password>PYTHON</password>
+  </authentication>
+  <createPlan>
+    <planCode>abc</planCode>
+    <active>true</active>
+  </createPlan>
+</litleOnlineRequest>
+"""
+        comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
+ 
+    def testActivate(self):
+        activate = litleXmlFields.activate()
+        activate.amount = 100
+ 
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+ 
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(activate)
+ 
+        comm.http_post.assert_called_once()
+        expected = """<?xml version="1.0" encoding="utf-8"?>
+<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
+  <authentication>
+    <user>jenkins</user>
+    <password>PYTHON</password>
+  </authentication>
+  <activate reportGroup="DefaultReportGroup">
+    <amount>100</amount>
+  </activate>
+</litleOnlineRequest>
+"""
+        comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
+ 
+    def testDeactivate(self):
+        deactivate = litleXmlFields.deactivate()
+        deactivate.orderId = '123'
+ 
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+ 
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(deactivate)
+ 
+        comm.http_post.assert_called_once()
+        expected = """<?xml version="1.0" encoding="utf-8"?>
+<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
+  <authentication>
+    <user>jenkins</user>
+    <password>PYTHON</password>
+  </authentication>
+  <deactivate reportGroup="DefaultReportGroup">
+    <orderId>123</orderId>
+  </deactivate>
+</litleOnlineRequest>
+"""
+        comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
+ 
+    def testLoad(self):
+        load = litleXmlFields.load()
+        load.orderId = '123'
+ 
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+ 
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(load)
+ 
+        comm.http_post.assert_called_once()
+        expected = """<?xml version="1.0" encoding="utf-8"?>
+<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
+  <authentication>
+    <user>jenkins</user>
+    <password>PYTHON</password>
+  </authentication>
+  <load reportGroup="DefaultReportGroup">
+    <orderId>123</orderId>
+  </load>
+</litleOnlineRequest>
+"""
+        comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
+ 
+    def testUnload(self):
+        unload = litleXmlFields.unload()
+        unload.orderId = '123'
+ 
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+ 
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(unload)
+ 
+        comm.http_post.assert_called_once()
+        expected = """<?xml version="1.0" encoding="utf-8"?>
+<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
+  <authentication>
+    <user>jenkins</user>
+    <password>PYTHON</password>
+  </authentication>
+  <unload reportGroup="DefaultReportGroup">
+    <orderId>123</orderId>
+  </unload>
+</litleOnlineRequest>
+"""
+        comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
+ 
+    def testBalanceInquiry(self):
+        balanceInquiry = litleXmlFields.balanceInquiry()
+        balanceInquiry.orderId = '123'
+ 
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+ 
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(balanceInquiry)
+ 
+        comm.http_post.assert_called_once()
+        expected = """<?xml version="1.0" encoding="utf-8"?>
+<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
+  <authentication>
+    <user>jenkins</user>
+    <password>PYTHON</password>
+  </authentication>
+  <balanceInquiry reportGroup="DefaultReportGroup">
+    <orderId>123</orderId>
+  </balanceInquiry>
+</litleOnlineRequest>
+"""
+        comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
+ 
+    def testActivateReversal(self):
+        activateReversal = litleXmlFields.activateReversal()
+        activateReversal.litleTxnId = '123'
+ 
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+ 
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(activateReversal)
+ 
+        comm.http_post.assert_called_once()
+        expected = """<?xml version="1.0" encoding="utf-8"?>
+<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
+  <authentication>
+    <user>jenkins</user>
+    <password>PYTHON</password>
+  </authentication>
+  <activateReversal reportGroup="DefaultReportGroup">
+    <litleTxnId>123</litleTxnId>
+  </activateReversal>
+</litleOnlineRequest>
+"""
+        comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
+ 
+    def testDeactivateReversal(self):
+        deactivateReversal = litleXmlFields.deactivateReversal()
+        deactivateReversal.litleTxnId = '123'
+ 
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+ 
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(deactivateReversal)
+ 
+        comm.http_post.assert_called_once()
+        expected = """<?xml version="1.0" encoding="utf-8"?>
+<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
+  <authentication>
+    <user>jenkins</user>
+    <password>PYTHON</password>
+  </authentication>
+  <deactivateReversal reportGroup="DefaultReportGroup">
+    <litleTxnId>123</litleTxnId>
+  </deactivateReversal>
+</litleOnlineRequest>
+"""
+        comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
+ 
+    def testLoadReversal(self):
+        loadReversal = litleXmlFields.loadReversal()
+        loadReversal.litleTxnId = '123'
+ 
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+ 
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(loadReversal)
+ 
+        comm.http_post.assert_called_once()
+        expected = """<?xml version="1.0" encoding="utf-8"?>
+<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
+  <authentication>
+    <user>jenkins</user>
+    <password>PYTHON</password>
+  </authentication>
+  <loadReversal reportGroup="DefaultReportGroup">
+    <litleTxnId>123</litleTxnId>
+  </loadReversal>
+</litleOnlineRequest>
+"""
+        comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
+ 
+    def testUnloadReversal(self):
+        unloadReversal = litleXmlFields.unloadReversal()
+        unloadReversal.litleTxnId = '123'
+ 
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+ 
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(unloadReversal)
+ 
+        comm.http_post.assert_called_once()
+        expected = """<?xml version="1.0" encoding="utf-8"?>
+<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
+  <authentication>
+    <user>jenkins</user>
+    <password>PYTHON</password>
+  </authentication>
+  <unloadReversal reportGroup="DefaultReportGroup">
+    <litleTxnId>123</litleTxnId>
+  </unloadReversal>
+</litleOnlineRequest>
+"""
+        comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
+ 
+    def testRefundReversal(self):
+        refundReversal = litleXmlFields.refundReversal()
+        refundReversal.litleTxnId = '123'
+ 
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+ 
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(refundReversal)
+ 
+        comm.http_post.assert_called_once()
+        expected = """<?xml version="1.0" encoding="utf-8"?>
+<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
+  <authentication>
+    <user>jenkins</user>
+    <password>PYTHON</password>
+  </authentication>
+  <refundReversal reportGroup="DefaultReportGroup">
+    <litleTxnId>123</litleTxnId>
+  </refundReversal>
+</litleOnlineRequest>
+"""
+        comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
+ 
+    def testDepositReversal(self):
+        depositReversal = litleXmlFields.depositReversal()
+        depositReversal.litleTxnId = '123'
+ 
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+ 
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(depositReversal)
+ 
+        comm.http_post.assert_called_once()
+        expected = """<?xml version="1.0" encoding="utf-8"?>
+<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
+  <authentication>
+    <user>jenkins</user>
+    <password>PYTHON</password>
+  </authentication>
+  <depositReversal reportGroup="DefaultReportGroup">
+    <litleTxnId>123</litleTxnId>
+  </depositReversal>
+</litleOnlineRequest>
+"""
+        comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
+ 
+    def testAuthorizationIncludesWallet(self):
+        authorization = litleXmlFields.authorization()
+        authorization.wallet = litleXmlFields.wallet()
+        authorization.wallet.walletSourceType = litleXmlFields.walletSourceType.MasterPass
+        authorization.wallet.walletSourceTypeId = '5'
+         
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+         
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(authorization)
+         
+        comm.http_post.assert_called_once()
+        expected = """<?xml version="1.0" encoding="utf-8"?>
+<litleOnlineRequest merchantId="101" merchantSdk="{0}" version="{1}" xmlns="http://www.litle.com/schema">
+  <authentication>
+    <user>jenkins</user>
+    <password>PYTHON</password>
+  </authentication>
+  <authorization reportGroup="DefaultReportGroup">
+    <wallet>
+      <walletSourceType>MasterPass</walletSourceType>
+      <walletSourceTypeId>5</walletSourceTypeId>
+    </wallet>
+  </authorization>
+</litleOnlineRequest>
+""".format("8.29.0", "8.29")
+        comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
+ 
+    def testSaleIncludesWallet(self):
+        sale = litleXmlFields.sale()
+        sale.wallet = litleXmlFields.wallet()
+        sale.wallet.walletSourceType = litleXmlFields.walletSourceType.MasterPass
+        sale.wallet.walletSourceTypeId = '5'
+         
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+         
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(sale)
+         
+        comm.http_post.assert_called_once()
+        expected = """<?xml version="1.0" encoding="utf-8"?>
+<litleOnlineRequest merchantId="101" merchantSdk="{0}" version="{1}" xmlns="http://www.litle.com/schema">
+  <authentication>
+    <user>jenkins</user>
+    <password>PYTHON</password>
+  </authentication>
+  <sale reportGroup="DefaultReportGroup">
+    <wallet>
+      <walletSourceType>MasterPass</walletSourceType>
+      <walletSourceTypeId>5</walletSourceTypeId>
+    </wallet>
+  </sale>
+</litleOnlineRequest>
+""".format("8.29.0", "8.29")
+        comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
+         
+    def testEcheckTxnsCanHavePpdAsOrderSource(self):
+        echeckSale = litleXmlFields.echeckSale()
+        echeckSale.orderSource = litleXmlFields.orderSourceType.echeckppd
+         
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+         
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(echeckSale)
+         
+        comm.http_post.assert_called_once()
+        expected = """<?xml version="1.0" encoding="utf-8"?>
+<litleOnlineRequest merchantId="101" merchantSdk="{0}" version="{1}" xmlns="http://www.litle.com/schema">
+  <authentication>
+    <user>jenkins</user>
+    <password>PYTHON</password>
+  </authentication>
+  <echeckSale reportGroup="DefaultReportGroup">
+    <orderSource>echeckppd</orderSource>
+  </echeckSale>
+</litleOnlineRequest>
+""".format("8.29.0", "8.29")
+        comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
 
 
 def suite():
