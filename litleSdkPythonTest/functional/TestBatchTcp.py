@@ -215,6 +215,22 @@ class TestBatchTcp(unittest.TestCase):
         echeckSale.verify = True
 
         batch.addTransaction(echeckSale)
+        
+        echeckPreNoteSale = litleXmlFields.echeckPreNoteSale();
+        echeckPreNoteSale.orderId = "12344"
+        echeckPreNoteSale.billToAddress = contact
+        echeckPreNoteSale.echeck = echeck
+        echeckPreNoteSale.orderSource = 'ecommerce'
+        
+        batch.addTransaction(echeckPreNoteSale)
+        
+        echeckPreNoteCredit = litleXmlFields.echeckPreNoteSale();
+        echeckPreNoteCredit.orderId = "12345"
+        echeckPreNoteCredit.billToAddress = contact
+        echeckPreNoteCredit.echeck = echeck
+        echeckPreNoteCredit.orderSource = 'ecommerce'
+        
+        batch.addTransaction(echeckPreNoteCredit)
 
         transactionCount = batch.numOfTxn
 
