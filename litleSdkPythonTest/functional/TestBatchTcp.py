@@ -405,7 +405,7 @@ class TestBatchTcp(unittest.TestCase):
         self.assertNotEqual(None, response.litleResponse.litleSessionId)
         self.assertEqual('0', response.litleResponse.response)
         self.assertEqual('Valid Format', response.litleResponse.message)
-        self.assertEqual('9.0', response.litleResponse.version)
+        self.assertEqual('9.3', response.litleResponse.version)
 
         batchResponse = response.getNextBatchResponse()
         self.assertNotEqual(None, response)

@@ -22,6 +22,8 @@
 #OTHER DEALINGS IN THE SOFTWARE.
 
 import os, sys
+from _ast import TryExcept
+from httplib import EXPECTATION_FAILED
 lib_path = os.path.abspath('../all')
 sys.path.append(lib_path)
 
@@ -59,6 +61,47 @@ class TestCredit(unittest.TestCase):
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(credit)
         self.assertEquals("Approved", response.message)
+        
+    def testSimpleCreditWithCardAndSecondaryAmount(self):
+        credit = litleXmlFields.credit()
+        credit.amount = 106
+        credit.secondaryAmount = 10
+        credit.orderId = "12344"
+        credit.orderSource = 'ecommerce'
+        
+        card = litleXmlFields.cardType()
+        card.type = 'VI'
+        card.number = "4100000000000001"
+        card.expDate = "1210"
+        credit.card = card
+        
+        litleXml =  litleOnlineRequest(config)
+        response = litleXml.sendRequest(credit)
+        self.assertEquals("Approved", response.message)
+        
+    def testsimpleCreditWithTxnAndSecondaryAmount(self):
+        credit = litleXmlFields.credit()
+        credit.amount = 106
+        credit.secondaryAmount = 10
+        credit.orderId = "12345"
+        
+        litleXml =  litleOnlineRequest(config)
+        response = litleXml.sendRequest(credit)
+        self.assertEquals("Approved", response.message)
+        
+    def simpleCreditConflictWithTxnAndOrderId(self):
+        credit = litleXmlFields.credit()
+        credit.orderId = "12344"
+        credit.amount = 106
+        credit.secondaryAmount = 10
+        credit.orderId = "12345"
+        
+        litleXml =  litleOnlineRequest(config)
+        try:
+            response = litleXml.sendRequest(credit)
+            self.fail("Litle Txn and Order Id should conflict, fail to throw a exception")
+        except Exception:
+            self.assertTrue(response.message.startswith("Error validating xml data against the schema"),"Error in validating")        
 
     def testPaypalNotes(self):
         credit = litleXmlFields.credit()
