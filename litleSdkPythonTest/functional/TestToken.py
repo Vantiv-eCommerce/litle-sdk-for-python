@@ -57,6 +57,25 @@ class TestToken(unittest.TestCase):
         response = litleXml.sendRequest(token)
         self.assertEquals(response.message, "Account number was successfully registered")
         
+    def testSimpleTokenWithApplepay(self):
+        token = litleXmlFields.registerTokenRequest()
+        token.orderId = '12344'
+        applepay = litleXmlFields.applepayType()
+        applepay.data = "4100000000000000"
+        applepay.signature = "sign"
+        applepay.version = '1'
+        header=litleXmlFields.applepayHeaderType()
+        header.applicationData='e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
+        header.ephemeralPublicKey ='e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
+        header.publicKeyHash='e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
+        header.transactionId='1024'
+        applepay.header=header
+        token.applepay = applepay
+        litleXml =  litleOnlineRequest(config)
+        response = litleXml.sendRequest(token)
+        self.assertEquals(response.message, "Account number was successfully registered")
+        self.assertEqual(0, response.applepayResponse.transactionAmount)
+        
     def testTokenEcheckMissingRequiredField(self):
         token = litleXmlFields.registerTokenRequest()
         token.orderId = '12344'

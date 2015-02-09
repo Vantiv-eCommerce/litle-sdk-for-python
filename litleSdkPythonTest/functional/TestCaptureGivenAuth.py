@@ -76,6 +76,7 @@ class TestCaptureGivenAuth(unittest.TestCase):
     def testComplexCaptureGivenAuth(self):
         CaptureGivenAuth = litleXmlFields.captureGivenAuth()
         CaptureGivenAuth.amount = 106
+        CaptureGivenAuth.secondaryAmount = 10
         CaptureGivenAuth.orderId = "12344"
         AuthInfo = litleXmlFields.authInformation()
         date = pyxb.binding.datatypes.date(2002, 10, 9)

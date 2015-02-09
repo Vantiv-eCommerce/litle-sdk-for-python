@@ -67,6 +67,32 @@ class TestAuth(unittest.TestCase):
         response = litleXml.sendRequest(authorization)
             
         self.assertEquals("Approved",response.message)
+        
+    def testSimpleAuthWithSecondaryAmountAndApplepay(self):
+        
+        authorization = litleXmlFields.authorization()
+        authorization.orderId = '1234'
+        authorization.amount = 110
+        authorization.orderSource = 'ecommerce'
+        authorization.secondaryAmount = '10'        
+        
+        applepay = litleXmlFields.applepayType()
+        applepay.data = "4100000000000000"
+        applepay.signature = "sign"
+        applepay.version = '1'
+        header=litleXmlFields.applepayHeaderType()
+        header.applicationData='e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
+        header.ephemeralPublicKey ='e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
+        header.publicKeyHash='e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
+        header.transactionId='1024'
+        applepay.header=header
+        authorization.applepay = applepay
+        
+        litleXml =  litleOnlineRequest(config)
+        response = litleXml.sendRequest(authorization)
+            
+        self.assertEquals("Insufficient Funds",response.message)
+        self.assertEquals(110,response.applepayResponse.transactionAmount)
        
 
     def testPosWithoutCapabilityAndEntryMode(self):

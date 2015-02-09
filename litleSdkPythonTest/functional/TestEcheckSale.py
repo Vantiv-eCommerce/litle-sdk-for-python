@@ -119,6 +119,61 @@ class TestEcheckSale(unittest.TestCase):
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(echecksale)
         self.assertEquals("Approved",response.message)
+        
+    def testEcheckSaleWithSecoundaryAmountAndCCD(self):
+        echecksale = litleXmlFields.echeckSale()
+        echecksale.amount = 123456
+        echecksale.secondaryAmount = 10
+        echecksale.orderId = "12345"
+        echecksale.orderSource = 'ecommerce'
+        
+        echeck = litleXmlFields.echeck()
+        echeck.accType = 'Checking'
+        echeck.accNum = "1234567890"
+        echeck.routingNum = "123456789"
+        echeck.checkNum ="123455"
+        echeck.ccdPaymentInformation = "12345678901234567890123456789012345678901234567890123456789012345678901234567890"
+        echecksale.echeckOrEcheckToken = echeck
+        
+        contact = litleXmlFields.contact()
+        contact.name = "Bob"
+        contact.city = "lowell"
+        contact.state = "MA"
+        contact.email = "litle.com"
+        echecksale.billToAddress = contact
+        
+        litleXml =  litleOnlineRequest(config)
+        response = litleXml.sendRequest(echecksale)
+        self.assertEquals("Approved",response.message)
+        
+    def testEcheckSaleWithSecoundaryAmountAndCCDLongerThan80(self):
+        echecksale = litleXmlFields.echeckSale()
+        echecksale.amount = 123456
+        echecksale.secondaryAmount = 10
+        echecksale.orderId = "12345"
+        echecksale.orderSource = 'ecommerce'
+        
+        echeck = litleXmlFields.echeck()
+        echeck.accType = 'Checking'
+        echeck.accNum = "1234567890"
+        echeck.routingNum = "123456789"
+        echeck.checkNum ="123455"
+        echeck.ccdPaymentInformation = "123456789012345678901234567890123456789012345678901234567890123456789012345678901"
+        echecksale.echeckOrEcheckToken = echeck
+        
+        contact = litleXmlFields.contact()
+        contact.name = "Bob"
+        contact.city = "lowell"
+        contact.state = "MA"
+        contact.email = "litle.com"
+        echecksale.billToAddress = contact
+        
+        litleXml =  litleOnlineRequest(config)
+        try:
+            response = litleXml.sendRequest(echecksale)
+            self.fail("ccdPaymentInformation too long but did not throw exception")
+        except Exception:
+            self.assertTrue(response.message.startswith("Error validating xml data against the schema"), "error validating ccdPaymentInformation")
 
     def testEcheckSaleMissingBilling(self):
         echecksale = litleXmlFields.echeckSale()
@@ -149,6 +204,20 @@ class TestEcheckSale(unittest.TestCase):
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(echecksale)
         self.assertEquals("Approved",response.message)
+        
+    def testEcheckSaleWithLitleTxnIdAndSecondryAmount(self):
+        echecksale = litleXmlFields.echeckSale()
+        echecksale.reportGroup = "Planets"
+        echecksale.litleTxnId = 123456789101112
+        echecksale.amount = 12
+        echecksale.secondaryAmount = 10
+        
+        litleXml =  litleOnlineRequest(config)
+        try:
+            response = litleXml.sendRequest(echecksale)
+            self.fail("Secondary Amount conflict with Litle Txn ID")
+        except Exception:
+            self.assertTrue(response.message.startswith("Error validating xml data against the schema"), "error validating secondaryAmount")
 
 def suite():
     suite = unittest.TestSuite()

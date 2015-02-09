@@ -69,6 +69,41 @@ class TestEcheckCredit(unittest.TestCase):
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(echeckCredit)
         self.assertEquals("Approved", response.message)
+        
+    def testEcheckCreditWithSecondryAmount(self):
+        echeckCredit = litleXmlFields.echeckCredit()
+        echeckCredit.amount = 12
+        echeckCredit.secondaryAmount = 10
+        echeckCredit.orderId = "12345"
+        echeckCredit.orderSource = 'ecommerce'
+        
+        echeck = litleXmlFields.echeck()
+        echeck.accType = 'Checking'
+        echeck.accNum = "1234567890"
+        echeck.routingNum ="123456789"
+        echeck.checkNum = "123455"
+        echeckCredit.echeckOrEcheckToken = echeck
+        
+        billToAddress = litleXmlFields.contact()
+        billToAddress.name = "Bob"
+        billToAddress.City ="Lowell"
+        billToAddress.State = "MA"
+        billToAddress.email = "litle.com"
+        echeckCredit.billToAddress = billToAddress
+        
+        litleXml =  litleOnlineRequest(config)
+        response = litleXml.sendRequest(echeckCredit)
+        self.assertEquals("Approved", response.message)
+        
+    def testEcheckCreditWithLitleTxnIdAndSecondryAmount(self):
+        echeckCredit = litleXmlFields.echeckCredit()
+        echeckCredit.amount = 12
+        echeckCredit.litleTxnId = 123456789101112
+        echeckCredit.secondaryAmount = 10
+        
+        litleXml =  litleOnlineRequest(config)
+        response = litleXml.sendRequest(echeckCredit)
+        self.assertEquals("Approved", response.message)
 
     def testEcheckCreditWithToken(self):
         echeckCredit = litleXmlFields.echeckCredit()
