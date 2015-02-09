@@ -418,7 +418,7 @@ class TestLitleOnline(unittest.TestCase):
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<echeckSale.*?<echeck>.*?<accNum>12345657890</accNum>.*?</echeck>.*?</echeckSale>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
-    def testEcheckSaleWithSecondaryAmount(self):
+    def testEcheckSaleWithSecondaryAmountAndCCD(self):
         echecksale = litleXmlFields.echeckSale()
         echecksale.amount = 123456
         echecksale.orderId = "12345"
@@ -430,6 +430,7 @@ class TestLitleOnline(unittest.TestCase):
         echeck.accNum = "12345657890"
         echeck.routingNum = "123456789"
         echeck.checkNum = "123455"
+        echeck.ccdPaymentInformation = "12345678901234567890123456789012345678901234567890123456789012345678901234567890"
         echecksale.echeckOrEcheckToken = echeck
          
         contact = litleXmlFields.contact()
@@ -448,9 +449,55 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(echecksale)
         
         comm.http_post.assert_called_once()
-        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<echeckSale.*?<secondaryAmount>100</secondaryAmount>.*?</echeckSale>.*?")
+        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<echeckSale.*?<secondaryAmount>100</secondaryAmount>.*?<ccdPaymentInformation>12345678901234567890123456789012345678901234567890123456789012345678901234567890</ccdPaymentInformation>.*?</echeckSale>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+    
+    def testEcheckSaleWithSecondaryAmountAndCCD(self):
+        echecksale = litleXmlFields.echeckSale()
+        echecksale.amount = 123456
+        echecksale.orderId = "12345"
+        echecksale.orderSource = 'ecommerce'
+        echecksale.secondaryAmount= 100
+         
+        echeck = litleXmlFields.echeck()
+        echeck.accType = 'Checking'
+        echeck.accNum = "12345657890"
+        echeck.routingNum = "123456789"
+        echeck.checkNum = "123455"
+        echeck.ccdPaymentInformation = "12345678901234567890123456789012345678901234567890123456789012345678901234567890"
+        echecksale.echeckOrEcheckToken = echeck
+         
+        contact = litleXmlFields.contact()
+        contact.name = "Bob"
+        contact.city = "lowell"
+        contact.state = "MA"
+        contact.email = "litle.com"
+        echecksale.billToAddress = contact
+         
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+ 
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(echecksale)    
         
+    def testEcheckSaleWithSecoundaryAmountAndCCDLongerThan80(self):
+        echecksale = litleXmlFields.echeckSale()
+        echecksale.amount = 123456
+        echecksale.secondaryAmount = 10
+        echecksale.orderId = "12345"
+        echecksale.orderSource = 'ecommerce'
+        
+        echeck = litleXmlFields.echeck()
+        echeck.accType = 'Checking'
+        echeck.accNum = "1234567890"
+        echeck.routingNum = "123456789"
+        echeck.checkNum ="123455"
+        with self.assertRaises(Exception):
+            echeck.ccdPaymentInformation = "123456789012345678901234567890123456789012345678901234567890123456789012345678901"
+
+    
     def testEcheckTxnsCanHavePpdAsOrderSource(self):
         echeckSale = litleXmlFields.echeckSale()
         echeckSale.orderSource = litleXmlFields.orderSourceType.echeckppd
