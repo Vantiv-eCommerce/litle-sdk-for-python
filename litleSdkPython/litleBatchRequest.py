@@ -62,6 +62,8 @@ class litleBatchRequest:
         self._batchRequest.numEcheckCredit = 0
         self._batchRequest.echeckCreditAmount = 0
         self._batchRequest.numEcheckRedeposit = 0
+        self._batchRequest.numEcheckPreNoteSale = 0
+        self._batchRequest.numEcheckPreNoteCredit = 0
         self._batchRequest.numEcheckSales = 0
         self._batchRequest.echeckSalesAmount = 0
         self._batchRequest.numUpdateCardValidationNumOnTokens = 0
@@ -173,6 +175,16 @@ class litleBatchRequest:
 
         elif isinstance(transaction, litleXmlFields.echeckRedeposit.typeDefinition()):
             self._batchRequest.numEcheckRedeposit += 1
+            __transactionAdded = True
+            self.numOfTxn += 1
+            
+        elif isinstance(transaction, litleXmlFields.echeckPreNoteSale.typeDefinition()):
+            self._batchRequest.numEcheckPreNoteSale += 1
+            __transactionAdded = True
+            self.numOfTxn += 1
+            
+        elif isinstance(transaction, litleXmlFields.echeckPreNoteCredit.typeDefinition()):
+            self._batchRequest.numEcheckPreNoteCredit += 1
             __transactionAdded = True
             self.numOfTxn += 1
 

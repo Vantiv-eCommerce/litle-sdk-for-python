@@ -102,6 +102,8 @@ class ResponseParser:
             currentStartingTagInFile.lower() == '<echeckCreditResponse'.lower() or
             currentStartingTagInFile.lower() == '<echeckVerificationResponse'.lower() or
             currentStartingTagInFile.lower() == '<echeckRedepositResponse'.lower() or
+            currentStartingTagInFile.lower() == '<echeckPreNoteSaleResponse'.lower() or
+            currentStartingTagInFile.lower() == '<echeckPreNoteCreditResponse'.lower() or
             currentStartingTagInFile.lower() == '<authReversalResponse'.lower() or
             currentStartingTagInFile.lower() == '<registerTokenResponse'.lower() or
             currentStartingTagInFile.lower() == '<updateSubscriptionResponse'.lower() or
@@ -136,6 +138,8 @@ class ResponseParser:
             currentStartingTagInFile.lower() == '</echeckCreditResponse>'.lower() or
             currentStartingTagInFile.lower() == '</echeckVerificationResponse>'.lower() or
             currentStartingTagInFile.lower() == '</echeckRedepositResponse>'.lower() or
+            currentStartingTagInFile.lower() == '</echeckRedepositResponse>'.lower() or
+            currentStartingTagInFile.lower() == '</echeckPreNoteSaleResponse>'.lower() or
             currentStartingTagInFile.lower() == '</authReversalResponse>'.lower() or
             currentStartingTagInFile.lower() == '</registerTokenResponse>'.lower() or
             currentStartingTagInFile.lower() == '</updateSubscriptionResponse>'.lower() or
