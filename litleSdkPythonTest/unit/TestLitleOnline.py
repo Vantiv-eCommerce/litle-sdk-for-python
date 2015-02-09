@@ -20,8 +20,10 @@
 #WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
 #FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
 #OTHER DEALINGS IN THE SOFTWARE.
-
+import base64
 import os, sys
+from litleSdkPython import litleXmlFields
+from litleSdkPython.litleXmlFields import advancedFraudChecksType
 lib_path = os.path.abspath('../all')
 sys.path.append(lib_path)
 
@@ -58,17 +60,22 @@ class TestLitleOnline(unittest.TestCase):
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<authorization.*?<card>.*?<number>4100000000000000</number>.*?</card>.*?</authorization>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
     
-    def testAuthWithSecondaryAmountAndWallet(self):
+    def testAuthWithSecondaryAmountAndApplePayAndWallet(self):
         authorization = litleXmlFields.authorization()
         authorization.orderId = '1234'
         authorization.amount = 106
         authorization.orderSource = 'ecommerce'
         authorization.secondaryAmount = 10
         
+        wallet=litleXmlFields.wallet()
+        wallet.walletSourceType='MasterPass'
+        wallet.walletSourceTypeId='12345'
+        
+        
         applepay = litleXmlFields.applepayType()
         applepay.data = "4100000000000000"
         applepay.signature = "yoyo"
-        applepay.version = '8.29'
+        applepay.version = '9.3'
         header=litleXmlFields.applepayHeaderType()
         header.applicationData='applicationData'
         header.ephemeralPublicKey ='UWIRNRSKSXMXEYEINR'
@@ -77,11 +84,7 @@ class TestLitleOnline(unittest.TestCase):
         applepay.header=header
         authorization.applepay = applepay
         
-        card = litleXmlFields.cardType()
-        card.number = "4100000000000000"
-        card.expDate = "1210"
-        card.type = 'VI'
-        authorization.card = card
+        authorization.wallet=wallet
 
         comm = Communications(config)
         comm.http_post = MagicMock()
@@ -92,10 +95,41 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(authorization)
         
         comm.http_post.assert_called_once()
-        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<authorization.*?<card>.*?<number>4100000000000000</number>.*?</card>.*?</authorization>.*?")
+        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<authorization.*?<applepay>.*?<data>4100000000000000</data>.*?</applepay>.*?<wallet.*?</wallet>.*?</authorization>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
+    def testAuthWithcustomAttributeOneToFive(self):
+        authorization = litleXmlFields.authorization()
+        authorization.orderId = '1234'
+        authorization.amount = 106
+        authorization.orderSource = 'ecommerce'
+        
+        advancedFraudChecksType=litleXmlFields.advancedFraudChecksType()
+        advancedFraudChecksType.customAttribute1='stringlength200'
+        advancedFraudChecksType.customAttribute2='stringlength200'
+        advancedFraudChecksType.customAttribute3='stringlength200'
+        advancedFraudChecksType.customAttribute4='stringlength200'
+        advancedFraudChecksType.customAttribute5='stringlength200'
+        
+        card = litleXmlFields.cardType()
+        card.number = "4100000000000000"
+        card.expDate = "1210"
+        card.type = 'VI'
+        authorization.card = card
+        
+        authorization.advancedFraudChecks=advancedFraudChecksType
 
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(authorization)
+        
+        comm.http_post.assert_called_once()
+        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<authorization.*?<card>.*?<number>4100000000000000</number>.*?</card>.*?<advancedFraudChecks.*?<customAttribute4>stringlength200</customAttribute4>.*?</advancedFraudChecks></authorization>.*?")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
     def testAuthReversal(self):
         authreversal = litleXmlFields.authReversal()
@@ -132,6 +166,26 @@ class TestLitleOnline(unittest.TestCase):
         comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<capture.*?<litleTxnId>123456000</litleTxnId>.*?</capture>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        
+    def testCaptureWithoutCustomBilling(self):
+        capture = litleXmlFields.capture()
+        capture.litleTxnId = 123456000
+        capture.amount = 106
+        capture.payPalNotes = "Notes"
+        
+        customBilling=litleXmlFields.customBilling()
+        customBilling.phone='6174445555'
+        customBilling.descriptor='description'
+        
+        capture.customBilling=customBilling
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        with self.assertRaises(Exception):
+            litle.sendRequest(authorization)
 
     def testCaptureGivenAuth(self):
         capturegivenauth = litleXmlFields.captureGivenAuth()
@@ -164,7 +218,41 @@ class TestLitleOnline(unittest.TestCase):
         comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<captureGivenAuth.*?<card>.*?<number>4100000000000001</number>.*?</card>.*?</captureGivenAuth>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        
+        
+    def testCaptureGivenAuthWithSecondaryAmount(self):
+        capturegivenauth = litleXmlFields.captureGivenAuth()
+        capturegivenauth.amount = 106
+        capturegivenauth.orderId = "12344"
+        capturegivenauth.secondaryAmount=100
+        
+        authinfo = litleXmlFields.authInformation()
+        date = pyxb.binding.datatypes.date(2002, 10, 9)
+        authinfo.authDate = date
+        authinfo.authCode = "543216"
+        authinfo.authAmount = 12345
+        capturegivenauth.authInformation = authinfo
+        
+        capturegivenauth.orderSource = 'ecommerce'
+        
+        card = litleXmlFields.cardType()
+        card.type = 'VI'
+        card.number = "4100000000000001"
+        card.expDate = "1210"
+        capturegivenauth.card = card
+        
+        comm = Communications(config)
+        comm.http_post = MagicMock()
 
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(capturegivenauth)
+        
+        comm.http_post.assert_called_once()
+        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<captureGivenAuth.*?<secondaryAmount>100</secondaryAmount>.*?<card>.*?<number>4100000000000001</number>.*?</card>.*?</captureGivenAuth>.*?")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        
     def testCredit(self):
         credit = litleXmlFields.credit()
         credit.orderId = "12344"
@@ -187,7 +275,48 @@ class TestLitleOnline(unittest.TestCase):
         comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<credit.*?<card>.*?<number>4100000000000001</number>.*?</card>.*?</credit>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        
+    def testCreditWithSecondaryAmountFirst(self):
+        credit = litleXmlFields.credit()
+        credit.orderId = "12344"
+        credit.orderSource = 'ecommerce'
+        credit.secondaryAmount=100
+        
+        card = litleXmlFields.cardType()
+        card.type = 'VI'
+        card.number = "4100000000000001"
+        card.expDate = "1210"
+        credit.card = card
+        
+        comm = Communications(config)
+        comm.http_post = MagicMock()
 
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(credit)
+        
+        comm.http_post.assert_called_once()
+        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<credit.*?<secondaryAmount>100</secondaryAmount>.*?<card>.*?<number>4100000000000001</number>.*?</card>.*?</credit>.*?")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+
+    def testCreditWithSecondaryAmountSecond(self):
+        credit = litleXmlFields.credit()
+        credit.litleTxnId=1000
+        credit.secondaryAmount=100
+        
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(credit)
+        
+        comm.http_post.assert_called_once()
+        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<credit.*?<secondaryAmount>100</secondaryAmount>*?</credit>.*?")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        
     def testEcheckCredit(self):
         echeckcredit = litleXmlFields.echeckCredit()
         echeckcredit.amount = 12
@@ -203,6 +332,42 @@ class TestLitleOnline(unittest.TestCase):
         
         comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<echeckCredit.*?<litleTxnId>123456789101112</litleTxnId>.*?</echeckCredit>.*?")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        
+    def testEcheckCreditWithSecondaryAmountFirst(self):
+        echeckcredit = litleXmlFields.echeckCredit()
+        echeckcredit.amount = 12
+        echeckcredit.litleTxnId = 123456789101112
+        echeckcredit.secondaryAmount=100
+        
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(echeckcredit)
+        
+        comm.http_post.assert_called_once()
+        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<echeckCredit.*?<litleTxnId>123456789101112</litleTxnId>.*?<secondaryAmount>100</secondaryAmount>.*?</echeckCredit>.*?")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        
+    def testEcheckCreditWithSecondaryAmountSecond(self):
+        echeckcredit = litleXmlFields.echeckCredit()
+        echeckcredit.amount = 12
+        echeckcredit.orderId = '123456789101112'
+        echeckcredit.secondaryAmount=100
+        
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(echeckcredit)
+        
+        comm.http_post.assert_called_once()
+        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<echeckCredit.*?<secondaryAmount>100</secondaryAmount>.*?</echeckCredit>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
     def testEcheckRedeposit(self):
@@ -252,7 +417,56 @@ class TestLitleOnline(unittest.TestCase):
         comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<echeckSale.*?<echeck>.*?<accNum>12345657890</accNum>.*?</echeck>.*?</echeckSale>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
-
+        
+    def testEcheckSaleWithSecondaryAmount(self):
+        echecksale = litleXmlFields.echeckSale()
+        echecksale.amount = 123456
+        echecksale.orderId = "12345"
+        echecksale.orderSource = 'ecommerce'
+        echecksale.secondaryAmount= 100
+         
+        echeck = litleXmlFields.echeck()
+        echeck.accType = 'Checking'
+        echeck.accNum = "12345657890"
+        echeck.routingNum = "123456789"
+        echeck.checkNum = "123455"
+        echecksale.echeckOrEcheckToken = echeck
+         
+        contact = litleXmlFields.contact()
+        contact.name = "Bob"
+        contact.city = "lowell"
+        contact.state = "MA"
+        contact.email = "litle.com"
+        echecksale.billToAddress = contact
+         
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+ 
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(echecksale)
+        
+        comm.http_post.assert_called_once()
+        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<echeckSale.*?<secondaryAmount>100</secondaryAmount>.*?</echeckSale>.*?")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        
+    def testEcheckTxnsCanHavePpdAsOrderSource(self):
+        echeckSale = litleXmlFields.echeckSale()
+        echeckSale.orderSource = litleXmlFields.orderSourceType.echeckppd
+         
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+         
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(echeckSale)
+        
+        comm.http_post.assert_called_once()
+        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<echeckSale.*?<orderSource>echeckppd</orderSource>.*?</echeckSale>.*?")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        
     def testEcheckVoid(self):
         echeckvoid = litleXmlFields.echeckVoid()
         echeckvoid.litleTxnId = 12345
@@ -324,6 +538,31 @@ class TestLitleOnline(unittest.TestCase):
         comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<forceCapture.*?<card>.*?<number>4100000000000001</number>.*?</card>.*?</forceCapture>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        
+    def testForceCaptureWithSecondaryAmount(self):
+        forcecapture = litleXmlFields.forceCapture()
+        forcecapture.amount = 106
+        forcecapture.orderId = "12344"
+        forcecapture.orderSource = 'ecommerce'
+        forcecapture.secondaryAmount = 100
+        
+        card = litleXmlFields.cardType()
+        card.type = 'VI'
+        card.number = "4100000000000001"
+        card.expDate = "1210"
+        forcecapture.card = card
+         
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+ 
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(forcecapture)
+        
+        comm.http_post.assert_called_once()
+        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<forceCapture.*?<secondaryAmount>100</secondaryAmount>.*?<card>.*?<number>4100000000000001</number>.*?</card>.*?</forceCapture>.*?")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
     def testSale(self):
         sale = litleXmlFields.sale()
@@ -338,6 +577,7 @@ class TestLitleOnline(unittest.TestCase):
         card.expDate = "1210"
         sale.card = card
         
+        
         comm = Communications(config)
         comm.http_post = MagicMock()
 
@@ -349,7 +589,48 @@ class TestLitleOnline(unittest.TestCase):
         comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<sale.*?<card>.*?<number>4100000000000002</number>.*?</card>.*?</sale>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        
+    def testSaleWithSecondaryAmountAndApplepayAndWallet(self):
+        sale = litleXmlFields.sale()
+        sale.amount = 106
+        sale.litleTxnId = 123456
+        sale.orderId = "12344"
+        sale.orderSource = 'ecommerce'
+        sale.secondaryAmount=100
+    
+        wallet=litleXmlFields.wallet()
+        wallet.walletSourceType='MasterPass'
+        wallet.walletSourceTypeId='12345'
+        
+        
+        applepay = litleXmlFields.applepayType()
+        applepay.data = "4100000000000000"
+        applepay.signature = "yoyo"
+        applepay.version = '9.3'
+        header=litleXmlFields.applepayHeaderType()
+        header.applicationData='applicationData'
+        header.ephemeralPublicKey ='UWIRNRSKSXMXEYEINR'
+        header.publicKeyHash='UYTGHJKMNBVFYWUWI'
+        header.transactionId='1024'
+        applepay.header=header
+        sale.applepay = applepay
+        
+        sale.wallet=wallet
 
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(sale)
+        
+        comm.http_post.assert_called_once()
+        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<sale.*?<applepay>.*?<data>4100000000000000</data>.*?</applepay>.*?<wallet.*?</wallet>.*?</sale>.*?")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        
+        
+        
     def testToken(self):
         token = litleXmlFields.registerTokenRequest()
         token.orderId = "12344"
@@ -365,6 +646,34 @@ class TestLitleOnline(unittest.TestCase):
         
         comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<registerTokenRequest.*?<accountNumber>1233456789103801</accountNumber>.*?</registerTokenRequest>.*?")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+    def testTokenWithApplepay(self):
+        token = litleXmlFields.registerTokenRequest()
+        token.orderId = "12344"
+        
+        
+        applepay = litleXmlFields.applepayType()
+        applepay.data = "4100000000000000"
+        applepay.signature = "yoyo"
+        applepay.version = '8.29'
+        header=litleXmlFields.applepayHeaderType()
+        header.applicationData='applicationData'
+        header.ephemeralPublicKey ='UWIRNRSKSXMXEYEINR'
+        header.publicKeyHash='UYTGHJKMNBVFYWUWI'
+        header.transactionId='1024'
+        applepay.header=header
+        token.applepay = applepay
+         
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+ 
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(token)
+        
+        comm.http_post.assert_called_once()
+        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<registerTokenRequest.*?<applepay>.*?<data>4100000000000000</data>.*?</applepay>.*?</registerTokenRequest>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
     def testExtraField(self):
@@ -711,7 +1020,65 @@ class TestLitleOnline(unittest.TestCase):
         comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<depositReversal.*?<litleTxnId>123</litleTxnId></depositReversal></litleOnlineRequest>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        
+    def testfraudcheck(self):
+        fraudCheck=litleXmlFields.fraudCheck()
+        
+        
+        contact = litleXmlFields.contact()
+        contact.name = "Bob"
+        contact.city = "lowell"
+        contact.state = "MA"
+        contact.email = "litle.com"
+        
+        fraudCheck.billToAddress=contact
+        fraudCheck.shipToAddress=contact
+        fraudCheck.amount=100
+        
+        advancedFraudChecks=litleXmlFields.advancedFraudChecksType()
+        advancedFraudChecks.customAttribute1='stringlength200'
+        advancedFraudChecks.customAttribute2='stringlength200'
+        advancedFraudChecks.customAttribute3='stringlength200'
+        advancedFraudChecks.customAttribute4='stringlength200'
+        advancedFraudChecks.customAttribute5='stringlength200'
+        
+        fraudCheck.advancedFraudChecks=advancedFraudChecks
+        
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+        
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(fraudCheck)
 
+        comm.http_post.assert_called_once()
+        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<fraudCheck.*?</fraudCheck></litleOnlineRequest>.*?")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        
+        
+    def testAuthenticationValueMaxlength(self):
+        authorization = litleXmlFields.authorization()
+        authorization.orderId = '1234'
+        authorization.amount = 106
+        authorization.orderSource = 'ecommerce'
+        authorization.secondaryAmount = '10'
+        
+        
+        fraudCheck=litleXmlFields.fraudCheckType()
+        encoded = base64.b64encode('data to be encodedaaaaaaaaaabbbbbbbbbbcc') #generating a base64 encoded data of length 56, expect no exception
+        self.assertEquals(56,len(encoded))
+        fraudCheck.authenticationValue=encoded
+        authorization.cardholderAuthentication=fraudCheck
+        
+        comm = Communications(config) #create an communication using config
+        comm.http_post = MagicMock() #go deep into mock, some magic happened and http_post was set for com
+
+        litle = litleOnlineRequest(config) #initial litleonlinerequest
+        litle.setCommunications(comm) #use previous settled comm
+        litle._processResponse = MagicMock(return_value=None) 
+        litle.sendRequest(authorization) 
+        
 
 def suite():
     suite = unittest.TestSuite()
