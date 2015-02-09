@@ -402,7 +402,7 @@ class litleBatchFileRequest:
             litleRequest.id = self.requestId
 
         litleRequest.authentication = authentication
-        litleRequest.version = '9.0'
+        litleRequest.version = '9.3'
         litleRequest.numBatchRequests = len(self.batchRequestList)
         requestFile = open(self.requestFile.name,'wb')
         requestFile.write(self.tnxToXml(litleRequest).replace('</litleRequest>', ''))

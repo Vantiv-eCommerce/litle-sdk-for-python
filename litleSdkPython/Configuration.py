@@ -26,7 +26,7 @@ import os
 class Configuration(object):
 
     def __init__(self):
-        self.version = 9.0
+        self.version = 9.3
         self.reportGroup = 'Default Report Group'
         self._url = 'Sandbox'
         self.proxy = None
