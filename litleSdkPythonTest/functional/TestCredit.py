@@ -84,6 +84,13 @@ class TestCredit(unittest.TestCase):
         credit.amount = 106
         credit.secondaryAmount = 10
         credit.orderId = "12345"
+        credit.orderSource = 'ecommerce'
+        
+        card = litleXmlFields.cardType()
+        card.type = 'VI'
+        card.number = "4100000000000001"
+        card.expDate = "1210"
+        credit.card = card
         
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(credit)
@@ -94,7 +101,7 @@ class TestCredit(unittest.TestCase):
         credit.orderId = "12344"
         credit.amount = 106
         credit.secondaryAmount = 10
-        credit.orderId = "12345"
+        credit.litleTxnId = "12345"
         
         litleXml =  litleOnlineRequest(config)
         try:
