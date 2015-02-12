@@ -156,19 +156,7 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(authreversal)
         
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <authReversal reportGroup="DefaultReportGroup">
-    <litleTxnId>12345678000</litleTxnId>
-    <amount>106</amount>
-    <payPalNotes>Notes</payPalNotes>
-  </authReversal>
-</litleOnlineRequest>
-"""
+        expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<authReversal[\s\S]*?<litleTxnId>12345678000</litleTxnId>\s*?<amount>106</amount>\s*?<payPalNotes>Notes</payPalNotes>\s*?</authReversal>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
 
     def testCapture(self):
@@ -186,19 +174,7 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(capture)
         
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <capture reportGroup="DefaultReportGroup">
-    <litleTxnId>123456000</litleTxnId>
-    <amount>106</amount>
-    <payPalNotes>Notes</payPalNotes>
-  </capture>
-</litleOnlineRequest>
-"""
+        expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<capture[\s\S]*?<litleTxnId>123456000</litleTxnId>\s*?<amount>106</amount>\s*?<payPalNotes>Notes</payPalNotes>\s*?</capture>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
 
     def testCaptureGivenAuth(self):
@@ -230,29 +206,7 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(capturegivenauth)
         
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <captureGivenAuth reportGroup="DefaultReportGroup">
-    <orderId>12344</orderId>
-    <authInformation>
-      <authDate>2002-10-09</authDate>
-      <authCode>543216</authCode>
-      <authAmount>12345</authAmount>
-    </authInformation>
-    <amount>106</amount>
-    <orderSource>ecommerce</orderSource>
-    <card>
-      <type>VI</type>
-      <number>4100000000000001</number>
-      <expDate>1210</expDate>
-    </card>
-  </captureGivenAuth>
-</litleOnlineRequest>
-"""
+        expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<captureGivenAuth[\s\S]*?<orderId>12344</orderId>\s*?<authInformation>\s*?<authDate>2002-10-09</authDate>\s*?<authCode>543216</authCode>\s*?<authAmount>12345</authAmount>\s*?</authInformation>\s*?<amount>106</amount>\s*?<orderSource>ecommerce</orderSource>\s*?<card>\s*?<type>VI</type>\s*?<number>4100000000000001</number>\s*?<expDate>1210</expDate>\s*?</card>\s*?</captureGivenAuth>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
     
     #new for 8.29    
@@ -286,30 +240,7 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(capturegivenauth)
         
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <captureGivenAuth reportGroup="DefaultReportGroup">
-    <orderId>12344</orderId>
-    <authInformation>
-      <authDate>2002-10-09</authDate>
-      <authCode>543216</authCode>
-      <authAmount>12345</authAmount>
-    </authInformation>
-    <amount>106</amount>
-    <secondaryAmount>100</secondaryAmount>
-    <orderSource>ecommerce</orderSource>
-    <card>
-      <type>VI</type>
-      <number>4100000000000001</number>
-      <expDate>1210</expDate>
-    </card>
-  </captureGivenAuth>
-</litleOnlineRequest>
-"""
+        expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<captureGivenAuth[\s\S]*?<orderId>12344</orderId>\s*?<authInformation>\s*?<authDate>2002-10-09</authDate>\s*?<authCode>543216</authCode>\s*?<authAmount>12345</authAmount>\s*?</authInformation>\s*?<amount>106</amount>\s*?<secondaryAmount>100</secondaryAmount>\s*?<orderSource>ecommerce</orderSource>\s*?<card>\s*?<type>VI</type>\s*?<number>4100000000000001</number>\s*?<expDate>1210</expDate>\s*?</card>\s*?</captureGivenAuth>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
         
         
@@ -333,23 +264,7 @@ class TestLitleOnline(unittest.TestCase):
         reponse=litle.sendRequest(credit)
         
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <credit reportGroup="DefaultReportGroup">
-    <orderId>12344</orderId>
-    <orderSource>ecommerce</orderSource>
-    <card>
-      <type>VI</type>
-      <number>4100000000000001</number>
-      <expDate>1210</expDate>
-    </card>
-  </credit>
-</litleOnlineRequest>
-"""
+        expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<credit[\s\S]*?<orderId>12344</orderId>\s*?<orderSource>ecommerce</orderSource>\s*?<card>\s*?<type>VI</type>\s*?<number>4100000000000001</number>\s*?<expDate>1210</expDate>\s*?</card>\s*?</credit>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
     
     #new for 8.29
@@ -374,24 +289,7 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(credit)
         
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <credit reportGroup="DefaultReportGroup">
-    <orderId>12344</orderId>
-    <secondaryAmount>100</secondaryAmount>
-    <orderSource>ecommerce</orderSource>
-    <card>
-      <type>VI</type>
-      <number>4100000000000001</number>
-      <expDate>1210</expDate>
-    </card>
-  </credit>
-</litleOnlineRequest>
-"""
+        expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<credit[\s\S]*?<orderId>12344</orderId>\s*?<secondaryAmount>100</secondaryAmount>\s*?<orderSource>ecommerce</orderSource>\s*?<card>\s*?<type>VI</type>\s*?<number>4100000000000001</number>\s*?<expDate>1210</expDate>\s*?</card>\s*?</credit>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
     
     def testEcheckCredit(self):
@@ -408,18 +306,7 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(echeckcredit)
         
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <echeckCredit reportGroup="DefaultReportGroup">
-    <litleTxnId>123456789101112</litleTxnId>
-    <amount>12</amount>
-  </echeckCredit>
-</litleOnlineRequest>
-"""
+        expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<echeckCredit[\s\S]*?<litleTxnId>123456789101112</litleTxnId>\s*?<amount>12</amount>\s*?</echeckCredit>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
     
     #new for 8.29
@@ -437,18 +324,7 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(echeckcredit)
         
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <echeckCredit reportGroup="DefaultReportGroup">
-    <orderId>12344</orderId>
-    <secondaryAmount>100</secondaryAmount>
-  </echeckCredit>
-</litleOnlineRequest>
-"""
+        expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<echeckCredit[\s\S]*?<orderId>12344</orderId>\s*?<secondaryAmount>100</secondaryAmount>\s*?</echeckCredit>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
  
     def testEcheckRedeposit(self):
@@ -464,17 +340,7 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(echeckredeposit)
          
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <echeckRedeposit reportGroup="DefaultReportGroup">
-    <litleTxnId>123456</litleTxnId>
-  </echeckRedeposit>
-</litleOnlineRequest>
-"""
+        expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<echeckRedeposit[\s\S]*?<litleTxnId>123456</litleTxnId>\s*?</echeckRedeposit>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
 
     def testEcheckSale(self):
@@ -506,31 +372,7 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(echecksale)
          
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <echeckSale reportGroup="DefaultReportGroup">
-    <orderId>12345</orderId>
-    <amount>123456</amount>
-    <orderSource>ecommerce</orderSource>
-    <billToAddress>
-      <name>Bob</name>
-      <city>lowell</city>
-      <state>MA</state>
-      <email>litle.com</email>
-    </billToAddress>
-    <echeck>
-      <accType>Checking</accType>
-      <accNum>12345657890</accNum>
-      <routingNum>123456789</routingNum>
-      <checkNum>123455</checkNum>
-    </echeck>
-  </echeckSale>
-</litleOnlineRequest>
-"""
+        expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<echeckSale[\s\S]*?<orderId>12345</orderId>\s*?<amount>123456</amount>\s*?<orderSource>ecommerce</orderSource>\s*?<billToAddress>\s*?<name>Bob</name>\s*?<city>lowell</city>\s*?<state>MA</state>\s*?<email>litle.com</email>\s*?</billToAddress>\s*?<echeck>\s*?<accType>Checking</accType>\s*?<accNum>12345657890</accNum>\s*?<routingNum>123456789</routingNum>\s*?<checkNum>123455</checkNum>\s*?</echeck>\s*?</echeckSale>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
 
     #new for 8.29
@@ -564,32 +406,7 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(echecksale)
          
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <echeckSale reportGroup="DefaultReportGroup">
-    <orderId>12345</orderId>
-    <amount>123456</amount>
-    <secondaryAmount>100</secondaryAmount>
-    <orderSource>ecommerce</orderSource>
-    <billToAddress>
-      <name>Bob</name>
-      <city>lowell</city>
-      <state>MA</state>
-      <email>litle.com</email>
-    </billToAddress>
-    <echeck>
-      <accType>Checking</accType>
-      <accNum>12345657890</accNum>
-      <routingNum>123456789</routingNum>
-      <checkNum>123455</checkNum>
-    </echeck>
-  </echeckSale>
-</litleOnlineRequest>
-"""
+        expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<echeckSale[\s\S]*?<orderId>12345</orderId>\s*?<amount>123456</amount>\s*?<secondaryAmount>100</secondaryAmount>\s*?<orderSource>ecommerce</orderSource>\s*?<billToAddress>\s*?<name>Bob</name>\s*?<city>lowell</city>\s*?<state>MA</state>\s*?<email>litle.com</email>\s*?</billToAddress>\s*?<echeck>\s*?<accType>Checking</accType>\s*?<accNum>12345657890</accNum>\s*?<routingNum>123456789</routingNum>\s*?<checkNum>123455</checkNum>\s*?</echeck>\s*?</echeckSale>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
     def testEcheckVoid(self):
         echeckvoid = litleXmlFields.echeckVoid()
@@ -604,17 +421,7 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(echeckvoid)
          
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <echeckVoid reportGroup="DefaultReportGroup">
-    <litleTxnId>12345</litleTxnId>
-  </echeckVoid>
-</litleOnlineRequest>
-"""
+        expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<echeckVoid[\s\S]*?<litleTxnId>12345</litleTxnId>\s*?</echeckVoid>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
  
     def testEcheckVerification(self):
@@ -646,31 +453,7 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(echeckverification)
          
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <echeckVerification reportGroup="DefaultReportGroup">
-    <orderId>12345</orderId>
-    <amount>123456</amount>
-    <orderSource>ecommerce</orderSource>
-    <billToAddress>
-      <name>Bob</name>
-      <city>lowell</city>
-      <state>MA</state>
-      <email>litle.com</email>
-    </billToAddress>
-    <echeck>
-      <accType>Checking</accType>
-      <accNum>12345657890</accNum>
-      <routingNum>123456789</routingNum>
-      <checkNum>123455</checkNum>
-    </echeck>
-  </echeckVerification>
-</litleOnlineRequest>
-"""
+        expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<echeckVerification[\s\S]*?<orderId>12345</orderId>\s*?<amount>123456</amount>\s*?<orderSource>ecommerce</orderSource>\s*?<billToAddress>\s*?<name>Bob</name>\s*?<city>lowell</city>\s*?<state>MA</state>\s*?<email>litle.com</email>\s*?</billToAddress>\s*?<echeck>\s*?<accType>Checking</accType>\s*?<accNum>12345657890</accNum>\s*?<routingNum>123456789</routingNum>\s*?<checkNum>123455</checkNum>\s*?</echeck>\s*?</echeckVerification>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
  
     def testForceCapture(self):
@@ -694,24 +477,7 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(forcecapture)
          
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <forceCapture reportGroup="DefaultReportGroup">
-    <orderId>12344</orderId>
-    <amount>106</amount>
-    <orderSource>ecommerce</orderSource>
-    <card>
-      <type>VI</type>
-      <number>4100000000000001</number>
-      <expDate>1210</expDate>
-    </card>
-  </forceCapture>
-</litleOnlineRequest>
-"""
+        expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<forceCapture[\s\S]*?<orderId>12344</orderId>\s*?<amount>106</amount>\s*?<orderSource>ecommerce</orderSource>\s*?<card>\s*?<type>VI</type>\s*?<number>4100000000000001</number>\s*?<expDate>1210</expDate>\s*?</card>\s*?</forceCapture>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
         
     #new for 8.29
@@ -737,25 +503,7 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(forcecapture)
          
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <forceCapture reportGroup="DefaultReportGroup">
-    <orderId>12344</orderId>
-    <amount>106</amount>
-    <secondaryAmount>100</secondaryAmount>
-    <orderSource>ecommerce</orderSource>
-    <card>
-      <type>VI</type>
-      <number>4100000000000001</number>
-      <expDate>1210</expDate>
-    </card>
-  </forceCapture>
-</litleOnlineRequest>
-"""
+        expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<forceCapture[\s\S]*?<orderId>12344</orderId>\s*?<amount>106</amount>\s*?<secondaryAmount>100</secondaryAmount>\s*?<orderSource>ecommerce</orderSource>\s*?<card>\s*?<type>VI</type>\s*?<number>4100000000000001</number>\s*?<expDate>1210</expDate>\s*?</card>\s*?</forceCapture>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
 
     def testSale(self):
@@ -780,25 +528,7 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(sale)
          
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <sale reportGroup="DefaultReportGroup">
-    <litleTxnId>123456</litleTxnId>
-    <orderId>12344</orderId>
-    <amount>106</amount>
-    <orderSource>ecommerce</orderSource>
-    <card>
-      <type>VI</type>
-      <number>4100000000000002</number>
-      <expDate>1210</expDate>
-    </card>
-  </sale>
-</litleOnlineRequest>
-"""
+        expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<sale[\s\S]*?<litleTxnId>123456</litleTxnId>\s*?[\s\S]*?<orderId>12344</orderId>\s*?<amount>106</amount>\s*?<orderSource>ecommerce</orderSource>\s*?<card>\s*?<type>VI</type>\s*?<number>4100000000000002</number>\s*?<expDate>1210</expDate>\s*?</card>\s*?</sale>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
     
     #new for 8.29  
@@ -831,32 +561,7 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(sale)
          
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <sale reportGroup="DefaultReportGroup">
-    <litleTxnId>123456</litleTxnId>
-    <orderId>12344</orderId>
-    <amount>106</amount>
-    <secondaryAmount>100</secondaryAmount>
-    <orderSource>ecommerce</orderSource>
-    <applepay>
-      <data>4100000000000000</data>
-      <header>
-        <applicationData>applicationData</applicationData>
-        <ephemeralPublicKey>UWIRNRSKSXMXEYEINR</ephemeralPublicKey>
-        <publicKeyHash>UYTGHJKMNBVFYWUWI</publicKeyHash>
-        <transactionId>1024</transactionId>
-      </header>
-      <signature>yoyo</signature>
-      <version>8.29</version>
-    </applepay>
-  </sale>
-</litleOnlineRequest>
-"""
+        expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<sale[\s\S]*?<litleTxnId>123456</litleTxnId>\s*?[\s\S]*?<orderId>12344</orderId>\s*?<amount>106</amount>\s*?<secondaryAmount>100</secondaryAmount>\s*?<orderSource>ecommerce</orderSource>\s*?<applepay>\s*?<data>4100000000000000</data>\s*?<header>\s*?<applicationData>applicationData</applicationData>\s*?<ephemeralPublicKey>UWIRNRSKSXMXEYEINR</ephemeralPublicKey>\s*?<publicKeyHash>UYTGHJKMNBVFYWUWI</publicKeyHash>\s*?<transactionId>1024</transactionId>\s*?</header>\s*?<signature>yoyo</signature>\s*?<version>8.29</version>\s*?</applepay>\s*?</sale>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
  
     #new for 8.29
@@ -885,28 +590,7 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(token)
          
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <registerTokenRequest reportGroup="DefaultReportGroup">
-    <orderId>12344</orderId>
-    <applepay>
-      <data>4100000000000000</data>
-      <header>
-        <applicationData>applicationData</applicationData>
-        <ephemeralPublicKey>UWIRNRSKSXMXEYEINR</ephemeralPublicKey>
-        <publicKeyHash>UYTGHJKMNBVFYWUWI</publicKeyHash>
-        <transactionId>1024</transactionId>
-      </header>
-      <signature>yoyo</signature>
-      <version>8.29</version>
-    </applepay>
-  </registerTokenRequest>
-</litleOnlineRequest>
-"""
+        expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<registerTokenRequest[\s\S]*?<orderId>12344</orderId>\s*?<applepay>\s*?<data>4100000000000000</data>\s*?<header>\s*?<applicationData>applicationData</applicationData>\s*?<ephemeralPublicKey>UWIRNRSKSXMXEYEINR</ephemeralPublicKey>\s*?<publicKeyHash>UYTGHJKMNBVFYWUWI</publicKeyHash>\s*?<transactionId>1024</transactionId>\s*?</header>\s*?<signature>yoyo</signature>\s*?<version>8.29</version>\s*?</applepay>\s*?</registerTokenRequest>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
         
     def testToken(self):
@@ -923,18 +607,7 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(token)
          
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <registerTokenRequest reportGroup="DefaultReportGroup">
-    <orderId>12344</orderId>
-    <accountNumber>1233456789103801</accountNumber>
-  </registerTokenRequest>
-</litleOnlineRequest>
-"""
+        expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<registerTokenRequest[\s\S]*?<orderId>12344</orderId>\s*?<accountNumber>1233456789103801</accountNumber>\s*?</registerTokenRequest>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
          
     def testExtraField(self):
@@ -959,24 +632,7 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(auth)
          
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <authorization reportGroup="DefaultReportGroup">
-    <orderId>1234</orderId>
-    <amount>106</amount>
-    <orderSource>ecommerce</orderSource>
-    <card>
-      <type>VI</type>
-      <number>4100000000000000</number>
-      <expDate>1210</expDate>
-    </card>
-  </authorization>
-</litleOnlineRequest>
-"""
+        expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<authorization[\s\S]*?<orderId>1234</orderId>\s*?<amount>106</amount>\s*?<orderSource>ecommerce</orderSource>\s*?<card>\s*?<type>VI</type>\s*?<number>4100000000000000</number>\s*?<expDate>1210</expDate>\s*?</card>\s*?</authorization>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
  
     def testExtraChoices(self):
@@ -1041,27 +697,7 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(auth)
  
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <authorization reportGroup="DefaultReportGroup">
-    <orderId>12344</orderId>
-    <amount>106</amount>
-    <orderSource>ecommerce</orderSource>
-    <customerInfo>
-      <dob>1980-04-14</dob>
-    </customerInfo>
-    <card>
-      <type>VI</type>
-      <number>4100000000000002</number>
-      <expDate>1210</expDate>
-    </card>
-  </authorization>
-</litleOnlineRequest>
-"""
+        expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<authorization[\s\S]*?<orderId>12344</orderId>\s*?<amount>106</amount>\s*?<orderSource>ecommerce</orderSource>\s*?<customerInfo>\s*?<dob>1980-04-14</dob>\s*?</customerInfo>\s*?<card>\s*?<type>VI</type>\s*?<number>4100000000000002</number>\s*?<expDate>1210</expDate>\s*?</card>\s*?</authorization>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
  
     def testCancelSubscription(self):
@@ -1077,17 +713,7 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(cancel)
  
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <cancelSubscription>
-    <subscriptionId>12345</subscriptionId>
-  </cancelSubscription>
-</litleOnlineRequest>
-"""
+        expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<cancelSubscription>\s*?<subscriptionId>12345</subscriptionId>\s*?</cancelSubscription>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
  
     def testUpdateSubscription(self):
@@ -1116,30 +742,7 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(update)
  
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <updateSubscription>
-    <subscriptionId>12345</subscriptionId>
-    <planCode>abcdefg</planCode>
-    <billToAddress>
-      <name>Greg Dake</name>
-      <city>Lowell</city>
-      <state>MA</state>
-      <email>sdksupport@litle.com</email>
-    </billToAddress>
-    <card>
-      <type>VI</type>
-      <number>4100000000000001</number>
-      <expDate>1215</expDate>
-    </card>
-    <billingDate>2013-08-07</billingDate>
-  </updateSubscription>
-</litleOnlineRequest>
-"""
+        expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<updateSubscription>\s*?<subscriptionId>12345</subscriptionId>\s*?<planCode>abcdefg</planCode>\s*?<billToAddress>\s*?<name>Greg Dake</name>\s*?<city>Lowell</city>\s*?<state>MA</state>\s*?<email>sdksupport@litle.com</email>\s*?</billToAddress>\s*?<card>\s*?<type>VI</type>\s*?<number>4100000000000001</number>\s*?<expDate>1215</expDate>\s*?</card>\s*?<billingDate>2013-08-07</billingDate>\s*?</updateSubscription>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
          
     def testUpdatePlan(self):
@@ -1156,18 +759,7 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(update)
  
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <updatePlan>
-    <planCode>abc</planCode>
-    <active>true</active>
-  </updatePlan>
-</litleOnlineRequest>
-"""
+        expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<updatePlan>\s*?<planCode>abc</planCode>\s*?<active>true</active>\s*?</updatePlan>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
  
     def testCreatePlan(self):
@@ -1184,18 +776,7 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(create)
  
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <createPlan>
-    <planCode>abc</planCode>
-    <active>true</active>
-  </createPlan>
-</litleOnlineRequest>
-"""
+        expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<createPlan>\s*?<planCode>abc</planCode>\s*?<active>true</active>\s*?</createPlan>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
  
     def testActivate(self):
@@ -1211,17 +792,7 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(activate)
  
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <activate reportGroup="DefaultReportGroup">
-    <amount>100</amount>
-  </activate>
-</litleOnlineRequest>
-"""
+        expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<activate[\s\S]*?<amount>100</amount>\s*?</activate>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
  
     def testDeactivate(self):
@@ -1237,17 +808,7 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(deactivate)
  
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <deactivate reportGroup="DefaultReportGroup">
-    <orderId>123</orderId>
-  </deactivate>
-</litleOnlineRequest>
-"""
+        expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<deactivate[\s\S]*?<orderId>123</orderId>\s*?</deactivate>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
  
     def testLoad(self):
@@ -1263,17 +824,7 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(load)
  
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <load reportGroup="DefaultReportGroup">
-    <orderId>123</orderId>
-  </load>
-</litleOnlineRequest>
-"""
+        expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<load[\s\S]*?<orderId>123</orderId>\s*?</load>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
  
     def testUnload(self):
@@ -1289,17 +840,7 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(unload)
  
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <unload reportGroup="DefaultReportGroup">
-    <orderId>123</orderId>
-  </unload>
-</litleOnlineRequest>
-"""
+        expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<unload[\s\S]*?<orderId>123</orderId>\s*?</unload>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
  
     def testBalanceInquiry(self):
@@ -1315,17 +856,7 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(balanceInquiry)
  
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <balanceInquiry reportGroup="DefaultReportGroup">
-    <orderId>123</orderId>
-  </balanceInquiry>
-</litleOnlineRequest>
-"""
+        expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<balanceInquiry[\s\S]*?<orderId>123</orderId>\s*?</balanceInquiry>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
  
     def testActivateReversal(self):
@@ -1341,17 +872,7 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(activateReversal)
  
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <activateReversal reportGroup="DefaultReportGroup">
-    <litleTxnId>123</litleTxnId>
-  </activateReversal>
-</litleOnlineRequest>
-"""
+        expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<activateReversal[\s\S]*?<litleTxnId>123</litleTxnId>\s*?</activateReversal>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
  
     def testDeactivateReversal(self):
@@ -1367,17 +888,7 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(deactivateReversal)
  
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <deactivateReversal reportGroup="DefaultReportGroup">
-    <litleTxnId>123</litleTxnId>
-  </deactivateReversal>
-</litleOnlineRequest>
-"""
+        expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<deactivateReversal[\s\S]*?<litleTxnId>123</litleTxnId>\s*?</deactivateReversal>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
  
     def testLoadReversal(self):
@@ -1393,17 +904,7 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(loadReversal)
  
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <loadReversal reportGroup="DefaultReportGroup">
-    <litleTxnId>123</litleTxnId>
-  </loadReversal>
-</litleOnlineRequest>
-"""
+        expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<loadReversal[\s\S]*?<litleTxnId>123</litleTxnId>\s*?</loadReversal>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
  
     def testUnloadReversal(self):
@@ -1419,17 +920,7 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(unloadReversal)
  
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <unloadReversal reportGroup="DefaultReportGroup">
-    <litleTxnId>123</litleTxnId>
-  </unloadReversal>
-</litleOnlineRequest>
-"""
+        expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<unloadReversal[\s\S]*?<litleTxnId>123</litleTxnId>\s*?</unloadReversal>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
  
     def testRefundReversal(self):
@@ -1445,17 +936,7 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(refundReversal)
  
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <refundReversal reportGroup="DefaultReportGroup">
-    <litleTxnId>123</litleTxnId>
-  </refundReversal>
-</litleOnlineRequest>
-"""
+        expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<refundReversal[\s\S]*?<litleTxnId>123</litleTxnId>\s*?</refundReversal>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
  
     def testDepositReversal(self):
@@ -1471,17 +952,7 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(depositReversal)
  
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <depositReversal reportGroup="DefaultReportGroup">
-    <litleTxnId>123</litleTxnId>
-  </depositReversal>
-</litleOnlineRequest>
-"""
+        expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<depositReversal[\s\S]*?<litleTxnId>123</litleTxnId>\s*?</depositReversal>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
  
     def testAuthorizationIncludesWallet(self):
@@ -1499,20 +970,7 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(authorization)
          
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="{0}" version="{1}" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <authorization reportGroup="DefaultReportGroup">
-    <wallet>
-      <walletSourceType>MasterPass</walletSourceType>
-      <walletSourceTypeId>5</walletSourceTypeId>
-    </wallet>
-  </authorization>
-</litleOnlineRequest>
-""".format("8.29.0", "8.29")
+        expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<authorization[\s\S]*?<wallet>\s*?<walletSourceType>MasterPass</walletSourceType>\s*?<walletSourceTypeId>5</walletSourceTypeId>\s*?</wallet>\s*?</authorization>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
  
     def testSaleIncludesWallet(self):
@@ -1530,20 +988,7 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(sale)
          
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="{0}" version="{1}" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <sale reportGroup="DefaultReportGroup">
-    <wallet>
-      <walletSourceType>MasterPass</walletSourceType>
-      <walletSourceTypeId>5</walletSourceTypeId>
-    </wallet>
-  </sale>
-</litleOnlineRequest>
-""".format("8.29.0", "8.29")
+        expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<sale[\s\S]*?<wallet>\s*?<walletSourceType>MasterPass</walletSourceType>\s*?<walletSourceTypeId>5</walletSourceTypeId>\s*?</wallet>\s*?</sale>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
          
     def testEcheckTxnsCanHavePpdAsOrderSource(self):
@@ -1559,17 +1004,7 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(echeckSale)
          
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="{0}" version="{1}" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <echeckSale reportGroup="DefaultReportGroup">
-    <orderSource>echeckppd</orderSource>
-  </echeckSale>
-</litleOnlineRequest>
-""".format("8.29.0", "8.29")
+        expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<echeckSale[\s\S]*?<orderSource>echeckppd</orderSource>\s*?</echeckSale>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
 
 
