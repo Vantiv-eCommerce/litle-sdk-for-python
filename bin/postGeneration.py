@@ -195,8 +195,10 @@ def removeAbsolutePath(xfile):
         if currentline.find(decLocationStr) >= 0 \
             or currentline.find(useLocationStr) >= 0 \
             or currentline.find(defLocationStr) >= 0:
+#             re.escape("()\\.")
+            currentline = currentline.replace('\\', '\\\\')
             currentline = currentline.replace(')', '\)')
-            currentline = currentline.replace('(', '\(')
+            currentline = currentline.replace('(', '\(')            
             replace_in_file(xfile, currentline, "")
 
 # Run actual Changes
