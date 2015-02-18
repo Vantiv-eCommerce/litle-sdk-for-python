@@ -358,8 +358,119 @@ class TestLitleBatchRequest(unittest.TestCase):
 
         with self.assertRaises(Exception):
             batchRequest.addTransaction(accountUpdate)
+            
+    def testAddSubmerchantCredit(self):
+        batchRequest = self.litleBatchFileRequest.createBatch()
+        submerchantCredit = litleXmlFields.submerchantCredit()
+        submerchantCredit.amount = 25
+        self.litleBatchFileRequest.tnxToXml = MagicMock(return_value='')
 
+        batchRequest.addTransaction(submerchantCredit)
+        self.assertEqual(batchRequest._batchRequest.submerchantCreditAmount, 25)
+        self.assertEqual(batchRequest._batchRequest.numSubmerchantCredit, 1)
+        self.assertEqual(batchRequest.numOfTxn, 1)
+        
+    def testAddSubmerchantDebit(self):
+        batchRequest = self.litleBatchFileRequest.createBatch()
+        submerchantDebit = litleXmlFields.submerchantDebit()
+        submerchantDebit.amount = 25
+        self.litleBatchFileRequest.tnxToXml = MagicMock(return_value='')
 
+        batchRequest.addTransaction(submerchantDebit)
+        self.assertEqual(batchRequest._batchRequest.submerchantDebitAmount, 25)
+        self.assertEqual(batchRequest._batchRequest.numSubmerchantDebit, 1)
+        self.assertEqual(batchRequest.numOfTxn, 1)
+
+    def testAddPayFacCredit(self):
+        batchRequest = self.litleBatchFileRequest.createBatch()
+        payFacCredit = litleXmlFields.payFacCredit()
+        payFacCredit.amount = 25
+        self.litleBatchFileRequest.tnxToXml = MagicMock(return_value='')
+
+        batchRequest.addTransaction(payFacCredit)
+        self.assertEqual(batchRequest._batchRequest.payFacCreditAmount, 25)
+        self.assertEqual(batchRequest._batchRequest.numPayFacCredit, 1)
+        self.assertEqual(batchRequest.numOfTxn, 1)
+        
+    def testAddPayFacDebit(self):
+        batchRequest = self.litleBatchFileRequest.createBatch()
+        payFacDebit = litleXmlFields.payFacDebit()
+        payFacDebit.amount = 25
+        self.litleBatchFileRequest.tnxToXml = MagicMock(return_value='')
+
+        batchRequest.addTransaction(payFacDebit)
+        self.assertEqual(batchRequest._batchRequest.payFacDebitAmount, 25)
+        self.assertEqual(batchRequest._batchRequest.numPayFacDebit, 1)
+        self.assertEqual(batchRequest.numOfTxn, 1)
+        
+    def testAddReserveCredit(self):
+        batchRequest = self.litleBatchFileRequest.createBatch()
+        reserveCredit = litleXmlFields.reserveCredit()
+        reserveCredit.amount = 25
+        self.litleBatchFileRequest.tnxToXml = MagicMock(return_value='')
+
+        batchRequest.addTransaction(reserveCredit)
+        self.assertEqual(batchRequest._batchRequest.reserveCreditAmount, 25)
+        self.assertEqual(batchRequest._batchRequest.numReserveCredit, 1)
+        self.assertEqual(batchRequest.numOfTxn, 1)
+        
+    def testAddReserveDebit(self):
+        batchRequest = self.litleBatchFileRequest.createBatch()
+        reserveDebit = litleXmlFields.reserveDebit()
+        reserveDebit.amount = 25
+        self.litleBatchFileRequest.tnxToXml = MagicMock(return_value='')
+
+        batchRequest.addTransaction(reserveDebit)
+        self.assertEqual(batchRequest._batchRequest.reserveDebitAmount, 25)
+        self.assertEqual(batchRequest._batchRequest.numReserveDebit, 1)
+        self.assertEqual(batchRequest.numOfTxn, 1)
+        
+    def testAddVendorCredit(self):
+        batchRequest = self.litleBatchFileRequest.createBatch()
+        vendorCredit= litleXmlFields.vendorCredit()
+        vendorCredit.amount = 25
+        self.litleBatchFileRequest.tnxToXml = MagicMock(return_value='')
+
+        batchRequest.addTransaction(vendorCredit)
+        self.assertEqual(batchRequest._batchRequest.vendorCreditAmount, 25)
+        self.assertEqual(batchRequest._batchRequest.numVendorCredit, 1)
+        self.assertEqual(batchRequest.numOfTxn, 1)
+        
+    def testAddVendorDebit(self):
+        batchRequest = self.litleBatchFileRequest.createBatch()
+        vendorDebit= litleXmlFields.vendorDebit()
+        vendorDebit.amount = 25
+        self.litleBatchFileRequest.tnxToXml = MagicMock(return_value='')
+
+        batchRequest.addTransaction(vendorDebit)
+        self.assertEqual(batchRequest._batchRequest.vendorDebitAmount, 25)
+        self.assertEqual(batchRequest._batchRequest.numVendorDebit, 1)
+        self.assertEqual(batchRequest.numOfTxn, 1)
+        
+    def testAddPhysicalCheckCredit(self):
+        batchRequest = self.litleBatchFileRequest.createBatch()
+        physicalCheckCredit= litleXmlFields.physicalCheckCredit()
+        physicalCheckCredit.amount = 25
+        self.litleBatchFileRequest.tnxToXml = MagicMock(return_value='')
+
+        batchRequest.addTransaction(physicalCheckCredit)
+        self.assertEqual(batchRequest._batchRequest.physicalCheckCreditAmount, 25)
+        self.assertEqual(batchRequest._batchRequest.numPhysicalCheckCredit, 1)
+        self.assertEqual(batchRequest.numOfTxn, 1)
+        
+    def testAddPhysicalCheckDebit(self):
+        batchRequest = self.litleBatchFileRequest.createBatch()
+        physicalCheckDebit= litleXmlFields.physicalCheckDebit()
+        physicalCheckDebit.amount = 25
+        self.litleBatchFileRequest.tnxToXml = MagicMock(return_value='')
+
+        batchRequest.addTransaction(physicalCheckDebit)
+        self.assertEqual(batchRequest._batchRequest.physicalCheckDebitAmount, 25)
+        self.assertEqual(batchRequest._batchRequest.numPhysicalCheckDebit, 1)
+        self.assertEqual(batchRequest.numOfTxn, 1)
+        
+        
+        
 
 def suite():
     suite = unittest.TestSuite()

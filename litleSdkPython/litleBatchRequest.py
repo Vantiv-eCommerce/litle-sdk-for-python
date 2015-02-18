@@ -64,7 +64,27 @@ class litleBatchRequest:
         self._batchRequest.numEcheckRedeposit = 0
         self._batchRequest.numEcheckPreNoteSale = 0
         self._batchRequest.numEcheckPreNoteCredit = 0
+        self._batchRequest.numSubmerchantCredit = 0
+        self._batchRequest.submerchantCreditAmount = 0
         self._batchRequest.numEcheckSales = 0
+        self._batchRequest.numSubmerchantDebit = 0
+        self._batchRequest.submerchantDebitAmount = 0
+        self._batchRequest.numReserveCredit = 0
+        self._batchRequest.reserveCreditAmount = 0
+        self._batchRequest.numReserveDebit = 0
+        self._batchRequest.reserveDebitAmount = 0
+        self._batchRequest.numPayFacCredit = 0
+        self._batchRequest.payFacCreditAmount = 0
+        self._batchRequest.numPayFacDebit = 0
+        self._batchRequest.payFacDebitAmount = 0
+        self._batchRequest.numPhysicalCheckDebit = 0
+        self._batchRequest.physicalCheckDebitAmount = 0
+        self._batchRequest.numPhysicalCheckCredit = 0
+        self._batchRequest.physicalCheckCreditAmount = 0
+        self._batchRequest.numVendorDebit = 0
+        self._batchRequest.vendorDebitAmount = 0
+        self._batchRequest.numVendorCredit = 0
+        self._batchRequest.vendorCreditAmount = 0
         self._batchRequest.echeckSalesAmount = 0
         self._batchRequest.numUpdateCardValidationNumOnTokens = 0
         self._batchRequest.numAccountUpdates = 0
@@ -193,12 +213,72 @@ class litleBatchRequest:
             self._batchRequest.echeckSalesAmount += transaction.amount
             __transactionAdded = True
             self.numOfTxn += 1
+            
+        elif isinstance(transaction, litleXmlFields.submerchantCredit.typeDefinition()):
+            self._batchRequest.numSubmerchantCredit += 1
+            self._batchRequest.submerchantCreditAmount += transaction.amount
+            __transactionAdded = True
+            self.numOfTxn += 1
+            
+        elif isinstance(transaction, litleXmlFields.submerchantDebit.typeDefinition()):
+            self._batchRequest.numSubmerchantDebit += 1
+            self._batchRequest.submerchantDebitAmount += transaction.amount
+            __transactionAdded = True
+            self.numOfTxn += 1
+            
+        elif isinstance(transaction, litleXmlFields.payFacCredit.typeDefinition()):
+            self._batchRequest.numPayFacCredit += 1
+            self._batchRequest.payFacCreditAmount += transaction.amount
+            __transactionAdded = True
+            self.numOfTxn += 1
+            
+        elif isinstance(transaction, litleXmlFields.payFacDebit.typeDefinition()):
+            self._batchRequest.numPayFacDebit += 1
+            self._batchRequest.payFacDebitAmount += transaction.amount
+            __transactionAdded = True
+            self.numOfTxn += 1
+            
+        elif isinstance(transaction, litleXmlFields.reserveCredit.typeDefinition()):
+            self._batchRequest.numReserveCredit += 1
+            self._batchRequest.reserveCreditAmount += transaction.amount
+            __transactionAdded = True
+            self.numOfTxn += 1
+            
+        elif isinstance(transaction, litleXmlFields.reserveDebit.typeDefinition()):
+            self._batchRequest.numReserveDebit += 1
+            self._batchRequest.reserveDebitAmount += transaction.amount
+            __transactionAdded = True
+            self.numOfTxn += 1
+            
+        elif isinstance(transaction, litleXmlFields.vendorCredit.typeDefinition()):
+            self._batchRequest.numVendorCredit += 1
+            self._batchRequest.vendorCreditAmount += transaction.amount
+            __transactionAdded = True
+            self.numOfTxn += 1
+            
+        elif isinstance(transaction, litleXmlFields.vendorDebit.typeDefinition()):
+            self._batchRequest.numVendorDebit += 1
+            self._batchRequest.vendorDebitAmount += transaction.amount
+            __transactionAdded = True
+            self.numOfTxn += 1
+            
+        elif isinstance(transaction, litleXmlFields.physicalCheckCredit.typeDefinition()):
+            self._batchRequest.numPhysicalCheckCredit += 1
+            self._batchRequest.physicalCheckCreditAmount += transaction.amount
+            __transactionAdded = True
+            self.numOfTxn += 1
+            
+        elif isinstance(transaction, litleXmlFields.physicalCheckDebit.typeDefinition()):
+            self._batchRequest.numPhysicalCheckDebit += 1
+            self._batchRequest.physicalCheckDebitAmount += transaction.amount
+            __transactionAdded = True
+            self.numOfTxn += 1
 
         elif isinstance(transaction, litleXmlFields.updateCardValidationNumOnToken.typeDefinition()):
             self._batchRequest.numUpdateCardValidationNumOnTokens += 1
             __transactionAdded = True
             self.numOfTxn += 1
-
+            
         elif isinstance(transaction, litleXmlFields.updateSubscription.typeDefinition()):
             self._batchRequest.numUpdateSubscriptions += 1
             __transactionAdded = True

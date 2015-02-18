@@ -221,11 +221,11 @@ class TestBatchTcp(unittest.TestCase):
         echeckPreNoteSale.billToAddress = contact
         echeckPreNoteSale.echeck = echeck
         echeckPreNoteSale.orderSource = 'ecommerce'
-        
+         
         batch.addTransaction(echeckPreNoteSale)
         
-        echeckPreNoteCredit = litleXmlFields.echeckPreNoteSale();
-        echeckPreNoteCredit.orderId = "12345"
+        echeckPreNoteCredit = litleXmlFields.echeckPreNoteCredit();
+        echeckPreNoteCredit.orderId = "12346"
         echeckPreNoteCredit.billToAddress = contact
         echeckPreNoteCredit.echeck = echeck
         echeckPreNoteCredit.orderSource = 'ecommerce'
