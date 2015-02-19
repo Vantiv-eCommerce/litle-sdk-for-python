@@ -215,7 +215,7 @@ class TestBatchTcp(unittest.TestCase):
         echeckSale.verify = True
 
         batch.addTransaction(echeckSale)
-        
+        #TODO: change correct echeck bank routing number
         echeckPreNoteSale = litleXmlFields.echeckPreNoteSale();
         echeckPreNoteSale.orderId = "12344"
         echeckPreNoteSale.billToAddress = contact
@@ -223,7 +223,7 @@ class TestBatchTcp(unittest.TestCase):
         echeckPreNoteSale.orderSource = 'ecommerce'
          
         batch.addTransaction(echeckPreNoteSale)
-        
+        #TODO: change correct echeck bank routing number
         echeckPreNoteCredit = litleXmlFields.echeckPreNoteCredit();
         echeckPreNoteCredit.orderId = "12346"
         echeckPreNoteCredit.billToAddress = contact
@@ -231,6 +231,84 @@ class TestBatchTcp(unittest.TestCase):
         echeckPreNoteCredit.orderSource = 'ecommerce'
         
         batch.addTransaction(echeckPreNoteCredit)
+        #TODO: change correct echeck bank routing number
+        submerchantCredit = litleXmlFields.submerchantCredit();        
+        submerchantCredit.fundingSubmerchantId = "12347"
+        submerchantCredit.submerchantName = "001"
+        submerchantCredit.fundsTransferId = "123456"
+        submerchantCredit.amount = "100"
+        submerchantCredit.accountInfo = echeck
+         
+        batch.addTransaction(submerchantCredit)
+        #TODO: change correct echeck bank routing number
+        submerchantDebit = litleXmlFields.submerchantDebit();        
+        submerchantDebit.fundingSubmerchantId = "12347"
+        submerchantDebit.submerchantName = "001"
+        submerchantDebit.fundsTransferId = "123456"
+        submerchantDebit.amount = "100"
+        submerchantDebit.accountInfo = echeck
+         
+        batch.addTransaction(submerchantDebit)
+         
+        payFacCredit = litleXmlFields.payFacCredit();        
+        payFacCredit.fundingSubmerchantId = "12347"
+        payFacCredit.fundsTransferId = "123456"
+        payFacCredit.amount = "100"
+         
+        batch.addTransaction(payFacCredit)
+         
+        payFacDebit = litleXmlFields.payFacDebit();        
+        payFacDebit.fundingSubmerchantId = "12347"
+        payFacDebit.fundsTransferId = "123456"
+        payFacDebit.amount = "100"
+         
+        batch.addTransaction(payFacDebit)
+         
+        reserveCredit = litleXmlFields.reserveCredit();        
+        reserveCredit.fundingSubmerchantId = "12347"
+        reserveCredit.fundsTransferId = "123456"
+        reserveCredit.amount = "100"l
+         
+        batch.addTransaction(reserveCredit)
+         
+        reserveDebit = litleXmlFields.reserveDebit();        
+        reserveDebit.fundingSubmerchantId = "12347"
+        reserveDebit.fundsTransferId = "123456"
+        reserveDebit.amount = "100"
+         
+        batch.addTransaction(reserveDebit)        
+        #TODO: change correct echeck bank routing number
+        vendorCredit = litleXmlFields.vendorCredit();        
+        vendorCredit.fundingSubmerchantId = "12347"
+        vendorCredit.vendorName = "001"
+        vendorCredit.fundsTransferId = "123456"
+        vendorCredit.amount = "100"
+        vendorCredit.accountInfo = echeck
+         
+        batch.addTransaction(vendorCredit)
+        #TODO: change correct echeck bank routing number
+        vendorDebit = litleXmlFields.vendorDebit();        
+        vendorDebit.fundingSubmerchantId = "12347"
+        vendorDebit.vendorName = "001"
+        vendorDebit.fundsTransferId = "123456"
+        vendorDebit.amount = "100"
+        vendorDebit.accountInfo = echeck
+         
+        batch.addTransaction(vendorDebit)
+         
+        physicalCheckCredit = litleXmlFields.physicalCheckCredit();        
+        physicalCheckCredit.fundingSubmerchantId = "12347"
+        physicalCheckCredit.fundsTransferId = "123456"
+        physicalCheckCredit.amount = "100"
+         
+        batch.addTransaction(physicalCheckCredit)
+         
+        physicalCheckDebit = litleXmlFields.physicalCheckDebit();        
+        physicalCheckDebit.fundingSubmerchantId = "12347"
+        physicalCheckDebit.fundsTransferId = "123456"
+        physicalCheckDebit.amount = "100"
+         
+        batch.addTransaction(physicalCheckDebit)
 
         transactionCount = batch.numOfTxn
 

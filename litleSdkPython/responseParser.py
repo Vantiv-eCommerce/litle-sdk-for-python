@@ -104,16 +104,16 @@ class ResponseParser:
             currentStartingTagInFile.lower() == '<echeckRedepositResponse'.lower() or
             currentStartingTagInFile.lower() == '<echeckPreNoteSaleResponse'.lower() or
             currentStartingTagInFile.lower() == '<echeckPreNoteCreditResponse'.lower() or
-            currentStartingTagInFile.lower() == '<submerchantCredit'.lower() or
-            currentStartingTagInFile.lower() == '<payFacCredit'.lower() or
-            currentStartingTagInFile.lower() == '<reserveCredit'.lower() or
-            currentStartingTagInFile.lower() == '<vendorCredit'.lower() or
-            currentStartingTagInFile.lower() == '<physicalCheckCredit'.lower() or
-            currentStartingTagInFile.lower() == '<submerchantDebit'.lower() or
-            currentStartingTagInFile.lower() == '<payFacDebit'.lower() or
-            currentStartingTagInFile.lower() == '<reserveDebit'.lower() or
-            currentStartingTagInFile.lower() == '<vendorDebit'.lower() or
-            currentStartingTagInFile.lower() == '<physicalCheckDebit'.lower() or
+            currentStartingTagInFile.lower() == '<submerchantCreditResponse'.lower() or
+            currentStartingTagInFile.lower() == '<payFacCreditResponse'.lower() or
+            currentStartingTagInFile.lower() == '<reserveCreditResponse'.lower() or
+            currentStartingTagInFile.lower() == '<vendorCreditResponse'.lower() or
+            currentStartingTagInFile.lower() == '<physicalCheckCreditResponse'.lower() or
+            currentStartingTagInFile.lower() == '<submerchantDebitResponse'.lower() or
+            currentStartingTagInFile.lower() == '<payFacDebitResponse'.lower() or
+            currentStartingTagInFile.lower() == '<reserveDebitResponse'.lower() or
+            currentStartingTagInFile.lower() == '<vendorDebitResponse'.lower() or
+            currentStartingTagInFile.lower() == '<physicalCheckDebitResponse'.lower() or
             currentStartingTagInFile.lower() == '<authReversalResponse'.lower() or
             currentStartingTagInFile.lower() == '<registerTokenResponse'.lower() or
             currentStartingTagInFile.lower() == '<updateSubscriptionResponse'.lower() or
@@ -151,16 +151,16 @@ class ResponseParser:
             currentStartingTagInFile.lower() == '</echeckRedepositResponse>'.lower() or
             currentStartingTagInFile.lower() == '</echeckPreNoteSaleResponse>'.lower() or
             currentStartingTagInFile.lower() == '</echeckPreNoteCreditResponse>'.lower() or
-            currentStartingTagInFile.lower() == '</submerchantCredit>'.lower() or
-            currentStartingTagInFile.lower() == '</payFacCredit>'.lower() or
-            currentStartingTagInFile.lower() == '</reserveCredit>'.lower() or
-            currentStartingTagInFile.lower() == '</vendorCredit>'.lower() or
-            currentStartingTagInFile.lower() == '</physicalCheckCredit>'.lower() or
-            currentStartingTagInFile.lower() == '</submerchantDebit>'.lower() or
-            currentStartingTagInFile.lower() == '</payFacDebit>'.lower() or
-            currentStartingTagInFile.lower() == '</reserveDebit>'.lower() or
-            currentStartingTagInFile.lower() == '</vendorDebit>'.lower() or
-            currentStartingTagInFile.lower() == '</physicalCheckDebit>'.lower() or
+            currentStartingTagInFile.lower() == '</submerchantCreditResponse>'.lower() or
+            currentStartingTagInFile.lower() == '</payFacCreditResponse>'.lower() or
+            currentStartingTagInFile.lower() == '</reserveCreditResponse>'.lower() or
+            currentStartingTagInFile.lower() == '</vendorCreditResponse>'.lower() or
+            currentStartingTagInFile.lower() == '</physicalCheckCreditResponse>'.lower() or
+            currentStartingTagInFile.lower() == '</submerchantDebitResponse>'.lower() or
+            currentStartingTagInFile.lower() == '</payFacDebitResponse>'.lower() or
+            currentStartingTagInFile.lower() == '</reserveDebitResponse>'.lower() or
+            currentStartingTagInFile.lower() == '</vendorDebitResponse>'.lower() or
+            currentStartingTagInFile.lower() == '</physicalCheckDebitResponse>'.lower() or
             currentStartingTagInFile.lower() == '</authReversalResponse>'.lower() or
             currentStartingTagInFile.lower() == '</registerTokenResponse>'.lower() or
             currentStartingTagInFile.lower() == '</updateSubscriptionResponse>'.lower() or
