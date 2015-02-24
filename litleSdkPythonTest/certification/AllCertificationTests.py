@@ -27,15 +27,18 @@ import TestCert2
 import TestCert3
 import TestCert4
 import TestCert5
+import TestCertBatch
 
 ct1 = TestCert1.suite()
 ct2 = TestCert2.suite()
 ct3 = TestCert3.suite()
 ct4 = TestCert4.suite()
 ct5 = TestCert5.suite()
+ctBatch = TestCertBatch.suite()
 
 unittest.TextTestRunner().run(ct1)
 unittest.TextTestRunner().run(ct2)
 unittest.TextTestRunner().run(ct3)
 unittest.TextTestRunner().run(ct4)
 unittest.TextTestRunner().run(ct5)
+unittest.TextTestRunner().run(ctBatch)

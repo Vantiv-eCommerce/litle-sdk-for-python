@@ -18,7 +18,7 @@
 #NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
 #HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
 #WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-#FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR
+#FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE lUSE OR
 #OTHER DEALINGS IN THE SOFTWARE.
 
 import os, sys
@@ -83,21 +83,27 @@ class TestBatchTcp(unittest.TestCase):
         card.number = '4100000000000001'
         card.expDate = '1210'
         card.type = 'VI'
-
+ 
         #echeck
         echeck = litleXmlFields.echeck()
-        echeck.accNum = '1234567890'
-        echeck.accType = 'Checking'
-        echeck.routingNum = '123456789'
-        echeck.checkNum = '123455'
-
+        echeck.accNum = '1092969901'
+        echeck.accType = 'Corporate'
+        echeck.routingNum = '011075150'
+ 
         #billto address
         contact = litleXmlFields.contact()
-        contact.name = 'Bob'
+        contact.name = 'PreNote Sale Corporate'
+        contact.firstName = 'unavailable'
+        contact.lastName = 'unavailable'
+        contact.companyName = 'PreNote Sale Corporate'
+        contact.addressLine1 = '1 Lowell Street'
+        contact.addressLine2 = 'Tower 2'
         contact.city = 'lowell'
         contact.state = 'MA'
+        contact.zip = '01850'
+        contact.phone = '1234567890'
         contact.email = 'Bob@litle.com'
-
+ 
         #auth
         auth = litleXmlFields.authorization()
         auth.reportGroup = 'Planets'
@@ -105,42 +111,42 @@ class TestBatchTcp(unittest.TestCase):
         auth.amount = 106
         auth.orderSource = 'ecommerce'
         auth.card = card
-
+ 
         batch.addTransaction(auth)
-
+ 
         sale = litleXmlFields.sale()
         sale.reportGroup = 'Planets'
         sale.orderId = '12344'
         sale.amount = 6000
         sale.orderSource = 'ecommerce'
         sale.card = card
-
+ 
         batch.addTransaction(sale)
-
+ 
         credit = litleXmlFields.credit()
         credit.reportGroup = 'Planets'
         credit.orderId = '12344'
         credit.amount = 106
         credit.orderSource = 'ecommerce'
         credit.card = card
-
+ 
         batch.addTransaction(credit)
-
+ 
         authReversal = litleXmlFields.authReversal()
         authReversal.reportGroup = 'Planets'
         authReversal.litleTxnId = 12345678000
         authReversal.amount = 106
         authReversal.payPalNotes = 'Notes'
-
+ 
         batch.addTransaction(authReversal)
-
+ 
         registerTokenRequestType = litleXmlFields.registerTokenRequest()
         registerTokenRequestType.reportGroup = 'Planets'
         registerTokenRequestType.orderId = '12344'
         registerTokenRequestType.accountNumber = '1233456789103801'
-
+ 
         batch.addTransaction(registerTokenRequestType)
-
+ 
         cardValidationNumOnToken = litleXmlFields.updateCardValidationNumOnToken()
         cardValidationNumOnToken.reportGroup = 'Planets'
         cardValidationNumOnToken.id = '12345'
@@ -148,9 +154,9 @@ class TestBatchTcp(unittest.TestCase):
         cardValidationNumOnToken.orderId = '12344'
         cardValidationNumOnToken.litleToken = '1233456789103801'
         cardValidationNumOnToken.cardValidationNum = '123'
-
+ 
         batch.addTransaction(cardValidationNumOnToken)
-
+ 
         forceCapture = litleXmlFields.forceCapture()
         forceCapture.reportGroup = 'Planets'
         forceCapture.id = '123456'
@@ -158,16 +164,16 @@ class TestBatchTcp(unittest.TestCase):
         forceCapture.amount = 106
         forceCapture.orderSource = 'ecommerce'
         forceCapture.card = card
-
+ 
         batch.addTransaction(forceCapture)
-
+ 
         capture = litleXmlFields.capture()
         capture.reportGroup = 'Planets'
         capture.litleTxnId = 123456000
         capture.amount = 106
-
+ 
         batch.addTransaction(capture)
-
+ 
         captureGivenAuth = litleXmlFields.captureGivenAuth()
         captureGivenAuth.reportGroup = 'Planets'
         captureGivenAuth.orderId = '12344'
@@ -179,9 +185,9 @@ class TestBatchTcp(unittest.TestCase):
         captureGivenAuth.authInformation = authInformation
         captureGivenAuth.orderSource = 'ecommerce'
         captureGivenAuth.card = card
-
+ 
         batch.addTransaction(captureGivenAuth)
-
+ 
         echeckVerification = litleXmlFields.echeckVerification()
         echeckVerification.reportGroup = 'Planets'
         echeckVerification.amount = 123456
@@ -189,22 +195,22 @@ class TestBatchTcp(unittest.TestCase):
         echeckVerification.orderSource = 'ecommerce'
         echeckVerification.billToAddress = contact
         echeckVerification.echeckOrEcheckToken = echeck
-
+ 
         batch.addTransaction(echeckVerification)
-
+ 
         echeckCredit = litleXmlFields.echeckCredit()
         echeckCredit.reportGroup = 'Planets'
         echeckCredit.litleTxnId = 1234567890
         echeckCredit.amount = 12
-
+ 
         batch.addTransaction(echeckCredit)
-
+ 
         echeckRedeposit = litleXmlFields.echeckRedeposit()
         echeckRedeposit.reportGroup = 'Planets'
         echeckRedeposit.litleTxnId = 124321341412
-
+ 
         batch.addTransaction(echeckRedeposit)
-
+ 
         echeckSale = litleXmlFields.echeckSale()
         echeckSale.reportGroup = 'Planets'
         echeckSale.amount = 123456
@@ -213,102 +219,13 @@ class TestBatchTcp(unittest.TestCase):
         echeckSale.billToAddress = contact
         echeckSale.echeckOrEcheckToken = echeck
         echeckSale.verify = True
-
+ 
         batch.addTransaction(echeckSale)
-        #TODO: change correct echeck bank routing number
         echeckPreNoteSale = litleXmlFields.echeckPreNoteSale();
         echeckPreNoteSale.orderId = "12344"
         echeckPreNoteSale.billToAddress = contact
         echeckPreNoteSale.echeck = echeck
         echeckPreNoteSale.orderSource = 'ecommerce'
-         
-        batch.addTransaction(echeckPreNoteSale)
-        #TODO: change correct echeck bank routing number
-        echeckPreNoteCredit = litleXmlFields.echeckPreNoteCredit();
-        echeckPreNoteCredit.orderId = "12346"
-        echeckPreNoteCredit.billToAddress = contact
-        echeckPreNoteCredit.echeck = echeck
-        echeckPreNoteCredit.orderSource = 'ecommerce'
-        
-        batch.addTransaction(echeckPreNoteCredit)
-        #TODO: change correct echeck bank routing number
-        submerchantCredit = litleXmlFields.submerchantCredit();        
-        submerchantCredit.fundingSubmerchantId = "12347"
-        submerchantCredit.submerchantName = "001"
-        submerchantCredit.fundsTransferId = "123456"
-        submerchantCredit.amount = "100"
-        submerchantCredit.accountInfo = echeck
-         
-        batch.addTransaction(submerchantCredit)
-        #TODO: change correct echeck bank routing number
-        submerchantDebit = litleXmlFields.submerchantDebit();        
-        submerchantDebit.fundingSubmerchantId = "12347"
-        submerchantDebit.submerchantName = "001"
-        submerchantDebit.fundsTransferId = "123456"
-        submerchantDebit.amount = "100"
-        submerchantDebit.accountInfo = echeck
-         
-        batch.addTransaction(submerchantDebit)
-         
-        payFacCredit = litleXmlFields.payFacCredit();        
-        payFacCredit.fundingSubmerchantId = "12347"
-        payFacCredit.fundsTransferId = "123456"
-        payFacCredit.amount = "100"
-         
-        batch.addTransaction(payFacCredit)
-         
-        payFacDebit = litleXmlFields.payFacDebit();        
-        payFacDebit.fundingSubmerchantId = "12347"
-        payFacDebit.fundsTransferId = "123456"
-        payFacDebit.amount = "100"
-         
-        batch.addTransaction(payFacDebit)
-         
-        reserveCredit = litleXmlFields.reserveCredit();        
-        reserveCredit.fundingSubmerchantId = "12347"
-        reserveCredit.fundsTransferId = "123456"
-        reserveCredit.amount = "100"l
-         
-        batch.addTransaction(reserveCredit)
-         
-        reserveDebit = litleXmlFields.reserveDebit();        
-        reserveDebit.fundingSubmerchantId = "12347"
-        reserveDebit.fundsTransferId = "123456"
-        reserveDebit.amount = "100"
-         
-        batch.addTransaction(reserveDebit)        
-        #TODO: change correct echeck bank routing number
-        vendorCredit = litleXmlFields.vendorCredit();        
-        vendorCredit.fundingSubmerchantId = "12347"
-        vendorCredit.vendorName = "001"
-        vendorCredit.fundsTransferId = "123456"
-        vendorCredit.amount = "100"
-        vendorCredit.accountInfo = echeck
-         
-        batch.addTransaction(vendorCredit)
-        #TODO: change correct echeck bank routing number
-        vendorDebit = litleXmlFields.vendorDebit();        
-        vendorDebit.fundingSubmerchantId = "12347"
-        vendorDebit.vendorName = "001"
-        vendorDebit.fundsTransferId = "123456"
-        vendorDebit.amount = "100"
-        vendorDebit.accountInfo = echeck
-         
-        batch.addTransaction(vendorDebit)
-         
-        physicalCheckCredit = litleXmlFields.physicalCheckCredit();        
-        physicalCheckCredit.fundingSubmerchantId = "12347"
-        physicalCheckCredit.fundsTransferId = "123456"
-        physicalCheckCredit.amount = "100"
-         
-        batch.addTransaction(physicalCheckCredit)
-         
-        physicalCheckDebit = litleXmlFields.physicalCheckDebit();        
-        physicalCheckDebit.fundingSubmerchantId = "12347"
-        physicalCheckDebit.fundsTransferId = "123456"
-        physicalCheckDebit.amount = "100"
-         
-        batch.addTransaction(physicalCheckDebit)
 
         transactionCount = batch.numOfTxn
 
@@ -493,6 +410,189 @@ class TestBatchTcp(unittest.TestCase):
                 nextTransaction = False
 
         self.assertEqual(1, txns)
+        
+    def testEcheckPreNote(self):
+        requestFileName = "litleSdk-testBatchFile-EchecPreNote.xml"
+        request = litleBatchFileRequest(requestFileName)
+
+        configFromFile = request.config
+        self.assertEqual('prelive.litle.com', configFromFile.batchHost)
+        self.assertEqual('15000', configFromFile.batchPort)
+
+        batch = request.createBatch()
+ 
+        #echeckSuccess
+        echeckSuccess = litleXmlFields.echeck()
+        echeckSuccess.accNum = '1092969901'
+        echeckSuccess.accType = 'Corporate'
+        echeckSuccess.routingNum = '011075150'
+        
+        #echeckErr
+        echeckErr = litleXmlFields.echeck()
+        echeckErr.accNum = '6099999992'
+        echeckErr.accType = 'Checking'
+        echeckErr.routingNum = '053133052'
+ 
+        #billto address
+        contact = litleXmlFields.contact()
+        contact.name = 'PreNote Sale Corporate'
+        contact.firstName = 'unavailable'
+        contact.lastName = 'unavailable'
+        contact.companyName = 'PreNote Sale Corporate'
+        contact.addressLine1 = '1 Lowell Street'
+        contact.addressLine2 = 'Tower 2'
+        contact.city = 'lowell'
+        contact.state = 'MA'
+        contact.zip = '01850'
+        contact.phone = '1234567890'
+        contact.email = 'Bob@litle.com'
+
+        echeckPreNoteSale = litleXmlFields.echeckPreNoteSale();
+        echeckPreNoteSale.orderId = "ECPreNoteSale"
+        echeckPreNoteSale.billToAddress = contact
+        echeckPreNoteSale.echeck = echeckSuccess
+        echeckPreNoteSale.orderSource = 'ecommerce'           
+        batch.addTransaction(echeckPreNoteSale)
+        
+        echeckPreNoteCredit = litleXmlFields.echeckPreNoteCredit();
+        echeckPreNoteCredit.orderId = "12346"
+        echeckPreNoteCredit.billToAddress = contact
+        echeckPreNoteCredit.echeck = echeckSuccess
+        echeckPreNoteCredit.orderSource = 'ecommerce'         
+        batch.addTransaction(echeckPreNoteCredit)
+        
+        echeckPreNoteSale = litleXmlFields.echeckPreNoteSale();
+        echeckPreNoteSale.orderId = "ECPreNoteSale"
+        echeckPreNoteSale.billToAddress = contact
+        echeckPreNoteSale.echeck = echeckErr
+        echeckPreNoteSale.orderSource = 'ecommerce'           
+        batch.addTransaction(echeckPreNoteSale)
+        
+        echeckPreNoteCredit = litleXmlFields.echeckPreNoteCredit();
+        echeckPreNoteCredit.orderId = "12346"
+        echeckPreNoteCredit.billToAddress = contact
+        echeckPreNoteCredit.echeck = echeckErr
+        echeckPreNoteCredit.orderSource = 'ecommerce'         
+        batch.addTransaction(echeckPreNoteCredit)
+ 
+        transactionCount = batch.numOfTxn
+ 
+        fileResponse = request.sendRequestTCP()
+        batchResponse = fileResponse.getNextBatchResponse()
+ 
+        txns = 0
+
+        nextTransaction = True
+        while nextTransaction:
+            try:
+                batchResponse.getNextTransaction()
+                txns += 1
+            except:
+                nextTransaction = False
+
+        self.assertEqual(transactionCount, txns) 
+        
+    def testPFIFInstructionTxn(self):
+        requestFileName = "litleSdk-testBatchFile-PFIF.xml"
+        request = litleBatchFileRequest(requestFileName)
+
+        configFromFile = request.config
+        self.assertEqual('prelive.litle.com', configFromFile.batchHost)
+        self.assertEqual('15000', configFromFile.batchPort)
+
+        batch = request.createBatch()
+
+        #echeck
+        echeck = litleXmlFields.echeck()
+        echeck.accNum = '1092969901'
+        echeck.accType = 'Corporate'
+        echeck.routingNum = '011075150'
+
+        submerchantCredit = litleXmlFields.submerchantCredit();        
+        submerchantCredit.fundingSubmerchantId = "12347"
+        submerchantCredit.submerchantName = "001"
+        submerchantCredit.fundsTransferId = "123456"
+        submerchantCredit.amount = "100"
+        submerchantCredit.accountInfo = echeck             
+        batch.addTransaction(submerchantCredit)
+
+        submerchantDebit = litleXmlFields.submerchantDebit();        
+        submerchantDebit.fundingSubmerchantId = "12347"
+        submerchantDebit.submerchantName = "001"
+        submerchantDebit.fundsTransferId = "123456"
+        submerchantDebit.amount = "100"
+        submerchantDebit.accountInfo = echeck          
+        batch.addTransaction(submerchantDebit)
+           
+        payFacCredit = litleXmlFields.payFacCredit();        
+        payFacCredit.fundingSubmerchantId = "12347"
+        payFacCredit.fundsTransferId = "123456"
+        payFacCredit.amount = "100"           
+        batch.addTransaction(payFacCredit)
+           
+        payFacDebit = litleXmlFields.payFacDebit();        
+        payFacDebit.fundingSubmerchantId = "12347"
+        payFacDebit.fundsTransferId = "123456"
+        payFacDebit.amount = "100"           
+        batch.addTransaction(payFacDebit)
+           
+        reserveCredit = litleXmlFields.reserveCredit();        
+        reserveCredit.fundingSubmerchantId = "12347"
+        reserveCredit.fundsTransferId = "123456"
+        reserveCredit.amount = "100"           
+        batch.addTransaction(reserveCredit)
+           
+        reserveDebit = litleXmlFields.reserveDebit();        
+        reserveDebit.fundingSubmerchantId = "12347"
+        reserveDebit.fundsTransferId = "123456"
+        reserveDebit.amount = "100"           
+        batch.addTransaction(reserveDebit)        
+
+        vendorCredit = litleXmlFields.vendorCredit();        
+        vendorCredit.fundingSubmerchantId = "12347"
+        vendorCredit.vendorName = "001"
+        vendorCredit.fundsTransferId = "123456"
+        vendorCredit.amount = "100"
+        vendorCredit.accountInfo = echeck           
+        batch.addTransaction(vendorCredit)
+
+        vendorDebit = litleXmlFields.vendorDebit();        
+        vendorDebit.fundingSubmerchantId = "12347"
+        vendorDebit.vendorName = "001"
+        vendorDebit.fundsTransferId = "123456"
+        vendorDebit.amount = "100"
+        vendorDebit.accountInfo = echeck           
+        batch.addTransaction(vendorDebit)
+           
+        physicalCheckCredit = litleXmlFields.physicalCheckCredit();        
+        physicalCheckCredit.fundingSubmerchantId = "12347"
+        physicalCheckCredit.fundsTransferId = "123456"
+        physicalCheckCredit.amount = "100"           
+        batch.addTransaction(physicalCheckCredit)
+           
+        physicalCheckDebit = litleXmlFields.physicalCheckDebit();        
+        physicalCheckDebit.fundingSubmerchantId = "12347"
+        physicalCheckDebit.fundsTransferId = "123456"
+        physicalCheckDebit.amount = "100"           
+        batch.addTransaction(physicalCheckDebit)
+
+        transactionCount = batch.numOfTxn
+
+        fileResponse = request.sendRequestTCP()
+        batchResponse = fileResponse.getNextBatchResponse()
+
+        txns = 0
+
+        nextTransaction = True
+        while nextTransaction:
+            try:
+                batchResponse.getNextTransaction()
+                txns += 1
+            except:
+                nextTransaction = False
+
+        self.assertEqual(transactionCount, txns)   
+        
 
     def assertPythonApi(self, request, response):
         self.assertNotEqual(None, response)
