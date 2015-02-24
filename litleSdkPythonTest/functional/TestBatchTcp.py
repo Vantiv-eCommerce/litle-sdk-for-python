@@ -411,8 +411,8 @@ class TestBatchTcp(unittest.TestCase):
 
         self.assertEqual(1, txns)
         
-    def testEcheckPreNote(self):
-        requestFileName = "litleSdk-testBatchFile-EchecPreNote.xml"
+    def testEcheckPreNoteAll(self):
+        requestFileName = "litleSdk-testBatchFile-EchecPreNoteAll.xml"
         request = litleBatchFileRequest(requestFileName)
 
         configFromFile = request.config
@@ -427,11 +427,17 @@ class TestBatchTcp(unittest.TestCase):
         echeckSuccess.accType = 'Corporate'
         echeckSuccess.routingNum = '011075150'
         
-        #echeckErr
-        echeckErr = litleXmlFields.echeck()
-        echeckErr.accNum = '6099999992'
-        echeckErr.accType = 'Checking'
-        echeckErr.routingNum = '053133052'
+        #echeckErr1
+        echeckRoutErr = litleXmlFields.echeck()
+        echeckRoutErr.accNum = '6099999992'
+        echeckRoutErr.accType = 'Checking'
+        echeckRoutErr.routingNum = '053133052'
+        
+        #echeckErr2l
+        echeckAccErr = litleXmlFields.echeck()
+        echeckAccErr.accNum = '10@2969901'
+        echeckAccErr.accType = 'Savings'
+        echeckAccErr.routingNum = '011100012'
  
         #billto address
         contact = litleXmlFields.contact()
@@ -448,30 +454,44 @@ class TestBatchTcp(unittest.TestCase):
         contact.email = 'Bob@litle.com'
 
         echeckPreNoteSale = litleXmlFields.echeckPreNoteSale();
-        echeckPreNoteSale.orderId = "ECPreNoteSale"
+        echeckPreNoteSale.orderId = "000"
         echeckPreNoteSale.billToAddress = contact
         echeckPreNoteSale.echeck = echeckSuccess
         echeckPreNoteSale.orderSource = 'ecommerce'           
         batch.addTransaction(echeckPreNoteSale)
         
         echeckPreNoteCredit = litleXmlFields.echeckPreNoteCredit();
-        echeckPreNoteCredit.orderId = "12346"
+        echeckPreNoteCredit.orderId = "000"
         echeckPreNoteCredit.billToAddress = contact
         echeckPreNoteCredit.echeck = echeckSuccess
         echeckPreNoteCredit.orderSource = 'ecommerce'         
         batch.addTransaction(echeckPreNoteCredit)
         
         echeckPreNoteSale = litleXmlFields.echeckPreNoteSale();
-        echeckPreNoteSale.orderId = "ECPreNoteSale"
+        echeckPreNoteSale.orderId = "900"
         echeckPreNoteSale.billToAddress = contact
-        echeckPreNoteSale.echeck = echeckErr
+        echeckPreNoteSale.echeck = echeckRoutErr
         echeckPreNoteSale.orderSource = 'ecommerce'           
         batch.addTransaction(echeckPreNoteSale)
         
         echeckPreNoteCredit = litleXmlFields.echeckPreNoteCredit();
-        echeckPreNoteCredit.orderId = "12346"
+        echeckPreNoteCredit.orderId = "900"
         echeckPreNoteCredit.billToAddress = contact
-        echeckPreNoteCredit.echeck = echeckErr
+        echeckPreNoteCredit.echeck = echeckRoutErr
+        echeckPreNoteCredit.orderSource = 'ecommerce'         
+        batch.addTransaction(echeckPreNoteCredit)
+        
+        echeckPreNoteSale = litleXmlFields.echeckPreNoteSale();
+        echeckPreNoteSale.orderId = "301"
+        echeckPreNoteSale.billToAddress = contact
+        echeckPreNoteSale.echeck = echeckAccErr
+        echeckPreNoteSale.orderSource = 'ecommerce'           
+        batch.addTransaction(echeckPreNoteSale)
+        
+        echeckPreNoteCredit = litleXmlFields.echeckPreNoteCredit();
+        echeckPreNoteCredit.orderId = "301"
+        echeckPreNoteCredit.billToAddress = contact
+        echeckPreNoteCredit.echeck = echeckAccErr
         echeckPreNoteCredit.orderSource = 'ecommerce'         
         batch.addTransaction(echeckPreNoteCredit)
  
@@ -483,14 +503,16 @@ class TestBatchTcp(unittest.TestCase):
         txns = 0
 
         nextTransaction = True
+        
         while nextTransaction:
             try:
-                batchResponse.getNextTransaction()
-                txns += 1
-            except:
+                responseTxn = batchResponse.getNextTransaction()
+                self.assertEqual(responseTxn.response, responseTxn.orderId)
+                txns+=1;
+            except NoTransactionException:
                 nextTransaction = False
 
-        self.assertEqual(transactionCount, txns) 
+        self.assertEqual(transactionCount, txns)
         
     def testPFIFInstructionTxn(self):
         requestFileName = "litleSdk-testBatchFile-PFIF.xml"
