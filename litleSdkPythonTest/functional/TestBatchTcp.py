@@ -513,109 +513,108 @@ class TestBatchTcp(unittest.TestCase):
                 nextTransaction = False
 
         self.assertEqual(transactionCount, txns)
-#         
-#     def testPFIFInstructionTxn(self):
-#         requestFileName = "litleSdk-testBatchFile-PFIF.xml"
-#         request = litleBatchFileRequest(requestFileName)
-# 
-#         configFromFile = request.config
-#         
-#         self.assertEqual('prelive.litle.com', configFromFile.batchHost)
-#         self.assertEqual('15000', configFromFile.batchPort)
-# 
-#         batch = request.createBatch()
-# 
-#         #echeck
-#         echeck = litleXmlFields.echeck()
-#         echeck.accNum = '1092969901'
-#         echeck.accType = 'Corporate'
-#         echeck.routingNum = '011075150'
-# 
-#         submerchantCredit = litleXmlFields.submerchantCredit();        
-#         submerchantCredit.fundingSubmerchantId = "12347"
-#         submerchantCredit.submerchantName = "001"
-#         submerchantCredit.fundsTransferId = "123456"
-#         submerchantCredit.amount = "100"
-#         submerchantCredit.accountInfo = echeck             
-#         batch.addTransaction(submerchantCredit)
-# 
-#         submerchantDebit = litleXmlFields.submerchantDebit();        
-#         submerchantDebit.fundingSubmerchantId = "12347"
-#         submerchantDebit.submerchantName = "001"
-#         submerchantDebit.fundsTransferId = "123456"
-#         submerchantDebit.amount = "100"
-#         submerchantDebit.accountInfo = echeck          
-#         batch.addTransaction(submerchantDebit)
-#            
-#         payFacCredit = litleXmlFields.payFacCredit();        
-#         payFacCredit.fundingSubmerchantId = "12347"
-#         payFacCredit.fundsTransferId = "123456"
-#         payFacCredit.amount = "100"           
-#         batch.addTransaction(payFacCredit)
-#            
-#         payFacDebit = litleXmlFields.payFacDebit();        
-#         payFacDebit.fundingSubmerchantId = "12347"
-#         payFacDebit.fundsTransferId = "123456"
-#         payFacDebit.amount = "100"           
-#         batch.addTransaction(payFacDebit)
-#            
-#         reserveCredit = litleXmlFields.reserveCredit();        
-#         reserveCredit.fundingSubmerchantId = "12347"
-#         reserveCredit.fundsTransferId = "123456"
-#         reserveCredit.amount = "100"           
-#         batch.addTransaction(reserveCredit)
-#            
-#         reserveDebit = litleXmlFields.reserveDebit();        
-#         reserveDebit.fundingSubmerchantId = "12347"
-#         reserveDebit.fundsTransferId = "123456"
-#         reserveDebit.amount = "100"           
-#         batch.addTransaction(reserveDebit)        
-# 
-#         vendorCredit = litleXmlFields.vendorCredit();        
-#         vendorCredit.fundingSubmerchantId = "12347"
-#         vendorCredit.vendorName = "001"
-#         vendorCredit.fundsTransferId = "123456"
-#         vendorCredit.amount = "100"
-#         vendorCredit.accountInfo = echeck           
-#         batch.addTransaction(vendorCredit)
-# 
-#         vendorDebit = litleXmlFields.vendorDebit();        
-#         vendorDebit.fundingSubmerchantId = "12347"
-#         vendorDebit.vendorName = "001"
-#         vendorDebit.fundsTransferId = "123456"
-#         vendorDebit.amount = "100"
-#         vendorDebit.accountInfo = echeck           
-#         batch.addTransaction(vendorDebit)
-#            
-#         physicalCheckCredit = litleXmlFields.physicalCheckCredit();        
-#         physicalCheckCredit.fundingSubmerchantId = "12347"
-#         physicalCheckCredit.fundsTransferId = "123456"
-#         physicalCheckCredit.amount = "100"           
-#         batch.addTransaction(physicalCheckCredit)
-#            
-#         physicalCheckDebit = litleXmlFields.physicalCheckDebit();        
-#         physicalCheckDebit.fundingSubmerchantId = "12347"
-#         physicalCheckDebit.fundsTransferId = "123456"
-#         physicalCheckDebit.amount = "100"           
-#         batch.addTransaction(physicalCheckDebit)
-# 
-#         transactionCount = batch.numOfTxn
-# 
-#         fileResponse = request.sendRequestTCP()
-#         batchResponse = fileResponse.getNextBatchResponse()
-# 
-#         txns = 0
-# 
-#         nextTransaction = True
-#         while nextTransaction:
-#             try:
-#                 batchResponse.getNextTransaction()
-#                 txns += 1
-#             except:
-#                 nextTransaction = False
-# 
-#         self.assertEqual(transactionCount, txns)   
-#         
+        
+    def testPFIFInstructionTxn(self):
+        requestFileName = "litleSdk-testBatchFile-PFIF.xml"
+        request = litleBatchFileRequest(requestFileName)
+
+        configFromFile = request.config
+        self.assertEqual('prelive.litle.com', configFromFile.batchHost)
+        self.assertEqual('15000', configFromFile.batchPort)
+
+        batch = request.createBatch()
+
+        #echeck
+        echeck = litleXmlFields.echeck()
+        echeck.accNum = '1092969901'
+        echeck.accType = 'Corporate'
+        echeck.routingNum = '011075150'
+
+        submerchantCredit = litleXmlFields.submerchantCredit();        
+        submerchantCredit.fundingSubmerchantId = "12347"
+        submerchantCredit.submerchantName = "001"
+        submerchantCredit.fundsTransferId = "123456"
+        submerchantCredit.amount = "100"
+        submerchantCredit.accountInfo = echeck             
+        batch.addTransaction(submerchantCredit)
+
+        submerchantDebit = litleXmlFields.submerchantDebit();        
+        submerchantDebit.fundingSubmerchantId = "12347"
+        submerchantDebit.submerchantName = "001"
+        submerchantDebit.fundsTransferId = "123456"
+        submerchantDebit.amount = "100"
+        submerchantDebit.accountInfo = echeck          
+        batch.addTransaction(submerchantDebit)
+           
+        payFacCredit = litleXmlFields.payFacCredit();        
+        payFacCredit.fundingSubmerchantId = "12347"
+        payFacCredit.fundsTransferId = "123456"
+        payFacCredit.amount = "100"           
+        batch.addTransaction(payFacCredit)
+           
+        payFacDebit = litleXmlFields.payFacDebit();        
+        payFacDebit.fundingSubmerchantId = "12347"
+        payFacDebit.fundsTransferId = "123456"
+        payFacDebit.amount = "100"           
+        batch.addTransaction(payFacDebit)
+           
+        reserveCredit = litleXmlFields.reserveCredit();        
+        reserveCredit.fundingSubmerchantId = "12347"
+        reserveCredit.fundsTransferId = "123456"
+        reserveCredit.amount = "100"           
+        batch.addTransaction(reserveCredit)
+           
+        reserveDebit = litleXmlFields.reserveDebit();        
+        reserveDebit.fundingSubmerchantId = "12347"
+        reserveDebit.fundsTransferId = "123456"
+        reserveDebit.amount = "100"           
+        batch.addTransaction(reserveDebit)        
+
+        vendorCredit = litleXmlFields.vendorCredit();        
+        vendorCredit.fundingSubmerchantId = "12347"
+        vendorCredit.vendorName = "001"
+        vendorCredit.fundsTransferId = "123456"
+        vendorCredit.amount = "100"
+        vendorCredit.accountInfo = echeck           
+        batch.addTransaction(vendorCredit)
+
+        vendorDebit = litleXmlFields.vendorDebit();        
+        vendorDebit.fundingSubmerchantId = "12347"
+        vendorDebit.vendorName = "001"
+        vendorDebit.fundsTransferId = "123456"
+        vendorDebit.amount = "100"
+        vendorDebit.accountInfo = echeck           
+        batch.addTransaction(vendorDebit)
+           
+        physicalCheckCredit = litleXmlFields.physicalCheckCredit();        
+        physicalCheckCredit.fundingSubmerchantId = "12347"
+        physicalCheckCredit.fundsTransferId = "123456"
+        physicalCheckCredit.amount = "100"           
+        batch.addTransaction(physicalCheckCredit)
+           
+        physicalCheckDebit = litleXmlFields.physicalCheckDebit();        
+        physicalCheckDebit.fundingSubmerchantId = "12347"
+        physicalCheckDebit.fundsTransferId = "123456"
+        physicalCheckDebit.amount = "100"           
+        batch.addTransaction(physicalCheckDebit)
+
+        transactionCount = batch.numOfTxn
+
+        fileResponse = request.sendRequestTCP()
+        batchResponse = fileResponse.getNextBatchResponse()
+
+        txns = 0
+
+        nextTransaction = True
+        while nextTransaction:
+            try:
+                batchResponse.getNextTransaction()
+                txns += 1
+            except:
+                nextTransaction = False
+
+        self.assertEqual(transactionCount, txns)   
+        
 
     def assertPythonApi(self, request, response):
         self.assertNotEqual(None, response)
