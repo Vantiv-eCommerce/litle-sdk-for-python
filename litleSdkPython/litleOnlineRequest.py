@@ -76,7 +76,7 @@ class litleOnlineRequest:
         litleOnline = litleXmlFields.litleOnlineRequest()
         litleOnline.merchantId = self.MerchantId
         litleOnline.version = '9.3'
-        litleOnline.merchantSdk = '9.3.0'
+        litleOnline.merchantSdk = '9.3.1'
         authentication = litleXmlFields.authentication()
         authentication.user = self.User
         authentication.password =  self.Password 
