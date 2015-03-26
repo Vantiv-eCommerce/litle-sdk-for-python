@@ -29,7 +29,7 @@ class Configuration(object):
         self.reportGroup = 'Default Report Group'
         self._url = 'Sandbox'
         self.proxy = None
-        self.timeout = 65
+        self.timeout = 500
         self.printXml = False
         self.configFolder = os.environ['LITLE_SDK_CONFIG']\
             if 'LITLE_SDK_CONFIG' in os.environ else os.path.expanduser('~')
