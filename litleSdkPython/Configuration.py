@@ -30,6 +30,7 @@ class Configuration(object):
         self.reportGroup = 'Default Report Group'
         self._url = 'Sandbox'
         self.proxy = None
+        #default http timeout set to 500 ms
         self.timeout = 500
         self.printXml = False
         self.configFolder = os.environ['LITLE_SDK_CONFIG']\
