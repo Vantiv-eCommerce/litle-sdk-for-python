@@ -55,7 +55,7 @@ class TestConfigOverride(unittest.TestCase):
         litle.sendRequest(authorization, user='Dan')
         
         comm.http_post.assert_called_once()
-        match_re = RegexMatcher(".*?<user>Dan</user>.*?")
+        match_re = RegexMatcher("[\s\S]*?<user>Dan</user>[\s\S]*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
     def testPasswordOverride(self):
@@ -79,7 +79,7 @@ class TestConfigOverride(unittest.TestCase):
         litle.sendRequest(authorization, password = 'customPassword')
         
         comm.http_post.assert_called_once()
-        match_re = RegexMatcher(".*?<password>customPassword</password>.*?")
+        match_re = RegexMatcher("[\s\S]*?<password>customPassword</password>[\s\S]*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
     def testVersionCanNotBeOverriden(self):
@@ -103,7 +103,7 @@ class TestConfigOverride(unittest.TestCase):
         litle.sendRequest(authorization, version="3.14")
         
         comm.http_post.assert_called_once()
-        match_re = RegexMatcher('.*?version="8.29".*?')
+        match_re = RegexMatcher('[\s\S]*?version="8.29"[\s\S]*?')
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
     def testMerchantIdOverride(self):
@@ -127,7 +127,7 @@ class TestConfigOverride(unittest.TestCase):
         litle.sendRequest(authorization, merchantId="98765")
         
         comm.http_post.assert_called_once()
-        match_re = RegexMatcher('.*?merchantId="98765".*?')
+        match_re = RegexMatcher('[\s\S]*?merchantId="98765"[\s\S]*?')
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
     def testReportGroupOverride(self):
@@ -151,7 +151,7 @@ class TestConfigOverride(unittest.TestCase):
         litle.sendRequest(authorization, reportGroup="testReports")
         
         comm.http_post.assert_called_once()
-        match_re = RegexMatcher('.*?reportGroup="testReports".*?')
+        match_re = RegexMatcher('[\s\S]*?reportGroup="testReports"[\s\S]*?')
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
     def testTimeoutOverride(self):
