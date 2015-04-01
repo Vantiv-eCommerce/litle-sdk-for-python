@@ -23,7 +23,7 @@ setup(name='LitleSdkPython',
           'Intended Audience :: System Administrators',
           'Intended Audience :: Information Technology',
           'License :: OSI Approved :: MIT License',
-          'Operating System :: OS Independent'
+          'Operating System :: OS Independent',
           'Operating System :: MacOS',
           'Operating System :: Microsoft',
           'Operating System :: Unix',
