@@ -56,7 +56,7 @@ class TestConfigOverride(unittest.TestCase):
         
         comm.http_post.assert_called_once()
         expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
+<litleOnlineRequest merchantId="101" merchantSdk="8.29.1" version="8.29" xmlns="http://www.litle.com/schema">
   <authentication>
     <user>Dan</user>
     <password>PYTHON</password>
@@ -97,7 +97,7 @@ class TestConfigOverride(unittest.TestCase):
         
         comm.http_post.assert_called_once()
         expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
+<litleOnlineRequest merchantId="101" merchantSdk="8.29.1" version="8.29" xmlns="http://www.litle.com/schema">
   <authentication>
     <user>jenkins</user>
     <password>customPassword</password>
@@ -179,7 +179,7 @@ class TestConfigOverride(unittest.TestCase):
         
         comm.http_post.assert_called_once()
         expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="98765" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
+<litleOnlineRequest merchantId="98765" merchantSdk="8.29.1" version="8.29" xmlns="http://www.litle.com/schema">
   <authentication>
     <user>jenkins</user>
     <password>PYTHON</password>
@@ -220,7 +220,7 @@ class TestConfigOverride(unittest.TestCase):
         
         comm.http_post.assert_called_once()
         expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.0" version="8.29" xmlns="http://www.litle.com/schema">
+<litleOnlineRequest merchantId="101" merchantSdk="8.29.1" version="8.29" xmlns="http://www.litle.com/schema">
   <authentication>
     <user>jenkins</user>
     <password>PYTHON</password>
