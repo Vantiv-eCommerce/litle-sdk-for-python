@@ -3,7 +3,7 @@
 #from distutils.core import setup
 from setuptools import setup, find_packages
 setup(name='LitleSdkPython',
-      version='8.29.2',
+      version='8.29.1',
       description='Litle & Co. SDK for Python',
       author='Litle & Co',
       author_email='SDKSupport@litle.com',
