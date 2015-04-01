@@ -55,25 +55,8 @@ class TestConfigOverride(unittest.TestCase):
         litle.sendRequest(authorization, user='Dan')
         
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.1" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>Dan</user>
-    <password>PYTHON</password>
-  </authentication>
-  <authorization reportGroup="DefaultReportGroup">
-    <orderId>1234</orderId>
-    <amount>106</amount>
-    <orderSource>ecommerce</orderSource>
-    <card>
-      <type>VI</type>
-      <number>4100000000000000</number>
-      <expDate>1210</expDate>
-    </card>
-  </authorization>
-</litleOnlineRequest>
-"""
-        comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
+        match_re = RegexMatcher(".*?<user>Dan</user>.*?")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
     def testPasswordOverride(self):
         authorization = litleXmlFields.authorization()
@@ -96,25 +79,8 @@ class TestConfigOverride(unittest.TestCase):
         litle.sendRequest(authorization, password = 'customPassword')
         
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.1" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>customPassword</password>
-  </authentication>
-  <authorization reportGroup="DefaultReportGroup">
-    <orderId>1234</orderId>
-    <amount>106</amount>
-    <orderSource>ecommerce</orderSource>
-    <card>
-      <type>VI</type>
-      <number>4100000000000000</number>
-      <expDate>1210</expDate>
-    </card>
-  </authorization>
-</litleOnlineRequest>
-"""
-        comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
+        match_re = RegexMatcher(".*?<password>customPassword</password>.*?")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
     def testVersionCanNotBeOverriden(self):
         authorization = litleXmlFields.authorization()
@@ -137,25 +103,8 @@ class TestConfigOverride(unittest.TestCase):
         litle.sendRequest(authorization, version="3.14")
         
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.1" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <authorization reportGroup="DefaultReportGroup">
-    <orderId>1234</orderId>
-    <amount>106</amount>
-    <orderSource>ecommerce</orderSource>
-    <card>
-      <type>VI</type>
-      <number>4100000000000000</number>
-      <expDate>1210</expDate>
-    </card>
-  </authorization>
-</litleOnlineRequest>
-"""
-        comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
+        match_re = RegexMatcher('.*?version="8.29".*?')
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
     def testMerchantIdOverride(self):
         authorization = litleXmlFields.authorization()
@@ -178,25 +127,8 @@ class TestConfigOverride(unittest.TestCase):
         litle.sendRequest(authorization, merchantId="98765")
         
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="98765" merchantSdk="8.29.1" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <authorization reportGroup="DefaultReportGroup">
-    <orderId>1234</orderId>
-    <amount>106</amount>
-    <orderSource>ecommerce</orderSource>
-    <card>
-      <type>VI</type>
-      <number>4100000000000000</number>
-      <expDate>1210</expDate>
-    </card>
-  </authorization>
-</litleOnlineRequest>
-"""
-        comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
+        match_re = RegexMatcher('.*?merchantId="98765".*?')
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
     def testReportGroupOverride(self):
         authorization = litleXmlFields.authorization()
@@ -219,25 +151,8 @@ class TestConfigOverride(unittest.TestCase):
         litle.sendRequest(authorization, reportGroup="testReports")
         
         comm.http_post.assert_called_once()
-        expected = """<?xml version="1.0" encoding="utf-8"?>
-<litleOnlineRequest merchantId="101" merchantSdk="8.29.1" version="8.29" xmlns="http://www.litle.com/schema">
-  <authentication>
-    <user>jenkins</user>
-    <password>PYTHON</password>
-  </authentication>
-  <authorization reportGroup="testReports">
-    <orderId>1234</orderId>
-    <amount>106</amount>
-    <orderSource>ecommerce</orderSource>
-    <card>
-      <type>VI</type>
-      <number>4100000000000000</number>
-      <expDate>1210</expDate>
-    </card>
-  </authorization>
-</litleOnlineRequest>
-"""
-        comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
+        match_re = RegexMatcher('.*?reportGroup="testReports".*?')
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
     def testTimeoutOverride(self):
         authorization = litleXmlFields.authorization()
