@@ -1,5 +1,8 @@
 = LitleOnline CHANGELOG
 
+== Version 8.29.1
+HTTP timeout set to 500ms
+
 == Version 8.29.0 (January 29, 2015)
 * Feature: Applepay support was added
 * Feature: Secondary amount support was added
