@@ -1,25 +1,25 @@
-#Copyright (c) 2011-2014 Litle & Co.
+# Copyright (c) 2011-2014 Litle & Co.
 #
-#Permission is hereby granted, free of charge, to any person
-#obtaining a copy of this software and associated documentation
-#files (the "Software"), to deal in the Software without
-#restriction, including without limitation the rights to use,
-#copy, modify, merge, publish, distribute, sublicense, and/or sell
-#copies of the Software, and to permit persons to whom the
-#Software is furnished to do so, subject to the following
-#conditions:
+# Permission is hereby granted, free of charge, to any person
+# obtaining a copy of this software and associated documentation
+# files (the "Software"), to deal in the Software without
+# restriction, including without limitation the rights to use,
+# copy, modify, merge, publish, distribute, sublicense, and/or sell
+# copies of the Software, and to permit persons to whom the
+# Software is furnished to do so, subject to the following
+# conditions:
 #
-#The above copyright notice and this permission notice shall be
-#included in all copies or substantial portions of the Software.
+# The above copyright notice and this permission notice shall be
+# included in all copies or substantial portions of the Software.
 #
-#THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
-#EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
-#OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
-#NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
-#HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
-#WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
-#FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE lUSE OR
-#OTHER DEALINGS IN THE SOFTWARE.
+# THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+# EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES
+# OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND
+# NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT
+# HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY,
+# WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
+# FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE lUSE OR
+# OTHER DEALINGS IN THE SOFTWARE.
 
 import os, sys
 lib_path = os.path.abspath('../all')
@@ -68,180 +68,181 @@ class TestBatchTcp(unittest.TestCase):
         self.assertPythonApi(request, response)
         self.assertGeneratedFiles(requestDir, responseDir, requestFileName, request)
 
-    def testMechantBatchAndProcess(self):
+    def testMechantBatchAndProcess(self):          
         requestFileName = "litleSdk-testBatchFile-MECHA.xml"
-        request = litleBatchFileRequest(requestFileName)
+        
+        for i in range(0, 3):
+            request = litleBatchFileRequest(requestFileName)
 
-        configFromFile = request.config
-        self.assertEqual('prelive.litle.com', configFromFile.batchHost)
-        self.assertEqual('15000', configFromFile.batchPort)
-
-        batch = request.createBatch()
-
-        #card
-        card = litleXmlFields.cardType()
-        card.number = '4100000000000001'
-        card.expDate = '1210'
-        card.type = 'VI'
- 
-        #echeck
-        echeck = litleXmlFields.echeck()
-        echeck.accNum = '1092969901'
-        echeck.accType = 'Corporate'
-        echeck.routingNum = '011075150'
- 
-        #billto address
-        contact = litleXmlFields.contact()
-        contact.name = 'PreNote Sale Corporate'
-        contact.firstName = 'unavailable'
-        contact.lastName = 'unavailable'
-        contact.companyName = 'PreNote Sale Corporate'
-        contact.addressLine1 = '1 Lowell Street'
-        contact.addressLine2 = 'Tower 2'
-        contact.city = 'lowell'
-        contact.state = 'MA'
-        contact.zip = '01850'
-        contact.phone = '1234567890'
-        contact.email = 'Bob@litle.com'
- 
-        #auth
-        auth = litleXmlFields.authorization()
-        auth.reportGroup = 'Planets'
-        auth.orderId = '12344'
-        auth.amount = 106
-        auth.orderSource = 'ecommerce'
-        auth.card = card
- 
-        batch.addTransaction(auth)
- 
-        sale = litleXmlFields.sale()
-        sale.reportGroup = 'Planets'
-        sale.orderId = '12344'
-        sale.amount = 6000
-        sale.orderSource = 'ecommerce'
-        sale.card = card
- 
-        batch.addTransaction(sale)
- 
-        credit = litleXmlFields.credit()
-        credit.reportGroup = 'Planets'
-        credit.orderId = '12344'
-        credit.amount = 106
-        credit.orderSource = 'ecommerce'
-        credit.card = card
- 
-        batch.addTransaction(credit)
- 
-        authReversal = litleXmlFields.authReversal()
-        authReversal.reportGroup = 'Planets'
-        authReversal.litleTxnId = 12345678000
-        authReversal.amount = 106
-        authReversal.payPalNotes = 'Notes'
- 
-        batch.addTransaction(authReversal)
- 
-        registerTokenRequestType = litleXmlFields.registerTokenRequest()
-        registerTokenRequestType.reportGroup = 'Planets'
-        registerTokenRequestType.orderId = '12344'
-        registerTokenRequestType.accountNumber = '1233456789103801'
- 
-        batch.addTransaction(registerTokenRequestType)
- 
-        cardValidationNumOnToken = litleXmlFields.updateCardValidationNumOnToken()
-        cardValidationNumOnToken.reportGroup = 'Planets'
-        cardValidationNumOnToken.id = '12345'
-        cardValidationNumOnToken.customerId = '0987'
-        cardValidationNumOnToken.orderId = '12344'
-        cardValidationNumOnToken.litleToken = '1233456789103801'
-        cardValidationNumOnToken.cardValidationNum = '123'
- 
-        batch.addTransaction(cardValidationNumOnToken)
- 
-        forceCapture = litleXmlFields.forceCapture()
-        forceCapture.reportGroup = 'Planets'
-        forceCapture.id = '123456'
-        forceCapture.orderId = '12344'
-        forceCapture.amount = 106
-        forceCapture.orderSource = 'ecommerce'
-        forceCapture.card = card
- 
-        batch.addTransaction(forceCapture)
- 
-        capture = litleXmlFields.capture()
-        capture.reportGroup = 'Planets'
-        capture.litleTxnId = 123456000
-        capture.amount = 106
- 
-        batch.addTransaction(capture)
- 
-        captureGivenAuth = litleXmlFields.captureGivenAuth()
-        captureGivenAuth.reportGroup = 'Planets'
-        captureGivenAuth.orderId = '12344'
-        captureGivenAuth.amount = 106
-        authInformation = litleXmlFields.authInformation()
-        authInformation.authDate = pyxb.binding.datatypes.date(2002, 10, 9)
-        authInformation.authAmount = 12345
-        authInformation.authCode = '543216'
-        captureGivenAuth.authInformation = authInformation
-        captureGivenAuth.orderSource = 'ecommerce'
-        captureGivenAuth.card = card
- 
-        batch.addTransaction(captureGivenAuth)
- 
-        echeckVerification = litleXmlFields.echeckVerification()
-        echeckVerification.reportGroup = 'Planets'
-        echeckVerification.amount = 123456
-        echeckVerification.orderId = '12345'
-        echeckVerification.orderSource = 'ecommerce'
-        echeckVerification.billToAddress = contact
-        echeckVerification.echeckOrEcheckToken = echeck
- 
-        batch.addTransaction(echeckVerification)
- 
-        echeckCredit = litleXmlFields.echeckCredit()
-        echeckCredit.reportGroup = 'Planets'
-        echeckCredit.litleTxnId = 1234567890
-        echeckCredit.amount = 12
- 
-        batch.addTransaction(echeckCredit)
- 
-        echeckRedeposit = litleXmlFields.echeckRedeposit()
-        echeckRedeposit.reportGroup = 'Planets'
-        echeckRedeposit.litleTxnId = 124321341412
- 
-        batch.addTransaction(echeckRedeposit)
- 
-        echeckSale = litleXmlFields.echeckSale()
-        echeckSale.reportGroup = 'Planets'
-        echeckSale.amount = 123456
-        echeckSale.orderId = '12345'
-        echeckSale.orderSource = 'ecommerce'
-        echeckSale.billToAddress = contact
-        echeckSale.echeckOrEcheckToken = echeck
-        echeckSale.verify = True
- 
-        batch.addTransaction(echeckSale)
-        echeckPreNoteSale = litleXmlFields.echeckPreNoteSale();
-        echeckPreNoteSale.orderId = "12344"
-        echeckPreNoteSale.billToAddress = contact
-        echeckPreNoteSale.echeck = echeck
-        echeckPreNoteSale.orderSource = 'ecommerce'
-
-        transactionCount = batch.numOfTxn
-
-        fileResponse = request.sendRequestTCP()
-        batchResponse = fileResponse.getNextBatchResponse()
-
-        txns = 0
-
-        nextTransaction = True
-        while nextTransaction:
-            try:
-                batchResponse.getNextTransaction()
-                txns += 1
-            except:
-                nextTransaction = False
-
+            configFromFile = request.config
+            self.assertEqual('prelive.litle.com', configFromFile.batchHost)
+            self.assertEqual('15000', configFromFile.batchPort)     
+             
+            batch = request.createBatch()
+            # card
+            card = litleXmlFields.cardType()
+            card.number = '4100000000000001'
+            card.expDate = '1210'
+            card.type = 'VI'
+     
+            # echeck
+            echeck = litleXmlFields.echeck()
+            echeck.accNum = '1092969901'
+            echeck.accType = 'Corporate'
+            echeck.routingNum = '011075150'
+     
+            # billto address
+            contact = litleXmlFields.contact()
+            contact.name = 'PreNote Sale Corporate'
+            contact.firstName = 'unavailable'
+            contact.lastName = 'unavailable'
+            contact.companyName = 'PreNote Sale Corporate'
+            contact.addressLine1 = '1 Lowell Street'
+            contact.addressLine2 = 'Tower 2'
+            contact.city = 'lowell'
+            contact.state = 'MA'
+            contact.zip = '01850'
+            contact.phone = '1234567890'
+            contact.email = 'Bob@litle.com'
+     
+            # auth
+            auth = litleXmlFields.authorization()
+            auth.reportGroup = 'Planets'
+            auth.orderId = '12344'
+            auth.amount = 106
+            auth.orderSource = 'ecommerce'
+            auth.card = card
+     
+            batch.addTransaction(auth)
+     
+            sale = litleXmlFields.sale()
+            sale.reportGroup = 'Planets'
+            sale.orderId = '12344'
+            sale.amount = 6000
+            sale.orderSource = 'ecommerce'
+            sale.card = card
+     
+            batch.addTransaction(sale)
+     
+            credit = litleXmlFields.credit()
+            credit.reportGroup = 'Planets'
+            credit.orderId = '12344'
+            credit.amount = 106
+            credit.orderSource = 'ecommerce'
+            credit.card = card
+     
+            batch.addTransaction(credit)
+     
+            authReversal = litleXmlFields.authReversal()
+            authReversal.reportGroup = 'Planets'
+            authReversal.litleTxnId = 12345678000
+            authReversal.amount = 106
+            authReversal.payPalNotes = 'Notes'
+     
+            batch.addTransaction(authReversal)
+     
+            registerTokenRequestType = litleXmlFields.registerTokenRequest()
+            registerTokenRequestType.reportGroup = 'Planets'
+            registerTokenRequestType.orderId = '12344'
+            registerTokenRequestType.accountNumber = '1233456789103801'
+     
+            batch.addTransaction(registerTokenRequestType)
+     
+            cardValidationNumOnToken = litleXmlFields.updateCardValidationNumOnToken()
+            cardValidationNumOnToken.reportGroup = 'Planets'
+            cardValidationNumOnToken.id = '12345'
+            cardValidationNumOnToken.customerId = '0987'
+            cardValidationNumOnToken.orderId = '12344'
+            cardValidationNumOnToken.litleToken = '1233456789103801'
+            cardValidationNumOnToken.cardValidationNum = '123'
+     
+            batch.addTransaction(cardValidationNumOnToken)
+     
+            forceCapture = litleXmlFields.forceCapture()
+            forceCapture.reportGroup = 'Planets'
+            forceCapture.id = '123456'
+            forceCapture.orderId = '12344'
+            forceCapture.amount = 106
+            forceCapture.orderSource = 'ecommerce'
+            forceCapture.card = card
+     
+            batch.addTransaction(forceCapture)
+     
+            capture = litleXmlFields.capture()
+            capture.reportGroup = 'Planets'
+            capture.litleTxnId = 123456000
+            capture.amount = 106
+     
+            batch.addTransaction(capture)
+     
+            captureGivenAuth = litleXmlFields.captureGivenAuth()
+            captureGivenAuth.reportGroup = 'Planets'
+            captureGivenAuth.orderId = '12344'
+            captureGivenAuth.amount = 106
+            authInformation = litleXmlFields.authInformation()
+            authInformation.authDate = pyxb.binding.datatypes.date(2002, 10, 9)
+            authInformation.authAmount = 12345
+            authInformation.authCode = '543216'
+            captureGivenAuth.authInformation = authInformation
+            captureGivenAuth.orderSource = 'ecommerce'
+            captureGivenAuth.card = card
+     
+            batch.addTransaction(captureGivenAuth)
+     
+            echeckVerification = litleXmlFields.echeckVerification()
+            echeckVerification.reportGroup = 'Planets'
+            echeckVerification.amount = 123456
+            echeckVerification.orderId = '12345'
+            echeckVerification.orderSource = 'ecommerce'
+            echeckVerification.billToAddress = contact
+            echeckVerification.echeckOrEcheckToken = echeck
+     
+            batch.addTransaction(echeckVerification)
+     
+            echeckCredit = litleXmlFields.echeckCredit()
+            echeckCredit.reportGroup = 'Planets'
+            echeckCredit.litleTxnId = 1234567890
+            echeckCredit.amount = 12
+     
+            batch.addTransaction(echeckCredit)
+     
+            echeckRedeposit = litleXmlFields.echeckRedeposit()
+            echeckRedeposit.reportGroup = 'Planets'
+            echeckRedeposit.litleTxnId = 124321341412
+     
+            batch.addTransaction(echeckRedeposit)
+     
+            echeckSale = litleXmlFields.echeckSale()
+            echeckSale.reportGroup = 'Planets'
+            echeckSale.amount = 123456
+            echeckSale.orderId = '12345'
+            echeckSale.orderSource = 'ecommerce'
+            echeckSale.billToAddress = contact
+            echeckSale.echeckOrEcheckToken = echeck
+            echeckSale.verify = True
+     
+            batch.addTransaction(echeckSale)
+            echeckPreNoteSale = litleXmlFields.echeckPreNoteSale();
+            echeckPreNoteSale.orderId = "12344"
+            echeckPreNoteSale.billToAddress = contact
+            echeckPreNoteSale.echeck = echeck
+            echeckPreNoteSale.orderSource = 'ecommerce'
+    
+            transactionCount = batch.numOfTxn
+            fileResponse = request.sendRequestTCP()
+            batchResponse = fileResponse.getNextBatchResponse()
+            
+            txns = 0
+      
+            nextTransaction = True
+            while nextTransaction:
+                try:
+                    batchResponse.getNextTransaction()
+                    txns += 1
+                except:
+                    nextTransaction = False
+            if txns == transactionCount:
+                break
         self.assertEqual(transactionCount, txns)
 
     def testGiftCardTransactions(self):
@@ -333,7 +334,7 @@ class TestBatchTcp(unittest.TestCase):
         batch.addTransaction(updateSubscription)
 
         createPlan = litleXmlFields.createPlan()
-        createPlan.planCode =  'abc'
+        createPlan.planCode = 'abc'
         createPlan.name = 'name'
         createPlan.intervalType = 'ANNUAL'
         createPlan.amount = 100
@@ -376,7 +377,7 @@ class TestBatchTcp(unittest.TestCase):
         self.assertEqual('15000', configFromFile.batchPort)
         batch = request.createBatch()
 
-        #card
+        # card
         card = litleXmlFields.card()
         card.number = '4100000000000001'
         card.expDate = '1210'
@@ -421,25 +422,25 @@ class TestBatchTcp(unittest.TestCase):
 
         batch = request.createBatch()
  
-        #echeckSuccess
+        # echeckSuccess
         echeckSuccess = litleXmlFields.echeck()
         echeckSuccess.accNum = '1092969901'
         echeckSuccess.accType = 'Corporate'
         echeckSuccess.routingNum = '011075150'
         
-        #echeckErr1
+        # echeckErr1
         echeckRoutErr = litleXmlFields.echeck()
         echeckRoutErr.accNum = '6099999992'
         echeckRoutErr.accType = 'Checking'
         echeckRoutErr.routingNum = '053133052'
         
-        #echeckErr2l
+        # echeckErr2l
         echeckAccErr = litleXmlFields.echeck()
         echeckAccErr.accNum = '10@2969901'
         echeckAccErr.accType = 'Savings'
         echeckAccErr.routingNum = '011100012'
  
-        #billto address
+        # billto address
         contact = litleXmlFields.contact()
         contact.name = 'PreNote Sale Corporate'
         contact.firstName = 'unavailable'
@@ -508,7 +509,7 @@ class TestBatchTcp(unittest.TestCase):
             try:
                 responseTxn = batchResponse.getNextTransaction()
                 self.assertEqual(responseTxn.response, responseTxn.orderId)
-                txns+=1;
+                txns += 1;
             except NoTransactionException:
                 nextTransaction = False
 
@@ -524,7 +525,7 @@ class TestBatchTcp(unittest.TestCase):
 
         batch = request.createBatch()
 
-        #echeck
+        # echeck
         echeck = litleXmlFields.echeck()
         echeck.accNum = '1092969901'
         echeck.accType = 'Corporate'
@@ -673,5 +674,5 @@ def suite():
     suite = unittest.TestLoader().loadTestsFromTestCase(TestBatchTcp)
     return suite
 
-if __name__ =='__main__':
+if __name__ == '__main__':
     unittest.main()
