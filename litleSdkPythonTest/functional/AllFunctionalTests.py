@@ -64,7 +64,7 @@ testutf8 = TestUtf8.suite()
 
 unittest.TextTestRunner().run(testauth)
 unittest.TextTestRunner().run(testauthreverasal)
-unittest.TextTestRunner().run(testbatch)
+#unittest.TextTestRunner().run(testbatch)
 unittest.TextTestRunner().run(testcapture)
 unittest.TextTestRunner().run(testcapturegivenauth)
 unittest.TextTestRunner().run(testcredit)
