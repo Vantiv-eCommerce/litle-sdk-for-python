@@ -36,10 +36,11 @@ class TestSale(unittest.TestCase):
         sale.amount = 106L
         sale.orderId = '12344'
         sale.orderSource = 'ecommerce'
+	sale.id = 'id'
         
         card = litleXmlFields.cardType()
         card.type = 'VI'
-        card.number = "4100000000000001"
+        card.number = "4100000000000000"
         card.expDate = "1210"
         sale.card = card
         
@@ -53,6 +54,7 @@ class TestSale(unittest.TestCase):
         sale.amount = 106L
         sale.orderId = '12344'
         sale.orderSource = 'ecommerce'
+	sale.id = 'id'
         
         paypal = litleXmlFields.payPal()
         paypal.payerId = "1234"
@@ -69,6 +71,7 @@ class TestSale(unittest.TestCase):
         sale.amount = 106
         sale.orderId = '12344'
         sale.orderSource = 'ecommerce'
+	sale.id = 'id'
         token = litleXmlFields.cardTokenType()
         token.cardValidationNum = '349'
         token.expDate = '1214'
@@ -87,11 +90,12 @@ class TestSale(unittest.TestCase):
         sale.secondaryAmount = 10
         sale.orderId = '12344'
         sale.orderSource = 'ecommerce'
+	sale.id = 'id'
         
         applepay = litleXmlFields.applepayType()
         applepay.data = "4100000000000000"
         applepay.signature = "sign"
-        applepay.version = '1'
+        applepay.version = '12345'
         header=litleXmlFields.applepayHeaderType()
         header.applicationData='e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
         header.ephemeralPublicKey ='e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'

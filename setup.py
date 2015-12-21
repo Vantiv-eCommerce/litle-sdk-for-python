@@ -11,7 +11,8 @@ setup(name='LitleSdkPython',
       packages=['litleSdkPython'],
       install_requires=[
                         'PyXB==1.1.5',
-                        'paramiko==1.14.0'],
+                        'paramiko==1.14.0',
+			'mock=1.0.1'],
       classifiers=[
           'Development Status :: 5 - Production/Stable',
           'Environment :: Console',

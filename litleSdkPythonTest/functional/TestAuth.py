@@ -35,6 +35,7 @@ class TestAuth(unittest.TestCase):
         authorization.orderId = '1234'
         authorization.amount = 106
         authorization.orderSource = 'ecommerce'
+	authorization.id = 'id'
     
         card = litleXmlFields.cardType()
         card.number = "4100000000000000"
@@ -54,6 +55,7 @@ class TestAuth(unittest.TestCase):
         authorization.orderId = '12344'
         authorization.amount = 106
         authorization.orderSource = 'ecommerce'
+	authorization.id = 'id'
     
         paypal = litleXmlFields.payPal()
         paypal.payerId = "1234"
@@ -75,11 +77,12 @@ class TestAuth(unittest.TestCase):
         authorization.amount = 110
         authorization.orderSource = 'ecommerce'
         authorization.secondaryAmount = '10'        
+	authorization.id = 'id'
         
         applepay = litleXmlFields.applepayType()
         applepay.data = "4100000000000000"
         applepay.signature = "sign"
-        applepay.version = '1'
+        applepay.version = '12345'
         header=litleXmlFields.applepayHeaderType()
         header.applicationData='e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
         header.ephemeralPublicKey ='e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
@@ -100,6 +103,7 @@ class TestAuth(unittest.TestCase):
         authorization.orderId = '123456'
         authorization.amount = 106
         authorization.orderSource = 'ecommerce'
+	authorization.id = 'id'
     
         pos = litleXmlFields.pos()
         pos.cardholderId = "pin"
@@ -122,6 +126,7 @@ class TestAuth(unittest.TestCase):
         authorization.orderId = '12344'
         authorization.amount = 106
         authorization.orderSource = 'ecommerce'
+	authorization.id = 'id'
     
         card = litleXmlFields.cardType()
         card.number = "4100100000000000"
@@ -144,6 +149,7 @@ class TestAuth(unittest.TestCase):
         authorization.orderId = '12z58743y1'
         authorization.amount = 12522
         authorization.orderSource = 'retail'
+	authorization.id = 'id'
 
         billToAddress = litleXmlFields.contact()
         billToAddress.zip = '95032'
@@ -171,6 +177,7 @@ class TestAuth(unittest.TestCase):
         authorization.orderId = '67890'
         authorization.amount = 10000
         authorization.orderSource = 'ecommerce'
+	authorization.id = 'id'
 
         enhanced = litleXmlFields.enhancedData()
         dt1 = litleXmlFields.detailTax()
@@ -182,7 +189,7 @@ class TestAuth(unittest.TestCase):
         authorization.enhancedData = enhanced
 
         card = litleXmlFields.cardType()
-        card.number = '4100000000000001'
+        card.number = '4100000000000000'
         card.expDate = '1215'
         card.type = 'VI'
         authorization.card = card

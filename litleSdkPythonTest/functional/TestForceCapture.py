@@ -28,6 +28,7 @@ sys.path.append(lib_path)
 from SetupTest import *
 import unittest
 
+
 class TestForceCapture(unittest.TestCase):
     
     def testSimpleForceCaptureWithCard(self):
@@ -35,16 +36,19 @@ class TestForceCapture(unittest.TestCase):
         forcecapture.amount = 106L
         forcecapture.orderId = '12344'
         forcecapture.orderSource = 'ecommerce'
-        
+        forcecapture.id = 'id'
+ 
         card = litleXmlFields.cardType()
         card.type = 'VI'
-        card.number = "4100000000000001"
+        card.number = "4100000000000000"
         card.expDate = "1210"
         forcecapture.card = card
         
         litleXml =  litleOnlineRequest(config)
+
         response = litleXml.sendRequest(forcecapture)
-        self.assertEquals("Approved",response.message)
+
+        self.assertEquals("Transaction Received",response.message)
 
         
     def testSimpleForceCaptureWithToken(self):
@@ -52,9 +56,10 @@ class TestForceCapture(unittest.TestCase):
         forcecapture.amount = 106L
         forcecapture.orderId = '12344'
         forcecapture.orderSource = 'ecommerce'
-        
+        forcecapture.id = 'id'
+
         token = litleXmlFields.cardTokenType()
-        token.type = 'VI'
+	token.type = 'VI'
         token.expDate = "1210"
         token.litleToken = "123456789101112"
         token.cardValidationNum = "555"
@@ -62,7 +67,7 @@ class TestForceCapture(unittest.TestCase):
         
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(forcecapture)
-        self.assertEquals("Approved",response.message)
+        self.assertEquals("Transaction Received",response.message)
         
     def testSimpleForceCaptureWithSecondaryAmount(self):
         forcecapture = litleXmlFields.forceCapture()
@@ -70,16 +75,18 @@ class TestForceCapture(unittest.TestCase):
         forcecapture.secondaryAmount = 10
         forcecapture.orderId = '12344'
         forcecapture.orderSource = 'ecommerce'
-        
-        card = litleXmlFields.cardType()
+        forcecapture.id = 'id'
+	
+	card = litleXmlFields.cardType()
         card.type = 'VI'
-        card.number = "4100000000000001"
+        card.number = "4100000000000000"
         card.expDate = "1210"
         forcecapture.card = card
         
-        litleXml =  litleOnlineRequest(config)
-        response = litleXml.sendRequest(forcecapture)
-        self.assertEquals("Approved",response.message)
+	litleXml =  litleOnlineRequest(config)
+	response = litleXml.sendRequest(forcecapture)
+        self.assertEquals("Transaction Received",response.message)
+
 
 def suite():
     suite = unittest.TestSuite()

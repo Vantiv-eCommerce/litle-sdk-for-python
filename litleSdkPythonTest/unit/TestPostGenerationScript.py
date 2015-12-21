@@ -42,6 +42,7 @@ class TestPostGenerationScript(unittest.TestCase):
         card.expDate = "1210"
         card.type = 'VI'
         authorization.card = card
+	authorization.id = 'id'
 
         comm = Communications(config)
         comm.http_post = MagicMock()
@@ -59,6 +60,7 @@ class TestPostGenerationScript(unittest.TestCase):
         card = litleXmlFields.cardType()
         card.type = 'VI'
         authorization.card = card
+	authorization.id = 'id'
 
         comm = Communications(config)
         comm.http_post = MagicMock()
@@ -92,6 +94,7 @@ class TestPostGenerationScript(unittest.TestCase):
         card.number = "4100000000000001"
         card.expDate = "1210"
         capturegivenauth.card = card
+        capturegivenauth.id='id' 
         
         comm = Communications(config)
         comm.http_post = MagicMock()
@@ -108,6 +111,7 @@ class TestPostGenerationScript(unittest.TestCase):
         CaptureGivenAuth = litleXmlFields.captureGivenAuth()
         CaptureGivenAuth.amount = 106
         CaptureGivenAuth.orderId = "12344"
+        CaptureGivenAuth.id = "id"
         AuthInfo = litleXmlFields.authInformation()
         AuthInfo.authAmount = 12345
         CaptureGivenAuth.authInformation = AuthInfo
@@ -135,7 +139,7 @@ class TestPostGenerationScript(unittest.TestCase):
         echeckCredit.amount = 12
         echeckCredit.orderId = "12345"
         echeckCredit.orderSource = 'ecommerce'
-        
+        echeckCredit.id = 'id'  
         comm = Communications(config)
         comm.http_post = MagicMock()
         litle = litleOnlineRequest(config)
@@ -153,7 +157,8 @@ class TestPostGenerationScript(unittest.TestCase):
         echeckCredit.orderSource = 'ecommerce'
         echeck = litleXmlFields.echeck()
         echeckCredit.echeckOrEcheckToken = echeck
-        
+       	echeckCredit.id = 'id'
+	 
         comm = Communications(config)
         comm.http_post = MagicMock()
         litle = litleOnlineRequest(config)
@@ -175,7 +180,8 @@ class TestPostGenerationScript(unittest.TestCase):
         iterator = {LineItem : LineItem}
         Enhanced.lineItemData = iter(iterator)
         Capture.enhancedData = Enhanced
-    
+   	Capture.id = 'id'
+ 
         comm = Communications(config)
         comm.http_post = MagicMock()
         litle = litleOnlineRequest(config)
@@ -191,6 +197,8 @@ class TestPostGenerationScript(unittest.TestCase):
         authorization.orderId = '12344'
         authorization.amount = 106
         authorization.orderSource = 'ecommerce'
+	authorization.id = 'id'
+
         amexData = litleXmlFields.amexAggregatorData()
         authorization.amexAggregatorData = amexData
         healthCare = litleXmlFields.healthcareIIAS()
@@ -212,13 +220,13 @@ class TestPostGenerationScript(unittest.TestCase):
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
     def test_minOccurs_tokenResponseCode_tokenMessage(self):
-        outputString = "<litleOnlineResponse version='8.13' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse id='' reportGroup='DefaultReportGroup' customerId=''><litleTxnId>057484783403434000</litleTxnId><orderId>12344</orderId><response>000</response><responseTime>2012-06-05T16:36:39</responseTime><message>Approved</message><tokenResponse><litleToken>4242424242424242</litleToken><tokenResponseCode>111</tokenResponseCode><bin>bin</bin></tokenResponse></authorizationResponse></litleOnlineResponse>"
+        outputString = "<litleOnlineResponse version='8.13' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse id='' reportGroup='DefaultReportGroup' customerId=''><litleTxnId>057484783403434000</litleTxnId><response>000</response><responseTime>2012-06-05T16:36:39</responseTime><message>Approved</message><tokenResponse><litleToken>4242424242424242</litleToken><tokenResponseCode>111</tokenResponseCode><bin>bin</bin></tokenResponse></authorizationResponse></litleOnlineResponse>"
         litleXml = litleOnlineRequest(config)
         xml_object = litleXml._processResponse(outputString)
         self.assertEquals("bin", xml_object.tokenResponse.bin)
         
     def test_minOccurs_availableBalance(self):
-        outputString = "<litleOnlineResponse version='8.13' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse id='' reportGroup='DefaultReportGroup' customerId=''><litleTxnId>057484783403434000</litleTxnId><orderId>12344</orderId><response>000</response><responseTime>2012-06-05T16:36:39</responseTime><message>Approved</message><enhancedAuthResponse></enhancedAuthResponse></authorizationResponse></litleOnlineResponse>"
+        outputString = "<litleOnlineResponse version='8.13' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse id='' reportGroup='DefaultReportGroup' customerId=''><litleTxnId>057484783403434000</litleTxnId><response>000</response><responseTime>2012-06-05T16:36:39</responseTime><message>Approved</message><enhancedAuthResponse></enhancedAuthResponse></authorizationResponse></litleOnlineResponse>"
         litleXml = litleOnlineRequest(config)
         xml_object = litleXml._processResponse(outputString)
         self.assertEquals("DefaultReportGroup", xml_object.reportGroup)
@@ -230,6 +238,7 @@ class TestPostGenerationScript(unittest.TestCase):
         authorization.orderSource = 'ecommerce'
         bml = litleXmlFields.billMeLaterRequest()
         authorization.billMeLatertRequest = bml
+        authorization.id = 'id'
 
         comm = Communications(config)
         comm.http_post = MagicMock()
@@ -248,6 +257,8 @@ class TestPostGenerationScript(unittest.TestCase):
         sale.orderSource = 'ecommerce'
         paypage = litleXmlFields.cardPaypageType()
         sale.paypage = paypage
+	sale.id = 'id'
+
         comm = Communications(config)
         comm.http_post = MagicMock()
         litle = litleOnlineRequest(config)

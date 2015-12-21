@@ -34,6 +34,7 @@ class TestUpdateCardValidationNumOnToken(unittest.TestCase):
         update = litleXmlFields.updateCardValidationNumOnToken()
         update.litleToken = '1111222233334444'
         update.cardValidationNum = '123'
+	update.id = "id"
 
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(update)

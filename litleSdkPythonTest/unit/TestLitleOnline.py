@@ -77,7 +77,7 @@ class TestLitleOnline(unittest.TestCase):
         applepay = litleXmlFields.applepayType()
         applepay.data = "4100000000000000"
         applepay.signature = "yoyo"
-        applepay.version = '9.3'
+        applepay.version = '12345'
         header=litleXmlFields.applepayHeaderType()
         header.applicationData='applicationData'
         header.ephemeralPublicKey ='UWIRNRSKSXMXEYEINR'
@@ -520,7 +520,7 @@ class TestLitleOnline(unittest.TestCase):
     def testEcheckTxnsCanHavePpdAsOrderSource(self):
         echeckSale = litleXmlFields.echeckSale()
         echeckSale.orderSource = litleXmlFields.orderSourceType.echeckppd
-	echecksale.id="id" 
+	echeckSale.id="id" 
          
         comm = Communications(config)
         comm.http_post = MagicMock()
@@ -679,7 +679,7 @@ class TestLitleOnline(unittest.TestCase):
         applepay = litleXmlFields.applepayType()
         applepay.data = "4100000000000000"
         applepay.signature = "yoyo"
-        applepay.version = '9.3'
+        applepay.version = '12345'
         header=litleXmlFields.applepayHeaderType()
         header.applicationData='applicationData'
         header.ephemeralPublicKey ='UWIRNRSKSXMXEYEINR'
@@ -730,7 +730,7 @@ class TestLitleOnline(unittest.TestCase):
         applepay = litleXmlFields.applepayType()
         applepay.data = "4100000000000000"
         applepay.signature = "yoyo"
-        applepay.version = '8.29'
+        applepay.version = '12345'
         header=litleXmlFields.applepayHeaderType()
         header.applicationData='applicationData'
         header.ephemeralPublicKey ='UWIRNRSKSXMXEYEINR'

@@ -34,6 +34,8 @@ class TestToken(unittest.TestCase):
         token = litleXmlFields.registerTokenRequest()
         token.orderId = '12344'
         token.accountNumber = '1233456789103801'
+        token.id = "id"
+
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(token)
         self.assertEquals(response.message, "Account number was successfully registered")
@@ -42,6 +44,8 @@ class TestToken(unittest.TestCase):
         token = litleXmlFields.registerTokenRequest()
         token.orderId = '12344'
         token.paypageRegistrationId = '1233456789101112'
+	token.id = 'id'
+
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(token)
         self.assertEquals(response.message, "Account number was successfully registered")
@@ -49,6 +53,8 @@ class TestToken(unittest.TestCase):
     def testSimpleTokenWithEcheck(self):
         token = litleXmlFields.registerTokenRequest()
         token.orderId = '12344'
+	token.id = 'id'
+
         echeck = litleXmlFields.echeckForTokenType()
         echeck.accNum = "12344565"
         echeck.routingNum = "123476545"
@@ -60,10 +66,12 @@ class TestToken(unittest.TestCase):
     def testSimpleTokenWithApplepay(self):
         token = litleXmlFields.registerTokenRequest()
         token.orderId = '12344'
+	token.id = 'id'
+
         applepay = litleXmlFields.applepayType()
         applepay.data = "4100000000000000"
         applepay.signature = "sign"
-        applepay.version = '1'
+        applepay.version = '12345'
         header=litleXmlFields.applepayHeaderType()
         header.applicationData='e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
         header.ephemeralPublicKey ='e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
@@ -79,6 +87,8 @@ class TestToken(unittest.TestCase):
     def testTokenEcheckMissingRequiredField(self):
         token = litleXmlFields.registerTokenRequest()
         token.orderId = '12344'
+	token.id = 'id'
+
         echeck = litleXmlFields.echeckForTokenType()
         echeck.routingNum = "123476545"
         token.echeckForToken = echeck
@@ -91,6 +101,7 @@ class TestToken(unittest.TestCase):
         tokenRequest = litleXmlFields.registerTokenRequest()
         tokenRequest.orderId = '12345'
         tokenRequest.paypageRegistrationId = '123456789012345678901324567890abcdefghi'
+	tokenRequest.id = 'id'
 
         litleXml =  litleOnlineRequest(config)
         tokenResponse = litleXml.sendRequest(tokenRequest)

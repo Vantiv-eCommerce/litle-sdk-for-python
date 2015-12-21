@@ -59,9 +59,10 @@ class TestUtf8(unittest.TestCase):
     	authorization.orderId = '12344'
     	authorization.amount = 106
     	authorization.orderSource = 'ecommerce'
-    	
+    	authorization.id = "id"
+	
     	card = litleXmlFields.cardType()
-    	card.number = "4100000000000001"
+    	card.number = "4100000000000000"
     	card.expDate = "1210"
     	card.type = "VI"
     	card.cardValidationNum = "123"

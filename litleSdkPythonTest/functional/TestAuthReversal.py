@@ -35,12 +35,12 @@ class TestAuthReversal(unittest.TestCase):
         reversal.litleTxnId = 12345678000
         reversal.amount = 106
         reversal.payPalNotes = "Notes"
-
+	reversal.id = 'id'
     
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(reversal)
             
-        self.assertEquals("Approved",response.message)
+        self.assertEquals("Transaction Received",response.message)
 
 def suite():
     suite = unittest.TestSuite()
