@@ -41,7 +41,6 @@ class TestLitleOnline(unittest.TestCase):
         authorization.orderId = '1234'
         authorization.amount = 106
         authorization.orderSource = 'ecommerce'
-	authorization.id="id"
         
         card = litleXmlFields.cardType()
         card.number = "4100000000000000"
@@ -67,7 +66,6 @@ class TestLitleOnline(unittest.TestCase):
         authorization.amount = 106
         authorization.orderSource = 'ecommerce'
         authorization.secondaryAmount = 10
-	authorization.id="id"
         
         wallet=litleXmlFields.wallet()
         wallet.walletSourceType='MasterPass'
@@ -105,7 +103,6 @@ class TestLitleOnline(unittest.TestCase):
         authorization.orderId = '1234'
         authorization.amount = 106
         authorization.orderSource = 'ecommerce'
-	authorization.id="id"
         
         advancedFraudChecksType=litleXmlFields.advancedFraudChecksType()
         advancedFraudChecksType.customAttribute1='stringlength200'
@@ -139,7 +136,6 @@ class TestLitleOnline(unittest.TestCase):
         authreversal.litleTxnId = 12345678000
         authreversal.amount = 106
         authreversal.payPalNotes = "Notes"
-	authreversal.id="id"
         
         comm = Communications(config)
         comm.http_post = MagicMock()
@@ -158,7 +154,6 @@ class TestLitleOnline(unittest.TestCase):
         capture.litleTxnId = 123456000
         capture.amount = 106
         capture.payPalNotes = "Notes"
-	capture.id="id"
 
         comm = Communications(config)
         comm.http_post = MagicMock()
@@ -177,7 +172,6 @@ class TestLitleOnline(unittest.TestCase):
         capture.litleTxnId = 123456000
         capture.amount = 106
         capture.payPalNotes = "Notes"
-	capture.id="id"
         
         customBilling=litleXmlFields.customBilling()
         customBilling.phone='6174445555'
@@ -197,7 +191,6 @@ class TestLitleOnline(unittest.TestCase):
         capturegivenauth = litleXmlFields.captureGivenAuth()
         capturegivenauth.amount = 106
         capturegivenauth.orderId = "12344"
-	capturegivenauth.id="id"
         
         authinfo = litleXmlFields.authInformation()
         date = pyxb.binding.datatypes.date(2002, 10, 9)
@@ -232,7 +225,6 @@ class TestLitleOnline(unittest.TestCase):
         capturegivenauth.amount = 106
         capturegivenauth.orderId = "12344"
         capturegivenauth.secondaryAmount=100
-	capturegivenauth.id="id"
         
         authinfo = litleXmlFields.authInformation()
         date = pyxb.binding.datatypes.date(2002, 10, 9)
@@ -265,7 +257,6 @@ class TestLitleOnline(unittest.TestCase):
         credit = litleXmlFields.credit()
         credit.orderId = "12344"
         credit.orderSource = 'ecommerce'
-	credit.id="id"
         
         card = litleXmlFields.cardType()
         card.type = 'VI'
@@ -290,7 +281,6 @@ class TestLitleOnline(unittest.TestCase):
         credit.orderId = "12344"
         credit.orderSource = 'ecommerce'
         credit.secondaryAmount=100
-	credit.id="id"
         
         card = litleXmlFields.cardType()
         card.type = 'VI'
@@ -314,7 +304,6 @@ class TestLitleOnline(unittest.TestCase):
         credit = litleXmlFields.credit()
         credit.litleTxnId=1000
         credit.secondaryAmount=100
-	credit.id="id"
         
         comm = Communications(config)
         comm.http_post = MagicMock()
@@ -332,7 +321,6 @@ class TestLitleOnline(unittest.TestCase):
         echeckcredit = litleXmlFields.echeckCredit()
         echeckcredit.amount = 12
         echeckcredit.litleTxnId = 123456789101112
-	echeckcredit.id="id"
         
         comm = Communications(config)
         comm.http_post = MagicMock()
@@ -351,7 +339,6 @@ class TestLitleOnline(unittest.TestCase):
         echeckcredit.amount = 12
         echeckcredit.litleTxnId = 123456789101112
         echeckcredit.secondaryAmount=100
-	echeckcredit.id="id"
         
         comm = Communications(config)
         comm.http_post = MagicMock()
@@ -370,7 +357,6 @@ class TestLitleOnline(unittest.TestCase):
         echeckcredit.amount = 12
         echeckcredit.orderId = '123456789101112'
         echeckcredit.secondaryAmount=100
-	echeckcredit.id="id"
         
         comm = Communications(config)
         comm.http_post = MagicMock()
@@ -387,7 +373,6 @@ class TestLitleOnline(unittest.TestCase):
     def testEcheckRedeposit(self):
         echeckredeposit = litleXmlFields.echeckRedeposit()
         echeckredeposit.litleTxnId = 123456
-	echeckredeposit.id="id"
         
         comm = Communications(config)
         comm.http_post = MagicMock()
@@ -406,8 +391,7 @@ class TestLitleOnline(unittest.TestCase):
         echecksale.amount = 123456
         echecksale.orderId = "12345"
         echecksale.orderSource = 'ecommerce'
-	echecksale.id="id"        
-
+        
         echeck = litleXmlFields.echeck()
         echeck.accType = 'Checking'
         echeck.accNum = "12345657890"
@@ -440,7 +424,6 @@ class TestLitleOnline(unittest.TestCase):
         echecksale.orderId = "12345"
         echecksale.orderSource = 'ecommerce'
         echecksale.secondaryAmount= 100
-	echecksale.id="id" 
          
         echeck = litleXmlFields.echeck()
         echeck.accType = 'Checking'
@@ -475,7 +458,6 @@ class TestLitleOnline(unittest.TestCase):
         echecksale.orderId = "12345"
         echecksale.orderSource = 'ecommerce'
         echecksale.secondaryAmount= 100
-	echecksale.id="id" 
          
         echeck = litleXmlFields.echeck()
         echeck.accType = 'Checking'
@@ -506,7 +488,6 @@ class TestLitleOnline(unittest.TestCase):
         echecksale.secondaryAmount = 10
         echecksale.orderId = "12345"
         echecksale.orderSource = 'ecommerce'
-	echecksale.id="id" 
         
         echeck = litleXmlFields.echeck()
         echeck.accType = 'Checking'
@@ -520,7 +501,6 @@ class TestLitleOnline(unittest.TestCase):
     def testEcheckTxnsCanHavePpdAsOrderSource(self):
         echeckSale = litleXmlFields.echeckSale()
         echeckSale.orderSource = litleXmlFields.orderSourceType.echeckppd
-	echecksale.id="id" 
          
         comm = Communications(config)
         comm.http_post = MagicMock()
@@ -537,7 +517,6 @@ class TestLitleOnline(unittest.TestCase):
     def testEcheckVoid(self):
         echeckvoid = litleXmlFields.echeckVoid()
         echeckvoid.litleTxnId = 12345
-	echeckvoid.id="id" 
         
         comm = Communications(config)
         comm.http_post = MagicMock()
@@ -556,7 +535,6 @@ class TestLitleOnline(unittest.TestCase):
         echeckverification.amount = 123456
         echeckverification.orderId = "12345"
         echeckverification.orderSource = 'ecommerce'
-	echeckverification.id="id" 
         
         echeck = litleXmlFields.echeck()
         echeck.accType = 'Checking'
@@ -589,7 +567,6 @@ class TestLitleOnline(unittest.TestCase):
         forcecapture.amount = 106
         forcecapture.orderId = "12344"
         forcecapture.orderSource = 'ecommerce'
-	forcecapture.id="id" 
         
         card = litleXmlFields.cardType()
         card.type = 'VI'
@@ -615,7 +592,6 @@ class TestLitleOnline(unittest.TestCase):
         forcecapture.orderId = "12344"
         forcecapture.orderSource = 'ecommerce'
         forcecapture.secondaryAmount = 100
-	forcecapture.id="id" 
         
         card = litleXmlFields.cardType()
         card.type = 'VI'
@@ -641,7 +617,6 @@ class TestLitleOnline(unittest.TestCase):
         sale.litleTxnId = 123456
         sale.orderId = "12344"
         sale.orderSource = 'ecommerce'
-	sale.id="id" 
         
         card = litleXmlFields.cardType()
         card.type = 'VI'
@@ -669,7 +644,6 @@ class TestLitleOnline(unittest.TestCase):
         sale.orderId = "12344"
         sale.orderSource = 'ecommerce'
         sale.secondaryAmount=100
-	sale.id="id" 
     
         wallet=litleXmlFields.wallet()
         wallet.walletSourceType='MasterPass'
@@ -708,8 +682,7 @@ class TestLitleOnline(unittest.TestCase):
         token = litleXmlFields.registerTokenRequest()
         token.orderId = "12344"
         token.accountNumber = "1233456789103801"
-	token.id="id"         
-
+        
         comm = Communications(config)
         comm.http_post = MagicMock()
 
@@ -724,7 +697,6 @@ class TestLitleOnline(unittest.TestCase):
     def testTokenWithApplepay(self):
         token = litleXmlFields.registerTokenRequest()
         token.orderId = "12344"
-	token.id="id"
         
         
         applepay = litleXmlFields.applepayType()
@@ -757,7 +729,6 @@ class TestLitleOnline(unittest.TestCase):
         auth.amount = 106
         auth.orderSource = 'ecommerce'
         auth.extraField = "extra"
-	auth.id="id"
         
         card = litleXmlFields.cardType()
         card.number = "4100000000000000"
@@ -782,7 +753,6 @@ class TestLitleOnline(unittest.TestCase):
         auth.orderId = '1234'
         auth.amount = 106
         auth.orderSource = 'ecommerce'
-	auth.id="id"
         
         card = litleXmlFields.cardType()
         card.number = "4100000000000000"
@@ -806,7 +776,6 @@ class TestLitleOnline(unittest.TestCase):
         auth.amount = 106
         auth.orderSource = 'ecommerce'
         auth.extraField = "extra"
-	auth.id="id"
         
         card = litleXmlFields.cardType()
         card.number = "4100000000000000"
@@ -822,7 +791,6 @@ class TestLitleOnline(unittest.TestCase):
         auth.orderId = '12344'
         auth.amount = 106
         auth.orderSource = 'ecommerce'
-	auth.id="id"
 
         card = litleXmlFields.cardType()
         card.type = 'VI'
@@ -927,8 +895,6 @@ class TestLitleOnline(unittest.TestCase):
     def testActivate(self):
         activate = litleXmlFields.activate()
         activate.amount = 100
-	activate.id="id"
-
 
         comm = Communications(config)
         comm.http_post = MagicMock()
@@ -945,7 +911,6 @@ class TestLitleOnline(unittest.TestCase):
     def testDeactivate(self):
         deactivate = litleXmlFields.deactivate()
         deactivate.orderId = '123'
-	deactivate.id="id"
 
         comm = Communications(config)
         comm.http_post = MagicMock()
@@ -962,7 +927,6 @@ class TestLitleOnline(unittest.TestCase):
     def testLoad(self):
         load = litleXmlFields.load()
         load.orderId = '123'
-	load.id="id"
 
         comm = Communications(config)
         comm.http_post = MagicMock()
@@ -979,7 +943,6 @@ class TestLitleOnline(unittest.TestCase):
     def testUnload(self):
         unload = litleXmlFields.unload()
         unload.orderId = '123'
-	unload.id="id"
 
         comm = Communications(config)
         comm.http_post = MagicMock()
@@ -996,7 +959,6 @@ class TestLitleOnline(unittest.TestCase):
     def testBalanceInquiry(self):
         balanceInquiry = litleXmlFields.balanceInquiry()
         balanceInquiry.orderId = '123'
-	balanceInquiry.id="id"
 
         comm = Communications(config)
         comm.http_post = MagicMock()
@@ -1013,8 +975,6 @@ class TestLitleOnline(unittest.TestCase):
     def testActivateReversal(self):
         activateReversal = litleXmlFields.activateReversal()
         activateReversal.litleTxnId = '123'
-	activateReversal.id="id"
-
 
         comm = Communications(config)
         comm.http_post = MagicMock()
@@ -1031,7 +991,6 @@ class TestLitleOnline(unittest.TestCase):
     def testDeactivateReversal(self):
         deactivateReversal = litleXmlFields.deactivateReversal()
         deactivateReversal.litleTxnId = '123'
-	deactivateReversal.id="id"
 
         comm = Communications(config)
         comm.http_post = MagicMock()
@@ -1048,7 +1007,6 @@ class TestLitleOnline(unittest.TestCase):
     def testLoadReversal(self):
         loadReversal = litleXmlFields.loadReversal()
         loadReversal.litleTxnId = '123'
-	loadReversal.id="id"
 
         comm = Communications(config)
         comm.http_post = MagicMock()
@@ -1065,7 +1023,6 @@ class TestLitleOnline(unittest.TestCase):
     def testUnloadReversal(self):
         unloadReversal = litleXmlFields.unloadReversal()
         unloadReversal.litleTxnId = '123'
-	unloadReversal.id="id"
 
         comm = Communications(config)
         comm.http_post = MagicMock()
@@ -1082,7 +1039,6 @@ class TestLitleOnline(unittest.TestCase):
     def testRefundReversal(self):
         refundReversal = litleXmlFields.refundReversal()
         refundReversal.litleTxnId = '123'
-	refundReversal.id="id"
 
         comm = Communications(config)
         comm.http_post = MagicMock()
@@ -1099,7 +1055,6 @@ class TestLitleOnline(unittest.TestCase):
     def testDepositReversal(self):
         depositReversal = litleXmlFields.depositReversal()
         depositReversal.litleTxnId = '123'
-	depositReversal.id="id"
 
         comm = Communications(config)
         comm.http_post = MagicMock()
@@ -1126,7 +1081,6 @@ class TestLitleOnline(unittest.TestCase):
         fraudCheck.billToAddress=contact
         fraudCheck.shipToAddress=contact
         fraudCheck.amount=100
-	fraudCheck.id="id"
         
         advancedFraudChecks=litleXmlFields.advancedFraudChecksType()
         advancedFraudChecks.customAttribute1='stringlength200'
@@ -1156,7 +1110,6 @@ class TestLitleOnline(unittest.TestCase):
         authorization.amount = 106
         authorization.orderSource = 'ecommerce'
         authorization.secondaryAmount = '10'
-	authorization.id="id"
         
         
         fraudCheck=litleXmlFields.fraudCheckType()
@@ -1172,26 +1125,6 @@ class TestLitleOnline(unittest.TestCase):
         litle.setCommunications(comm) #use previous settled comm
         litle._processResponse = MagicMock(return_value=None) 
         litle.sendRequest(authorization) 
-
-    def queryTransaction(self):
-        queryTransaction = litleXmlFields.queryTransaction()
-	queryTransaction.id = 'id'
-        queryTransaction.origId = '1234'
-        queryTransaction.origActionType = 'A'
-        
-        comm = Communications(config) #create an communication using config
-        comm.http_post = MagicMock() #go deep into mock, some magic happened and http_post was set for com
-
-        litle = litleOnlineRequest(config) #initial litleonlinerequest
-        litle.setCommunications(comm) #use previous settled comm
-        litle._processResponse = MagicMock(return_value=None) 
-        litle.sendRequest(queryTransaction) 
-	
-  	comm.http_post.assert_called_once()
-        match_re = RegexMatcher(".*?.*<origId>1234.*<origActionType>A.*?")
-        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
-
-
         
 
 def suite():

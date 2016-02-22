@@ -101,7 +101,7 @@ class litleBatchRequest:
         self._batchRequest.numUnloads = 0
         self._batchRequest.unloadAmount = 0
         self._batchRequest.numBalanceInquirys = 0
-        self._batchRequest.merchantSdk = '10.1'
+        self._batchRequest.merchantSdk = '9.3.2'
 
         __tmpDir = self.config.batchRequestFolder+'/tmp'
         self._maxTransactionsPerBatch = int(getattr(self.config, 'maxTransactionsPerBatch', '10000'))
@@ -482,7 +482,7 @@ class litleBatchFileRequest:
             litleRequest.id = self.requestId
 
         litleRequest.authentication = authentication
-        litleRequest.version = '10.1'
+        litleRequest.version = '9.3'
         litleRequest.numBatchRequests = len(self.batchRequestList)
         requestFile = open(self.requestFile.name,'wb')
         requestFile.write(self.tnxToXml(litleRequest).replace('</litleRequest>', ''))
