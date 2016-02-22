@@ -4,10 +4,10 @@
 from setuptools import setup, find_packages
 setup(name='LitleSdkPython',
       version='10.1',
-      description='Vantiv SDK for Python',
-      author='Vantiv - eCommerce',
+      description='Litle & Co. SDK for Python',
+      author='Litle & Co',
       author_email='SDKSupport@litle.com',
-      url='https://www.vantiv.com/developers/ecommerce-payments#sdk-python',
+      url='http://www.litle.com/developers',
       packages=['litleSdkPython'],
       install_requires=[
                         'PyXB==1.1.5',
