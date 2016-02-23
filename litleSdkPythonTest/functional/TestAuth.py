@@ -182,7 +182,7 @@ class TestAuth(unittest.TestCase):
         authorization.enhancedData = enhanced
 
         card = litleXmlFields.cardType()
-        card.number = '4100000000000001'
+        card.number = '4100000000000000'
         card.expDate = '1215'
         card.type = 'VI'
         authorization.card = card

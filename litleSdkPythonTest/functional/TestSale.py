@@ -45,7 +45,7 @@ class TestSale(unittest.TestCase):
         
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(sale)
-        self.assertEquals("Approved",response.message)
+        self.assertEquals("Transaction Received",response.message)
         
     def testSimpleSaleWithPayPal(self):
         sale = litleXmlFields.sale()

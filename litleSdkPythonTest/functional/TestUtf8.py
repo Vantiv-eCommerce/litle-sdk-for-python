@@ -76,7 +76,7 @@ class TestUtf8(unittest.TestCase):
     	litleXml = litleOnlineRequest(config)
     	response = litleXml.sendRequest(authorization)
     	
-    	self.assertEquals("000",response.response)
+    	self.assertEquals("001",response.response)
     
 def suite():
     suite = unittest.TestSuite()
