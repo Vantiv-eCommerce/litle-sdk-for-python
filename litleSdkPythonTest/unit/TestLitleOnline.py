@@ -1144,9 +1144,8 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None) 
         litle.sendRequest(queryTransaction) 
 	
-  	comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?.*<origId>1234.*<origActionType>A.*?")
-        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        comm.http_post.assert_called_once_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
 
         
