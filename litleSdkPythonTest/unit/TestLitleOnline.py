@@ -57,7 +57,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(authorization)
         
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<authorization.*?<card>.*?<number>4100000000000000</number>.*?</card>.*?</authorization>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
     
@@ -96,7 +95,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(authorization)
         
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<authorization.*?<applepay>.*?<data>4100000000000000</data>.*?</applepay>.*?<wallet.*?</wallet>.*?</authorization>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
@@ -130,7 +128,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(authorization)
         
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<authorization.*?<card>.*?<number>4100000000000000</number>.*?</card>.*?<advancedFraudChecks.*?<customAttribute4>stringlength200</customAttribute4>.*?</advancedFraudChecks></authorization>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
@@ -149,7 +146,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(authreversal)
         
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<authReversal.*?<litleTxnId>12345678000</litleTxnId>.*?</authReversal>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
@@ -168,7 +164,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(capture)
         
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<capture.*?<litleTxnId>123456000</litleTxnId>.*?</capture>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
@@ -222,7 +217,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(capturegivenauth)
         
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<captureGivenAuth.*?<card>.*?<number>4100000000000001</number>.*?</card>.*?</captureGivenAuth>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
@@ -257,7 +251,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(capturegivenauth)
         
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<captureGivenAuth.*?<secondaryAmount>100</secondaryAmount>.*?<card>.*?<number>4100000000000001</number>.*?</card>.*?</captureGivenAuth>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
@@ -281,7 +274,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(credit)
         
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<credit.*?<card>.*?<number>4100000000000001</number>.*?</card>.*?</credit>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
@@ -306,7 +298,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(credit)
         
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<credit.*?<secondaryAmount>100</secondaryAmount>.*?<card>.*?<number>4100000000000001</number>.*?</card>.*?</credit>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
@@ -324,7 +315,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(credit)
         
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<credit.*?<secondaryAmount>100</secondaryAmount>*?</credit>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
@@ -342,7 +332,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(echeckcredit)
         
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<echeckCredit.*?<litleTxnId>123456789101112</litleTxnId>.*?</echeckCredit>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
@@ -361,7 +350,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(echeckcredit)
         
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<echeckCredit.*?<litleTxnId>123456789101112</litleTxnId>.*?<secondaryAmount>100</secondaryAmount>.*?</echeckCredit>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
@@ -380,7 +368,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(echeckcredit)
         
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<echeckCredit.*?<secondaryAmount>100</secondaryAmount>.*?</echeckCredit>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
@@ -397,7 +384,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(echeckredeposit)
         
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<echeckRedeposit.*?<litleTxnId>123456</litleTxnId>.*?</echeckRedeposit>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
@@ -430,7 +416,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(echecksale)
         
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<echeckSale.*?<echeck>.*?<accNum>12345657890</accNum>.*?</echeck>.*?</echeckSale>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
@@ -465,7 +450,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(echecksale)
         
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<echeckSale.*?<secondaryAmount>100</secondaryAmount>.*?<ccdPaymentInformation>12345678901234567890123456789012345678901234567890123456789012345678901234567890</ccdPaymentInformation>.*?</echeckSale>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
     
@@ -530,7 +514,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(echeckSale)
         
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<echeckSale.*?<orderSource>echeckppd</orderSource>.*?</echeckSale>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
@@ -547,7 +530,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(echeckvoid)
         
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<echeckVoid.*?<litleTxnId>12345</litleTxnId>.*?</echeckVoid>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
@@ -580,7 +562,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(echeckverification)
         
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<echeckVerification.*?<echeck>.*?<accNum>12345657890</accNum>.*?</echeck>.*?</echeckVerification>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
@@ -605,7 +586,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(forcecapture)
         
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<forceCapture.*?<card>.*?<number>4100000000000001</number>.*?</card>.*?</forceCapture>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
@@ -631,7 +611,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(forcecapture)
         
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<forceCapture.*?<secondaryAmount>100</secondaryAmount>.*?<card>.*?<number>4100000000000001</number>.*?</card>.*?</forceCapture>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
@@ -658,7 +637,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(sale)
         
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<sale.*?<card>.*?<number>4100000000000002</number>.*?</card>.*?</sale>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
@@ -698,7 +676,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(sale)
         
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<sale.*?<applepay>.*?<data>4100000000000000</data>.*?</applepay>.*?<wallet.*?</wallet>.*?</sale>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
@@ -718,7 +695,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(token)
         
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<registerTokenRequest.*?<accountNumber>1233456789103801</accountNumber>.*?</registerTokenRequest>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
     def testTokenWithApplepay(self):
@@ -747,7 +723,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(token)
         
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<registerTokenRequest.*?<applepay>.*?<data>4100000000000000</data>.*?</applepay>.*?</registerTokenRequest>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
@@ -773,7 +748,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(auth)
         
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<authorization.*?</orderSource><card>.*?<number>4100000000000000</number>.*?</card>.*?</authorization>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
@@ -841,7 +815,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(auth)
 
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<authorization.*?<dob>1980-04-14</dob>.*?</authorization>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
@@ -857,7 +830,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(cancel)
 
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<cancelSubscription><subscriptionId>12345</subscriptionId></cancelSubscription></litleOnlineRequest>*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
@@ -886,7 +858,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(update)
 
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<updateSubscription><subscriptionId>12345</subscriptionId><planCode>abcdefg</planCode><billToAddress><name>Greg Dake</name><city>Lowell</city><state>MA</state><email>sdksupport@litle.com</email></billToAddress><card><type>VI</type><number>4100000000000001</number><expDate>1215</expDate></card><billingDate>2013-08-07</billingDate></updateSubscription></litleOnlineRequest>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
@@ -903,7 +874,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(update)
 
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<updatePlan><planCode>abc</planCode><active>true</active></updatePlan></litleOnlineRequest>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
@@ -920,7 +890,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(create)
 
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<createPlan><planCode>abc</planCode><active>true</active></createPlan></litleOnlineRequest>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
@@ -938,7 +907,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(activate)
 
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<activate.*?<amount>100</amount></activate></litleOnlineRequest>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
@@ -955,7 +923,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(deactivate)
 
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<deactivate.*?<orderId>123</orderId></deactivate></litleOnlineRequest>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
@@ -972,7 +939,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(load)
 
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<load.*?<orderId>123</orderId></load></litleOnlineRequest>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
@@ -989,7 +955,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(unload)
 
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<unload.*?<orderId>123</orderId></unload></litleOnlineRequest>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
@@ -1006,7 +971,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(balanceInquiry)
 
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<balanceInquiry.*?<orderId>123</orderId></balanceInquiry></litleOnlineRequest>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
@@ -1024,7 +988,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(activateReversal)
 
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<activateReversal.*?<litleTxnId>123</litleTxnId></activateReversal></litleOnlineRequest>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
@@ -1041,7 +1004,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(deactivateReversal)
 
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<deactivateReversal.*?<litleTxnId>123</litleTxnId></deactivateReversal></litleOnlineRequest>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
@@ -1058,7 +1020,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(loadReversal)
 
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<loadReversal.*?<litleTxnId>123</litleTxnId></loadReversal></litleOnlineRequest>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
@@ -1075,7 +1036,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(unloadReversal)
 
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<unloadReversal.*?<litleTxnId>123</litleTxnId></unloadReversal></litleOnlineRequest>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
@@ -1092,7 +1052,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(refundReversal)
 
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<refundReversal.*?<litleTxnId>123</litleTxnId></refundReversal></litleOnlineRequest>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
@@ -1109,7 +1068,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(depositReversal)
 
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<depositReversal.*?<litleTxnId>123</litleTxnId></depositReversal></litleOnlineRequest>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
@@ -1145,7 +1103,6 @@ class TestLitleOnline(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(fraudCheck)
 
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<fraudCheck.*?</fraudCheck></litleOnlineRequest>.*?")
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         

@@ -51,9 +51,8 @@ class TestPostGenerationScript(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(authorization)
         
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<authorization.*?<card>.*?<number>4100000000000000</number>.*?</card>.*?</authorization>.*?")
-        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        comm.http_post.assert_called_once_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
     def test_minOccurs_zero_on_number_expDate(self):
         authorization = litleXmlFields.authorization()        
@@ -69,9 +68,8 @@ class TestPostGenerationScript(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(authorization)
         
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<authorization.*?<card>.*?.*?</card>.*?</authorization>.*?")
-        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        comm.http_post.assert_called_once_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
     def test_minOccurs_postDate_message_response_responseTime(self):
       
@@ -103,9 +101,8 @@ class TestPostGenerationScript(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(capturegivenauth)
         
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<captureGivenAuth.*?<card>.*?<number>4100000000000001</number>.*?</card>.*?</captureGivenAuth>.*?")
-        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        comm.http_post.assert_called_once_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
     def test_minOccurs_authDate_authCode_capability_entryMode_cardHolderId_litleToken(self):
         CaptureGivenAuth = litleXmlFields.captureGivenAuth()
@@ -130,9 +127,8 @@ class TestPostGenerationScript(unittest.TestCase):
         litle.setCommunications(comm)
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(CaptureGivenAuth)
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?<captureGivenAuth.*?<token>.*?</token>.*?</captureGivenAuth>.*?")
-        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        comm.http_post.assert_called_once_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
     def test_minOccurs_echeckOrEcheckToken(self):
         echeckCredit = litleXmlFields.echeckCredit()
@@ -146,9 +142,8 @@ class TestPostGenerationScript(unittest.TestCase):
         litle.setCommunications(comm)
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(echeckCredit)
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?")
-        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        comm.http_post.assert_called_once_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
     
     def test_minOccurs_routingNum_accType_accNum(self):
         echeckCredit = litleXmlFields.echeckCredit()
@@ -165,9 +160,8 @@ class TestPostGenerationScript(unittest.TestCase):
         litle.setCommunications(comm)
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(echeckCredit)
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?")
-        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        comm.http_post.assert_called_once_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
     def test_minOccurs_taxAmount_itemDescription(self):
         Capture = litleXmlFields.capture()
@@ -188,9 +182,8 @@ class TestPostGenerationScript(unittest.TestCase):
         litle.setCommunications(comm)
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(Capture)
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?")
-        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        comm.http_post.assert_called_once_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
     def test_minOccurs_payerId_transactionId_healthcareAmounts_IIASFlag_totalHealthCareAmount(self):
         authorization = litleXmlFields.authorization()
@@ -215,9 +208,8 @@ class TestPostGenerationScript(unittest.TestCase):
         litle.setCommunications(comm)
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(authorization)
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?")
-        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        comm.http_post.assert_called_once_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
     def test_minOccurs_tokenResponseCode_tokenMessage(self):
         outputString = "<litleOnlineResponse version='8.13' response='0' message='Valid Format' xmlns='http://www.litle.com/schema'><authorizationResponse id='' reportGroup='DefaultReportGroup' customerId=''><litleTxnId>057484783403434000</litleTxnId><response>000</response><responseTime>2012-06-05T16:36:39</responseTime><message>Approved</message><tokenResponse><litleToken>4242424242424242</litleToken><tokenResponseCode>111</tokenResponseCode><bin>bin</bin></tokenResponse></authorizationResponse></litleOnlineResponse>"
@@ -246,9 +238,8 @@ class TestPostGenerationScript(unittest.TestCase):
         litle.setCommunications(comm)
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(authorization)
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?")
-        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        comm.http_post.assert_called_once_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
     def test_minOccurs_paypageRegistrationId(self):
         sale = litleXmlFields.sale()
@@ -265,9 +256,8 @@ class TestPostGenerationScript(unittest.TestCase):
         litle.setCommunications(comm)
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(sale)
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher(".*?<litleOnlineRequest.*?")
-        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        comm.http_post.assert_called_once_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
 def suite():
     suite = unittest.TestSuite()
