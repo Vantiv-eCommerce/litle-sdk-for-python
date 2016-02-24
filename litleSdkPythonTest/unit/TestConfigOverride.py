@@ -45,7 +45,7 @@ class TestConfigOverride(unittest.TestCase):
         card.expDate = "1210"
         card.type = 'VI'
         authorization.card = card
-	authorization.id = 'id'
+        authorization.id = 'id'
 
         comm = Communications(config)
         comm.http_post = MagicMock()
@@ -69,7 +69,7 @@ class TestConfigOverride(unittest.TestCase):
         card.expDate = "1210"
         card.type = 'VI'
         authorization.card = card
-	authorization.id = 'id'
+        authorization.id = 'id'
 
         comm = Communications(config)
         comm.http_post = MagicMock()
@@ -93,7 +93,7 @@ class TestConfigOverride(unittest.TestCase):
         card.expDate = "1210"
         card.type = 'VI'
         authorization.card = card
-	authorization.id = 'id'
+        authorization.id = 'id'
 
         comm = Communications(config)
         comm.http_post = MagicMock()
@@ -103,9 +103,8 @@ class TestConfigOverride(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(authorization, version="3.14")
         
-        comm.http_post.assert_called_once()
         match_re = RegexMatcher('.*?version="10.1".*?')
-        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        comm.http_post.assert_called_once_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
 
     def testMerchantIdOverride(self):
         authorization = litleXmlFields.authorization()
@@ -142,7 +141,7 @@ class TestConfigOverride(unittest.TestCase):
         card.expDate = "1210"
         card.type = 'VI'
         authorization.card = card
-	authorization.id = 'id'
+        authorization.id = 'id'
 
         comm = Communications(config)
         comm.http_post = MagicMock()
@@ -166,7 +165,7 @@ class TestConfigOverride(unittest.TestCase):
         card.expDate = "1210"
         card.type = 'VI'
         authorization.card = card
-	authorization.id = 'id'
+        authorization.id = 'id'
 
         comm = Communications(config)
         comm.http_post = MagicMock()        
@@ -189,7 +188,7 @@ class TestConfigOverride(unittest.TestCase):
         card.expDate = "1210"
         card.type = 'VI'
         authorization.card = card
-	authorization.id = 'id'
+        authorization.id = 'id'
 
         comm = Communications(config)
         comm.http_post = MagicMock()        
@@ -212,7 +211,7 @@ class TestConfigOverride(unittest.TestCase):
         card.expDate = "1210"
         card.type = 'VI'
         authorization.card = card
-	authorization.id = 'id'
+        authorization.id = 'id'
 
         comm = Communications(config)
         comm.http_post = MagicMock()        
@@ -239,7 +238,7 @@ class TestConfigOverride(unittest.TestCase):
         card.expDate = "1210"
         card.type = 'VI'
         authorization.card = card
-	authorization.id = 'id'
+        authorization.id = 'id'
 
         comm = Communications(config2)
         comm.http_post = MagicMock()        
@@ -285,7 +284,7 @@ class TestConfigOverride(unittest.TestCase):
         card.expDate = "1210"
         card.type = 'VI'
         authorization.card = card
-	authorization.id = 'id'
+        authorization.id = 'id'
 
         comm = Communications(config4)
         comm.http_post = MagicMock()        

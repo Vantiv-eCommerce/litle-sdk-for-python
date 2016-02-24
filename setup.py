@@ -4,15 +4,15 @@
 from setuptools import setup, find_packages
 setup(name='LitleSdkPython',
       version='10.1',
-      description='Litle & Co. SDK for Python',
-      author='Litle & Co',
+      description='Vantiv eCommerce SDK for Python',
+      author='Vantiv',
       author_email='SDKSupport@litle.com',
       url='http://www.litle.com/developers',
       packages=['litleSdkPython'],
-      install_requires=[
+      install_requires=[ 
                         'PyXB==1.1.5',
                         'paramiko==1.14.0',
-			'mock=1.0.1'],
+                        'mock==1.3.0' ],
       classifiers=[
           'Development Status :: 5 - Production/Stable',
           'Environment :: Console',
