@@ -10,7 +10,7 @@ About this SDK
 --------------
 The Litle Python SDK is a Python implementation of the [Litle &amp; Co.](http://www.litle.com/developers) XML API. This SDK was created to make it as easy as possible to connect to and process payments through Litle.  This SDK utilizes  the HTTPS protocol to securely connect to Litle.  Using the SDK requires coordination with the Litle team to obtain credentials for accessing our systems.
 
-Each Python SDK release supports all of the functionality present in the associated Litle XML version (e.g., SDK v9.3.2 supports Litle XML v9.3). Please see the online copy of our XSD for Litle XML to get more details on what the Litle payments engine supports .
+Each Python SDK release supports all of the functionality present in the associated Litle XML version (e.g., SDK v9.3.2 supports Litle XML v9.3). Please see the online copy of our XSD for Litle XML to get more details on what the Litle payments engine supports.
 
 This SDK was implemented to support the Python programming language and was created by Litle & Co. Its intended use is for online transaction processing utilizing your account on the Litle payments engine.
 
