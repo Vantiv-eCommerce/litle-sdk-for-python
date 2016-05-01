@@ -8,17 +8,17 @@ About Litle
 
 About this SDK
 --------------
-The Litle Python SDK is a Python implementation of the [Litle &amp; Co.](http://www.litle.com/developers). XML API. This SDK was created to make it as easy as possible to connect process your payments with Litle.  This SDK utilizes  the HTTPS protocol to securely connect to Litle.  Using the SDK requires coordination with the Litle team in order to be provided with credentials for accessing our systems.
+The Litle Python SDK is a Python implementation of the [Litle &amp; Co.](http://www.litle.com/developers) XML API. This SDK was created to make it as easy as possible to connect to and process payments through Litle.  This SDK utilizes  the HTTPS protocol to securely connect to Litle.  Using the SDK requires coordination with the Litle team to obtain credentials for accessing our systems.
 
-Our Python supports all of the functionality present in Litle XML v8. Please see the online copy of our XSD for Litle XML to get more details on what is supported by the Litle payments engine.
+Each Python SDK release supports all of the functionality present in the associated Litle XML version (e.g., SDK v9.3.2 supports Litle XML v9.3). Please see the online copy of our XSD for Litle XML to get more details on what the Litle payments engine supports .
 
-This SDK is implemented to support the Python programming language and was created by Litle & Co. It is intended use is for online transactions processing utilizing your account on the Litle payments engine.
+This SDK was implemented to support the Python programming language and was created by Litle & Co. Its intended use is for online transaction processing utilizing your account on the Litle payments engine.
 
 See LICENSE file for details on using this software.
 
 Source Code available from : https://github.com/LitleCo/litle-sdk-for-Python
 
-Please contact [Litle &amp; Co.](http://www.litle.com/developers) to receive valid merchant credentials in order to run tests successfully or if you require assistance in any way.  We are reachable at sdksupport@litle.com
+Please contact [Litle &amp; Co.](http://www.litle.com/developers) to receive valid merchant credentials and determine which version of the SDK is right for your business requirements or if you require assistance in any other way.  You can reach us at sdksupport@litle.com
 
 SDK Python Dependencies
 ----------------------
@@ -58,7 +58,7 @@ config.setMerchantId("123")
 config.setUrl("Sandbox")
 config.setProxy("")
 
-#sale
+# sale
 sale = litleXmlFields.sale()
 sale.orderId = '1'
 sale.amount = 10010
@@ -81,7 +81,7 @@ sale.card = card
 litleXml = litleOnlineRequest(config)
 response = litleXml.sendRequest(sale)
 
-#display results
+# display results
 print "Message: " + response.message
 print "LitleTransaction ID: " + str(response.transactionResponse.litleTxnId)
 ```
@@ -92,8 +92,8 @@ NOTE: you may need to edit the proxy to to work for your system
     Message: Valid Format
     Litle Transaction ID: <your-numeric-litle-txn-id>
     
-For information on cofiguration settings go to: [SDK Config Info](https://github.com/LitleCo/litle-sdk-for-python/wiki/Config-Settings).
+For information on configuration settings go to: [SDK Config Info](https://github.com/LitleCo/litle-sdk-for-python/wiki/Config-Settings).
 
 More examples can be found here [Python Gists](https://gist.github.com/gists/search?q=Litle+Python+SDK&page=1)
 
-Please contact Litle & Co. with any further questions.   You can reach us at SDKSupport@litle.com
+Please contact Litle & Co. with any further questions. You can reach us at SDKSupport@litle.com
