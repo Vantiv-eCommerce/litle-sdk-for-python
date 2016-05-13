@@ -13,3 +13,4 @@
 /litleSdkPythonTest/functional/*.pyc
 /litleSdkPythonTest/unit/*.pyc
 /litleSdkPythonTest/*.pyc
+accurev_plugin.log
