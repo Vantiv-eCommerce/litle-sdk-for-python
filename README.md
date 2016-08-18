@@ -8,7 +8,7 @@ About Vantiv eCommerce
 
 About this SDK
 --------------
-The Vantiv eCommerce Python SDK is a Python implementation of the [Vantiv eCommerce](http://www.vantiv.com/developers) XML API. This SDK was created to make it as easy as possible to connect to and process payments through Vantiv eCommerce.  This SDK utilizes  the HTTPS protocol to securely connect to Vantiv eCommerce.  Using the SDK requires coordination with the Vantiv eCommerce team to obtain credentials for accessing our systems.
+The Vantiv eCommerce Python SDK is a Python implementation of the [Vantiv eCommerce](https://developer.vantiv.com/community/ecommerce) XML API. This SDK was created to make it as easy as possible to connect to and process payments through Vantiv eCommerce.  This SDK utilizes  the HTTPS protocol to securely connect to Vantiv eCommerce.  Using the SDK requires coordination with the Vantiv eCommerce team to obtain credentials for accessing our systems.
 
 Each Python SDK release supports all of the functionality present in the associated Vantiv eCommerce XML version (e.g., SDK v9.3.2 supports Vantiv eCommerce XML v9.3). Please see the online copy of our XSD for Vantiv eCommerce XML to get more details on what the Vantiv eCommerce payments engine supports .
 
@@ -18,7 +18,7 @@ See LICENSE file for details on using this software.
 
 Source Code available from : https://github.com/LitleCo/litle-sdk-for-Python
 
-Please contact [Vantiv eCommerce](http://www.vantiv.com/developers) to receive valid merchant credentials and determine which version of the SDK is right for your business requirements or if you require assistance in any other way.  You can reach us at sdksupport@Vantiv.com
+Please contact [Vantiv eCommerce](https://developer.vantiv.com/community/ecommerce) to receive valid merchant credentials and determine which version of the SDK is right for your business requirements or if you require assistance in any other way.  You can reach us at sdksupport@Vantiv.com
 
 SDK Python Dependencies
 ----------------------
