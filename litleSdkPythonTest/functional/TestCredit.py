@@ -56,6 +56,7 @@ class TestCredit(unittest.TestCase):
         
         paypal = litleXmlFields.payPal()
         paypal.payerId = "1234"
+        paypal.payerEmail = "john@vantiv.com"
         credit.paypal = paypal
         
         litleXml =  litleOnlineRequest(config)

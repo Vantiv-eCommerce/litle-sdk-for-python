@@ -4731,12 +4731,20 @@ class payPal (pyxb.binding.basis.complexTypeDefinition):
 
     
     payerId = property(__payerId.value, __payerId.set, None, None)
+    
+    
+    # Element {http://www.litle.com/schema}payerId uses Python identifier payerEmail
+    __payerEmail = pyxb.binding.content.ElementUse(pyxb.namespace.ExpandedName(Namespace, u'payerEmail'), 'payerEmail', '__httpwww_litle_comschema_payPal_httpwww_litle_comschemapayerEmail', False)
+
+    
+    payerEmail = property(__payerEmail.value, __payerEmail.set, None, None)
 
 
     _ElementMap = {
         __token.name() : __token,
         __transactionId.name() : __transactionId,
-        __payerId.name() : __payerId
+        __payerId.name() : __payerId,
+        __payerEmail.name() : __payerEmail
     }
     _AttributeMap = {
         
@@ -14243,10 +14251,13 @@ payPal._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namesp
 payPal._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, u'transactionId'), pyxb.binding.datatypes.string, scope=payPal))
 
 payPal._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, u'payerId'), pyxb.binding.datatypes.string, scope=payPal))
+
+payPal._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, u'payerEmail'), pyxb.binding.datatypes.string, scope=payPal))
 payPal._GroupModel = pyxb.binding.content.GroupSequence(
     pyxb.binding.content.ParticleModel(payPal._UseForTag(pyxb.namespace.ExpandedName(Namespace, u'payerId')), min_occurs=0L, max_occurs=1),
     pyxb.binding.content.ParticleModel(payPal._UseForTag(pyxb.namespace.ExpandedName(Namespace, u'token')), min_occurs=0L, max_occurs=1),
-    pyxb.binding.content.ParticleModel(payPal._UseForTag(pyxb.namespace.ExpandedName(Namespace, u'transactionId')), min_occurs=0L, max_occurs=1)
+    pyxb.binding.content.ParticleModel(payPal._UseForTag(pyxb.namespace.ExpandedName(Namespace, u'transactionId')), min_occurs=0L, max_occurs=1),
+    pyxb.binding.content.ParticleModel(payPal._UseForTag(pyxb.namespace.ExpandedName(Namespace, u'payerEmail')), min_occurs=0L, max_occurs=1)
     )
 payPal._ContentModel = pyxb.binding.content.ParticleModel(payPal._GroupModel, min_occurs=0L, max_occurs=1)
 

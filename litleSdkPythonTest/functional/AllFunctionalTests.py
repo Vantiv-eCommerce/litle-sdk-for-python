@@ -64,8 +64,6 @@ testUpdateCardValidationNumOnToken = TestUpdateCardValidationNumOnToken.suite()
 
 testutf8 = TestUtf8.suite()
 
-testfraudcheck = TestFraudCheck.suite()
-
 unittest.TextTestRunner().run(testauth)
 unittest.TextTestRunner().run(testauthreverasal)
 unittest.TextTestRunner().run(testbatch)
@@ -86,5 +84,3 @@ unittest.TextTestRunner().run(testtoken)
 unittest.TextTestRunner().run(testUpdateCardValidationNumOnToken)
 
 unittest.TextTestRunner().run(testutf8)
-
-unittest.TextTestRunner().run(testfraudcheck)
