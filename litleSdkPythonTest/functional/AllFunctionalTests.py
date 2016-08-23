@@ -38,6 +38,7 @@ import TestSale
 import TestToken
 import TestUpdateCardValidationNumOnToken
 import TestUtf8
+import TestFraudCheck
 
 testauth = TestAuth.suite()
 testauthreverasal = TestAuthReversal.suite()
@@ -61,6 +62,8 @@ testtoken = TestToken.suite()
 testUpdateCardValidationNumOnToken = TestUpdateCardValidationNumOnToken.suite()
 
 testutf8 = TestUtf8.suite()
+
+testfraudcheck = TestFraudCheck.suite()
 
 unittest.TextTestRunner().run(testauth)
 unittest.TextTestRunner().run(testauthreverasal)

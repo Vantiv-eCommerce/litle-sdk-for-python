@@ -960,7 +960,7 @@ class TestLitleOnline(unittest.TestCase):
         authorization.wallet = litleXmlFields.wallet()
         authorization.wallet.walletSourceType = litleXmlFields.walletSourceType.MasterPass
         authorization.wallet.walletSourceTypeId = '5'
-         
+
         comm = Communications(config)
         comm.http_post = MagicMock()
          
@@ -968,7 +968,7 @@ class TestLitleOnline(unittest.TestCase):
         litle.setCommunications(comm)
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(authorization)
-         
+
         comm.http_post.assert_called_once()
         expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<authorization[\s\S]*?<wallet>\s*?<walletSourceType>MasterPass</walletSourceType>\s*?<walletSourceTypeId>5</walletSourceTypeId>\s*?</wallet>\s*?</authorization>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
@@ -1006,7 +1006,229 @@ class TestLitleOnline(unittest.TestCase):
         comm.http_post.assert_called_once()
         expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<echeckSale[\s\S]*?<orderSource>echeckppd</orderSource>\s*?</echeckSale>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
+        litle.sendRequest(echeckSale)
+        
+    def testFraudCheckNoCustomAttributes(self):
+        fraudCheck=litleXmlFields.fraudCheck()
+        
+        advancedFraudChecks=litleXmlFields.advancedFraudChecksType()
+        
+        fraudCheck.advancedFraudChecks=advancedFraudChecks
+        advancedFraudChecks.threatMetrixSessionId = "123";
+        
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+        
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(fraudCheck)
 
+        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<fraudCheck.*?</fraudCheck></litleOnlineRequest>.*?")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        
+    def testFraudCheckOneCustomAttributes(self):
+        fraudCheck=litleXmlFields.fraudCheck()
+        
+        advancedFraudChecks=litleXmlFields.advancedFraudChecksType()
+        
+        fraudCheck.advancedFraudChecks=advancedFraudChecks
+        advancedFraudChecks.threatMetrixSessionId = "123";
+        advancedFraudChecks.customAttribute1='abc'
+    
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+         
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(fraudCheck)
+
+        match_re = RegexMatcher(".*<threatMetrixSessionId>123</threatMetrixSessionId><customAttribute1>abc</customAttribute1>.*")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        
+    def testFraudCheckTwoCustomAttributes(self):
+        fraudCheck=litleXmlFields.fraudCheck()
+        
+        advancedFraudChecks=litleXmlFields.advancedFraudChecksType()
+        advancedFraudChecks.threatMetrixSessionId = "123";
+        advancedFraudChecks.customAttribute1='abc'
+        advancedFraudChecks.customAttribute2='def'
+        
+        fraudCheck.advancedFraudChecks=advancedFraudChecks
+        
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+        
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(fraudCheck)
+
+        match_re = RegexMatcher(".*<threatMetrixSessionId>123</threatMetrixSessionId><customAttribute1>abc</customAttribute1><customAttribute2>def</customAttribute2>.*")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        
+    def testFraudCheckThreeCustomAttributes(self):
+        fraudCheck=litleXmlFields.fraudCheck()
+        
+        advancedFraudChecks=litleXmlFields.advancedFraudChecksType()
+        advancedFraudChecks.threatMetrixSessionId = "123";
+        advancedFraudChecks.customAttribute1='abc'
+        advancedFraudChecks.customAttribute2='def'
+        advancedFraudChecks.customAttribute3='ghi'
+        
+        fraudCheck.advancedFraudChecks=advancedFraudChecks
+        
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+        
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(fraudCheck)
+
+        match_re = RegexMatcher(".*<threatMetrixSessionId>123</threatMetrixSessionId><customAttribute1>abc</customAttribute1><customAttribute2>def</customAttribute2><customAttribute3>ghi</customAttribute3>.*")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        
+    def testFraudCheckFourCustomAttributes(self):
+        fraudCheck=litleXmlFields.fraudCheck()
+        
+        advancedFraudChecks=litleXmlFields.advancedFraudChecksType()
+        advancedFraudChecks.threatMetrixSessionId = "123";
+        advancedFraudChecks.customAttribute1='abc'
+        advancedFraudChecks.customAttribute2='def'
+        advancedFraudChecks.customAttribute3='ghi'
+        advancedFraudChecks.customAttribute4='jkl'
+        
+        fraudCheck.advancedFraudChecks=advancedFraudChecks
+        
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+        
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(fraudCheck)
+
+        match_re = RegexMatcher(".*<threatMetrixSessionId>123</threatMetrixSessionId><customAttribute1>abc</customAttribute1><customAttribute2>def</customAttribute2><customAttribute3>ghi</customAttribute3><customAttribute4>jkl</customAttribute4>.*")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        
+    def testFraudCheckFiveCustomAttributes(self):
+        fraudCheck=litleXmlFields.fraudCheck()
+        
+        advancedFraudChecks=litleXmlFields.advancedFraudChecksType()
+        advancedFraudChecks.threatMetrixSessionId = "123";
+        advancedFraudChecks.customAttribute1='abc'
+        advancedFraudChecks.customAttribute2='def'
+        advancedFraudChecks.customAttribute3='ghi'
+        advancedFraudChecks.customAttribute4='jkl'
+        advancedFraudChecks.customAttribute5='mno'
+        
+        fraudCheck.advancedFraudChecks=advancedFraudChecks
+        
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+        
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(fraudCheck)
+
+        match_re = RegexMatcher(".*<threatMetrixSessionId>123</threatMetrixSessionId><customAttribute1>abc</customAttribute1><customAttribute2>def</customAttribute2><customAttribute3>ghi</customAttribute3><customAttribute4>jkl</customAttribute4><customAttribute5>mno</customAttribute5>.*")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        
+    def testFraudCheckBillToAddress(self):
+        fraudCheck=litleXmlFields.fraudCheck()
+        
+        advancedFraudChecks=litleXmlFields.advancedFraudChecksType()
+        advancedFraudChecks.threatMetrixSessionId = "123";
+        
+        contact = litleXmlFields.contact()
+        contact.firstName = "Fetty"
+        contact.lastName = "Wap"
+        contact.addressLine1 = "1738 Trap Street"
+        contact.city = "Queens"
+        contact.state = "New York"
+        contact.zip = "11412"
+        
+        fraudCheck.billToAddress=contact
+        fraudCheck.advancedFraudChecks=advancedFraudChecks
+        
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+        
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(fraudCheck)
+
+        match_re = RegexMatcher(".*<firstName>Fetty</firstName><lastName>Wap</lastName><addressLine1>1738 Trap Street</addressLine1><city>Queens</city><state>New York</state><zip>11412</zip>.*")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        
+    def testFraudCheckShipToAddress(self):
+        fraudCheck=litleXmlFields.fraudCheck()
+        
+        advancedFraudChecks=litleXmlFields.advancedFraudChecksType()
+        advancedFraudChecks.threatMetrixSessionId = "123";
+        
+        contact = litleXmlFields.contact()
+        contact.firstName = "Fetty"
+        contact.lastName = "Wap"
+        contact.addressLine1 = "1738 Trap Street"
+        contact.city = "Queens"
+        contact.state = "New York"
+        contact.zip = "11412"
+        
+        fraudCheck.shipToAddress=contact
+        fraudCheck.advancedFraudChecks=advancedFraudChecks
+        
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+        
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(fraudCheck)
+
+        match_re = RegexMatcher(".*<firstName>Fetty</firstName><lastName>Wap</lastName><addressLine1>1738 Trap Street</addressLine1><city>Queens</city><state>New York</state><zip>11412</zip>.*")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        
+    def testFraudCheckAmount(self):
+        fraudCheck=litleXmlFields.fraudCheck()
+        
+        advancedFraudChecks=litleXmlFields.advancedFraudChecksType()
+        advancedFraudChecks.threatMetrixSessionId = "123";
+        
+        fraudCheck.advancedFraudChecks=advancedFraudChecks
+        fraudCheck.amount=100
+        
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+        
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(fraudCheck)
+        
+        match_re = RegexMatcher(".*<amount>100</amount>.*")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
+        
+    def testAuthenticationValueMaxlength(self):
+        authorization = litleXmlFields.authorization()
+        authorization.orderId = '1234'
+        authorization.amount = 106
+        authorization.orderSource = 'ecommerce'
+        authorization.secondaryAmount = '10'
+        
+        
+        fraudCheck=litleXmlFields.fraudCheckType()
+        encoded = base64.b64encode('data to be encodedaaaaaaaaaabbbbbbbbbbcc') #generating a base64 encoded data of length 56, expect no exception
+        self.assertEquals(56,len(encoded))
+        fraudCheck.authenticationValue=encoded
+        authorization.cardholderAuthentication=fraudCheck
+        
+        comm = Communications(config) #create an communication using config
+        comm.http_post = MagicMock() #go deep into mock, some magic happened and http_post was set for com
 
 def suite():
     suite = unittest.TestSuite()

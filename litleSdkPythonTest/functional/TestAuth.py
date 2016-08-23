@@ -54,6 +54,7 @@ class TestAuth(unittest.TestCase):
         authorization = litleXmlFields.authorization()
         authorization.orderId = '1234'
         authorization.amount = 106
+        authorization.amount = 110
         authorization.orderSource = 'ecommerce'
         authorization.secondaryAmount = '10'
         
