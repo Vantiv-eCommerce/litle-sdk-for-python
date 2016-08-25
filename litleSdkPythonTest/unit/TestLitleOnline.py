@@ -266,6 +266,28 @@ class TestLitleOnline(unittest.TestCase):
         comm.http_post.assert_called_once()
         expected = RegexMatcher("[\s\S]*?<litleOnlineRequest[\s\S]*?<credit[\s\S]*?<orderId>12344</orderId>\s*?<orderSource>ecommerce</orderSource>\s*?<card>\s*?<type>VI</type>\s*?<number>4100000000000001</number>\s*?<expDate>1210</expDate>\s*?</card>\s*?</credit>\s*?</litleOnlineRequest>")
         comm.http_post.assert_called_with(expected, url=ANY, proxy=ANY, timeout=ANY)
+        
+    def testCreditWithPaypal(self):
+        credit = litleXmlFields.credit()
+        credit.amount = 106
+        credit.orderId = "123456"
+        credit.orderSource = 'ecommerce'
+        
+        paypal = litleXmlFields.payPal()
+        paypal.payerId = "1234"
+        paypal.payerEmail = "john@vantiv.com"
+        credit.paypal = paypal
+        
+        comm = Communications(config)
+        comm.http_post = MagicMock()
+        
+        litle = litleOnlineRequest(config)
+        litle.setCommunications(comm)
+        litle._processResponse = MagicMock(return_value=None)
+        litle.sendRequest(credit)
+        
+        match_re = RegexMatcher(".*?<litleOnlineRequest.*?<paypal.*?<payerId>1234</payerId>.*?</paypal>.*?</credit>.*?")
+        comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
     
     #new for 8.29
     def testCreditWithSecondaryAmount(self):
