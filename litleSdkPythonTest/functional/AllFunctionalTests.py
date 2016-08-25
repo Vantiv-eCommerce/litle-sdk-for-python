@@ -34,6 +34,7 @@ import TestEcheckSale
 import TestEcheckVerification
 import TestEcheckVoid
 import TestForceCapture
+import TestFraudCheck
 import TestSale
 import TestToken
 import TestUpdateCardValidationNumOnToken
@@ -56,6 +57,7 @@ testecheckverfication = TestEcheckVerification.suite()
 
 testecheckvoid = TestEcheckVoid.suite()
 testforcecapture = TestForceCapture.suite()
+testfraudcheck = TestFraudCheck.suite()
 testsale = TestSale.suite()
 testtoken = TestToken.suite()
 
@@ -79,6 +81,7 @@ unittest.TextTestRunner().run(testecheckverfication)
 
 unittest.TextTestRunner().run(testecheckvoid)
 unittest.TextTestRunner().run(testforcecapture)
+unittest.TextTestRunner().run(testfraudcheck)
 unittest.TextTestRunner().run(testsale)
 unittest.TextTestRunner().run(testtoken)
 unittest.TextTestRunner().run(testUpdateCardValidationNumOnToken)
