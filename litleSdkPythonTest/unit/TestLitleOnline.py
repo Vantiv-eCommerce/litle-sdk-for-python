@@ -1031,12 +1031,12 @@ class TestLitleOnline(unittest.TestCase):
         litle.sendRequest(echeckSale)
         
     def testFraudCheckNoCustomAttributes(self):
-        fraudCheck=litleXmlFields.fraudCheck()
+        fraudCheck = litleXmlFields.fraudCheck()
         
-        advancedFraudChecks=litleXmlFields.advancedFraudChecksType()
+        advancedFraudChecks = litleXmlFields.advancedFraudChecksType()
+        advancedFraudChecks.threatMetrixSessionId = "123"
         
-        fraudCheck.advancedFraudChecks=advancedFraudChecks
-        advancedFraudChecks.threatMetrixSessionId = "123";
+        fraudCheck.advancedFraudChecks = advancedFraudChecks
         
         comm = Communications(config)
         comm.http_post = MagicMock()
@@ -1050,13 +1050,13 @@ class TestLitleOnline(unittest.TestCase):
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
     def testFraudCheckOneCustomAttributes(self):
-        fraudCheck=litleXmlFields.fraudCheck()
+        fraudCheck = litleXmlFields.fraudCheck()
         
-        advancedFraudChecks=litleXmlFields.advancedFraudChecksType()
+        advancedFraudChecks = litleXmlFields.advancedFraudChecksType()
+        advancedFraudChecks.threatMetrixSessionId = "123"
+        advancedFraudChecks.customAttribute1 = 'abc'
         
-        fraudCheck.advancedFraudChecks=advancedFraudChecks
-        advancedFraudChecks.threatMetrixSessionId = "123";
-        advancedFraudChecks.customAttribute1='abc'
+        fraudCheck.advancedFraudChecks = advancedFraudChecks
     
         comm = Communications(config)
         comm.http_post = MagicMock()
@@ -1070,14 +1070,14 @@ class TestLitleOnline(unittest.TestCase):
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
     def testFraudCheckTwoCustomAttributes(self):
-        fraudCheck=litleXmlFields.fraudCheck()
+        fraudCheck = litleXmlFields.fraudCheck()
         
-        advancedFraudChecks=litleXmlFields.advancedFraudChecksType()
-        advancedFraudChecks.threatMetrixSessionId = "123";
-        advancedFraudChecks.customAttribute1='abc'
-        advancedFraudChecks.customAttribute2='def'
+        advancedFraudChecks = litleXmlFields.advancedFraudChecksType()
+        advancedFraudChecks.threatMetrixSessionId = "123"
+        advancedFraudChecks.customAttribute1 = 'abc'
+        advancedFraudChecks.customAttribute2 = 'def'
         
-        fraudCheck.advancedFraudChecks=advancedFraudChecks
+        fraudCheck.advancedFraudChecks = advancedFraudChecks
         
         comm = Communications(config)
         comm.http_post = MagicMock()
@@ -1091,15 +1091,15 @@ class TestLitleOnline(unittest.TestCase):
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
     def testFraudCheckThreeCustomAttributes(self):
-        fraudCheck=litleXmlFields.fraudCheck()
+        fraudCheck = litleXmlFields.fraudCheck()
         
-        advancedFraudChecks=litleXmlFields.advancedFraudChecksType()
-        advancedFraudChecks.threatMetrixSessionId = "123";
-        advancedFraudChecks.customAttribute1='abc'
-        advancedFraudChecks.customAttribute2='def'
-        advancedFraudChecks.customAttribute3='ghi'
+        advancedFraudChecks = litleXmlFields.advancedFraudChecksType()
+        advancedFraudChecks.threatMetrixSessionId = "123"
+        advancedFraudChecks.customAttribute1 = 'abc'
+        advancedFraudChecks.customAttribute2 = 'def'
+        advancedFraudChecks.customAttribute3 = 'ghi'
         
-        fraudCheck.advancedFraudChecks=advancedFraudChecks
+        fraudCheck.advancedFraudChecks = advancedFraudChecks
         
         comm = Communications(config)
         comm.http_post = MagicMock()
@@ -1113,16 +1113,16 @@ class TestLitleOnline(unittest.TestCase):
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
     def testFraudCheckFourCustomAttributes(self):
-        fraudCheck=litleXmlFields.fraudCheck()
+        fraudCheck = litleXmlFields.fraudCheck()
         
-        advancedFraudChecks=litleXmlFields.advancedFraudChecksType()
-        advancedFraudChecks.threatMetrixSessionId = "123";
-        advancedFraudChecks.customAttribute1='abc'
-        advancedFraudChecks.customAttribute2='def'
-        advancedFraudChecks.customAttribute3='ghi'
-        advancedFraudChecks.customAttribute4='jkl'
+        advancedFraudChecks = litleXmlFields.advancedFraudChecksType()
+        advancedFraudChecks.threatMetrixSessionId = "123"
+        advancedFraudChecks.customAttribute1 = 'abc'
+        advancedFraudChecks.customAttribute2 = 'def'
+        advancedFraudChecks.customAttribute3 = 'ghi'
+        advancedFraudChecks.customAttribute4 = 'jkl'
         
-        fraudCheck.advancedFraudChecks=advancedFraudChecks
+        fraudCheck.advancedFraudChecks = advancedFraudChecks
         
         comm = Communications(config)
         comm.http_post = MagicMock()
@@ -1136,17 +1136,17 @@ class TestLitleOnline(unittest.TestCase):
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
     def testFraudCheckFiveCustomAttributes(self):
-        fraudCheck=litleXmlFields.fraudCheck()
+        fraudCheck = litleXmlFields.fraudCheck()
         
-        advancedFraudChecks=litleXmlFields.advancedFraudChecksType()
-        advancedFraudChecks.threatMetrixSessionId = "123";
-        advancedFraudChecks.customAttribute1='abc'
-        advancedFraudChecks.customAttribute2='def'
-        advancedFraudChecks.customAttribute3='ghi'
-        advancedFraudChecks.customAttribute4='jkl'
-        advancedFraudChecks.customAttribute5='mno'
+        advancedFraudChecks = litleXmlFields.advancedFraudChecksType()
+        advancedFraudChecks.threatMetrixSessionId = "123"
+        advancedFraudChecks.customAttribute1 = 'abc'
+        advancedFraudChecks.customAttribute2 = 'def'
+        advancedFraudChecks.customAttribute3 = 'ghi'
+        advancedFraudChecks.customAttribute4 = 'jkl'
+        advancedFraudChecks.customAttribute5 = 'mno'
         
-        fraudCheck.advancedFraudChecks=advancedFraudChecks
+        fraudCheck.advancedFraudChecks = advancedFraudChecks
         
         comm = Communications(config)
         comm.http_post = MagicMock()
@@ -1160,10 +1160,10 @@ class TestLitleOnline(unittest.TestCase):
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
     def testFraudCheckBillToAddress(self):
-        fraudCheck=litleXmlFields.fraudCheck()
-        
-        advancedFraudChecks=litleXmlFields.advancedFraudChecksType()
-        advancedFraudChecks.threatMetrixSessionId = "123";
+        fraudCheck = litleXmlFields.fraudCheck()
+         
+        advancedFraudChecks = litleXmlFields.advancedFraudChecksType()
+        advancedFraudChecks.threatMetrixSessionId = "123"
         
         contact = litleXmlFields.contact()
         contact.firstName = "Fetty"
@@ -1173,8 +1173,8 @@ class TestLitleOnline(unittest.TestCase):
         contact.state = "New York"
         contact.zip = "11412"
         
-        fraudCheck.billToAddress=contact
-        fraudCheck.advancedFraudChecks=advancedFraudChecks
+        fraudCheck.advancedFraudChecks = advancedFraudChecks
+        fraudCheck.billToAddress = contact
         
         comm = Communications(config)
         comm.http_post = MagicMock()
@@ -1188,10 +1188,10 @@ class TestLitleOnline(unittest.TestCase):
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
     def testFraudCheckShipToAddress(self):
-        fraudCheck=litleXmlFields.fraudCheck()
+        fraudCheck = litleXmlFields.fraudCheck()
         
-        advancedFraudChecks=litleXmlFields.advancedFraudChecksType()
-        advancedFraudChecks.threatMetrixSessionId = "123";
+        advancedFraudChecks = litleXmlFields.advancedFraudChecksType()
+        advancedFraudChecks.threatMetrixSessionId = "123"
         
         contact = litleXmlFields.contact()
         contact.firstName = "Fetty"
@@ -1201,8 +1201,8 @@ class TestLitleOnline(unittest.TestCase):
         contact.state = "New York"
         contact.zip = "11412"
         
-        fraudCheck.shipToAddress=contact
-        fraudCheck.advancedFraudChecks=advancedFraudChecks
+        fraudCheck.advancedFraudChecks = advancedFraudChecks
+        fraudCheck.shipToAddress = contact
         
         comm = Communications(config)
         comm.http_post = MagicMock()
@@ -1216,13 +1216,13 @@ class TestLitleOnline(unittest.TestCase):
         comm.http_post.assert_called_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
     def testFraudCheckAmount(self):
-        fraudCheck=litleXmlFields.fraudCheck()
+        fraudCheck = litleXmlFields.fraudCheck()
         
-        advancedFraudChecks=litleXmlFields.advancedFraudChecksType()
-        advancedFraudChecks.threatMetrixSessionId = "123";
+        advancedFraudChecks = litleXmlFields.advancedFraudChecksType()
+        advancedFraudChecks.threatMetrixSessionId = "123"
         
-        fraudCheck.advancedFraudChecks=advancedFraudChecks
-        fraudCheck.amount=100
+        fraudCheck.advancedFraudChecks = advancedFraudChecks
+        fraudCheck.amount = 100
         
         comm = Communications(config)
         comm.http_post = MagicMock()
