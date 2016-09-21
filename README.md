@@ -52,11 +52,11 @@ Without Pip
 from litleSdkPython.litleOnlineRequest import *
 
 config = Configuration()
-config.setUser("User")
-config.setPassword("Pass")
-config.setMerchantId("123")
-config.setUrl("Sandbox")
-config.setProxy("")
+config.user = "User"
+config.password = "Pass"
+config.merchantId = "123"
+config.url = "Sandbox"
+config.proxy = ""
 
 # sale
 sale = litleXmlFields.sale()
