@@ -57,7 +57,10 @@ class Communications:
                 response = urllib2.urlopen(req, timeout = self.Timeout)
         except Exception,e:
             raise Exception("Error with Https Request, Please Check Proxy and Url configuration",e)
-        
+
+        if response.getcode() != 200:
+            raise Exception("Error with Https respone, response code is: ", response.getcode())
+
         responseXml = response.read()
         return responseXml
 
