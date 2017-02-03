@@ -79,7 +79,7 @@ class TestAuth(unittest.TestCase):
         applepay = litleXmlFields.applepayType()
         applepay.data = "4100000000000000"
         applepay.signature = "sign"
-        applepay.version = '1'
+        applepay.version = '1.0.0'
         header=litleXmlFields.applepayHeaderType()
         header.applicationData='e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
         header.ephemeralPublicKey ='e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855'
