@@ -141,6 +141,7 @@ def fixPaypalinCredit(xfile):
     line = creditAnon + "._AddElement\(pyxb.binding.basis.element\(pyxb.namespace.ExpandedName\(Namespace, u'paypal'\)"
     rightLine = re.compile(line)
     readlines = open(xfile, 'r').readlines()
+    wholeLine = ''
     for currentline in readlines:
         if(rightLine.search(currentline)):
             wholeLine = currentline
@@ -149,7 +150,23 @@ def fixPaypalinCredit(xfile):
     wholeLine = wholeLine.replace(')', '\)')
     wholeLine = wholeLine.replace('(', '\(')
     replace_in_file(xfile, wholeLine, creditAnon + "._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, u'paypal'), payPal, scope=" + creditAnon + ")")
-    
+    replace_in_file(lib_path,
+                    "__payerId.name\(\) : __payerId,\n",
+                    "__payerId.name() : __payerId,\n"
+                    "        __payerEmail.name() : __payerEmail,\n")
+    replace_in_file(lib_path,
+                    "__payerId = pyxb.binding.content.ElementUse\(pyxb.namespace.ExpandedName\(Namespace, u'payerId'\), 'payerId', '__httpwww_litle_comschema_payPal_httpwww_litle_comschemapayerId', False\)\n",
+                    "__payerEmail = pyxb.binding.content.ElementUse(pyxb.namespace.ExpandedName(Namespace, u'payerEmail'), 'payerEmail', '__httpwww_litle_comschema_payPal_httpwww_litle_comschemapayerEmail', False)\n"
+                    "    payerEmail = property(__payerEmail.value, __payerEmail.set, None, None)\n"
+                    "    __payerId = pyxb.binding.content.ElementUse(pyxb.namespace.ExpandedName(Namespace, u'payerId'), 'payerId', '__httpwww_litle_comschema_payPal_httpwww_litle_comschemapayerId', False)\n")
+    replace_in_file(lib_path,
+                    "payPal._AddElement\(pyxb.binding.basis.element\(pyxb.namespace.ExpandedName\(Namespace, u'token'\), pyxb.binding.datatypes.string, scope=payPal\)\)",
+                    "payPal._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, u'token'), pyxb.binding.datatypes.string, scope=payPal))\n"
+                    "payPal._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, u'payerEmail'), pyxb.binding.datatypes.string, scope=payPal))")
+    replace_in_file(lib_path,
+                    "pyxb.binding.content.ParticleModel\(payPal._UseForTag\(pyxb.namespace.ExpandedName\(Namespace, u'payerId'\)\), min_occurs=0L, max_occurs=1\),",
+                    "pyxb.binding.content.ParticleModel(payPal._UseForTag(pyxb.namespace.ExpandedName(Namespace, u'payerId')), min_occurs=0L, max_occurs=1),\n"
+                    "    pyxb.binding.content.ParticleModel(payPal._UseForTag(pyxb.namespace.ExpandedName(Namespace, u'payerEmail')), min_occurs=0L, max_occurs=1),")
 
 def fixChoices(xfile):
     line = "._GroupModel_.*?, min_occurs=1, max_occurs=1\)"
