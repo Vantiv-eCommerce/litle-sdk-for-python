@@ -100,7 +100,7 @@ class TestConfigOverride(unittest.TestCase):
         litle._processResponse = MagicMock(return_value=None)
         litle.sendRequest(authorization, version="3.14")
         
-        match_re = RegexMatcher('.*?version="9.3".*?')
+        match_re = RegexMatcher('.*?version="9.10".*?')
         comm.http_post.assert_called_once_with(match_re, url=ANY, proxy=ANY, timeout=ANY)
         
     def testMerchantIdOverride(self):

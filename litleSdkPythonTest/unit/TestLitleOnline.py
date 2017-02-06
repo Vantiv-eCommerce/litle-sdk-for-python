@@ -74,7 +74,7 @@ class TestLitleOnline(unittest.TestCase):
         applepay = litleXmlFields.applepayType()
         applepay.data = "4100000000000000"
         applepay.signature = "yoyo"
-        applepay.version = '9.3'
+        applepay.version = '1.0.0'
         header=litleXmlFields.applepayHeaderType()
         header.applicationData='applicationData'
         header.ephemeralPublicKey ='UWIRNRSKSXMXEYEINR'
@@ -653,7 +653,7 @@ class TestLitleOnline(unittest.TestCase):
         applepay = litleXmlFields.applepayType()
         applepay.data = "4100000000000000"
         applepay.signature = "yoyo"
-        applepay.version = '9.3'
+        applepay.version = '1.0.0'
         header=litleXmlFields.applepayHeaderType()
         header.applicationData='applicationData'
         header.ephemeralPublicKey ='UWIRNRSKSXMXEYEINR'
@@ -700,7 +700,7 @@ class TestLitleOnline(unittest.TestCase):
         applepay = litleXmlFields.applepayType()
         applepay.data = "4100000000000000"
         applepay.signature = "yoyo"
-        applepay.version = '8.29'
+        applepay.version = '1.0.0'
         header=litleXmlFields.applepayHeaderType()
         header.applicationData='applicationData'
         header.ephemeralPublicKey ='UWIRNRSKSXMXEYEINR'
