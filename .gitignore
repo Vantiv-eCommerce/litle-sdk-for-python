@@ -5,6 +5,7 @@
 .pydevproject
 /nosetests.xml
 .idea/
+.DS_Store
 /litleSdkPythonTest/unit/test/
 /.settings
 /litleSdkPython/*.pyc
