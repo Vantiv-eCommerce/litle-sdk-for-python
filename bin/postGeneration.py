@@ -17,7 +17,7 @@ def replace_in_file(xfile, find, replace):
         # if the regexp is found
         if found.search(currentline):
             cregex(find, replace, currentline, xfile, listindex, readlines)
-            
+
 def isInFile(xfile, find):
     already = re.compile(find)
     doneFlag = 0
@@ -44,8 +44,8 @@ def cregex(find, replace, currentline, xfile, listindex, readlines):
     for line in readlines:
         write_file.write(line)
     write_file.close()
-    
-def changeCreateFromDom(xfile):    
+
+def changeCreateFromDom(xfile):
     replace_in_file(lib_path, "return pyxb.binding.basis.element.AnyCreateFromDOM\(node, _fallback_namespace=default_namespace\)",
                     "return LitleAnyCreateFromDOM(pyxb.binding.basis.element,node, _fallback_namespace=default_namespace)")
     replace_in_file(lib_path, " saxer = pyxb.binding.saxer.make_parser\(fallback_namespace=Namespace.fallbackNamespace\(\), location_base=location_base\)",
@@ -151,7 +151,7 @@ def fixPaypalinCredit(xfile):
     wholeLine = wholeLine.replace('(', '\(')
     replace_in_file(xfile, wholeLine, creditAnon + "._AddElement(pyxb.binding.basis.element(pyxb.namespace.ExpandedName(Namespace, u'paypal'), payPal, scope=" + creditAnon + ")")
     replace_in_file(lib_path,
-                    "__payerId.name\(\) : __payerId,\n",
+                    "__payerId.name\(\) : __payerId\n",
                     "__payerId.name() : __payerId,\n"
                     "        __payerEmail.name() : __payerEmail,\n")
     replace_in_file(lib_path,
