@@ -1,5 +1,11 @@
 = Litle Online
 
+==Version 9.12.0
+* Feature: Support XML v9.12
+
+==Version 9.10.0
+* Feature: Support XML v9.10
+
 ==Version 9.3.2
 HTTP timeout set to 500ms
 
