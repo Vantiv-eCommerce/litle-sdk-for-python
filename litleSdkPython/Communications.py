@@ -46,7 +46,7 @@ class Communications:
             self.Timeout = timeout
             
         req = urllib2.Request(url= self.Url, data=post_data)
-        req.add_header('Content-type', 'text/xml')
+        req.add_header('Content-type', 'text/xml; charset=UTF-8')
             
         try: 
             if (self.Proxy != None) :  
