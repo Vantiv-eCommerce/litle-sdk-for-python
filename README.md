@@ -1,3 +1,5 @@
+NOTE: [vantiv-sdk-for-python](https://github.com/LitleCo/vantiv-sdk-for-python) is the prteferred SDK for connecting to Vantiv eCommerce
+
 litle-sdk-for-python
 ====================
 
