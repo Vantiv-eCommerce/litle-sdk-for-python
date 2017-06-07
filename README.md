@@ -1,4 +1,4 @@
-NOTE: [vantiv-sdk-for-python](https://github.com/LitleCo/vantiv-sdk-for-python) is the prteferred SDK for connecting to Vantiv eCommerce
+NOTE: [vantiv-sdk-for-python](https://github.com/Vantiv/vantiv-sdk-for-python) is the preferred SDK for connecting to Vantiv eCommerce
 
 litle-sdk-for-python
 ====================
@@ -18,7 +18,7 @@ This SDK was implemented to support the Python programming language and was crea
 
 See LICENSE file for details on using this software.
 
-Source Code available from : https://github.com/LitleCo/litle-sdk-for-Python
+Source Code available from : https://github.com/Vantiv/litle-sdk-for-Python
 
 Please contact [Vantiv eCommerce](https://developer.vantiv.com/community/ecommerce) to receive valid merchant credentials and determine which version of the SDK is right for your business requirements or if you require assistance in any other way.  You can reach us at sdksupport@Vantiv.com
 
@@ -46,7 +46,7 @@ Without Pip
 
 >python setup.py install
 
-2) To run tests see [SDK Testing Info](https://github.com/LitleCo/litle-sdk-for-python/wiki/Testing)
+2) To run tests see [SDK Testing Info](https://github.com/Vantiv/litle-sdk-for-python/wiki/Testing)
 
 3) Create a python file similar to:
 
