@@ -50,12 +50,12 @@ class Configuration(object):
 
     def _urlMapper(self,target):
         if (target == "Prelive"):
-            return 'https://prelive.litle.com/vap/communicator/online'
+            return 'https://payments.vantivprelive.com/vap/communicator/online'
         elif(target == "Sandbox"):
             return 'https://www.testlitle.com/sandbox/communicator/online'
         elif(target == "Postlive"):
-            return 'https://postlive.litle.com/vap/communicator/online'
+            return 'https://payments.vantivpostlive.com/vap/communicator/online'
         elif(target == "Prod"):
-            return 'https://production.litle.com/vap/communicator/online'
+            return 'https://payments.vantivcnp.com/vap/communicator/online'
         else:
             return target
