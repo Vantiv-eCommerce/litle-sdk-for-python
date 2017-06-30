@@ -101,7 +101,10 @@ class litleOnlineRequest:
         except Exception, e:
             raise Exception("Error Processing Response", e)    
         if (response.response == '0'):
-            return response.transactionResponse
+            if response.transactionResponse != None:
+                return response.transactionResponse
+            else:
+                return response.recurringTransactionResponse
         else:
             raise Exception(response.message)
       
