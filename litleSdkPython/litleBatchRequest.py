@@ -101,7 +101,7 @@ class litleBatchRequest:
         self._batchRequest.numUnloads = 0
         self._batchRequest.unloadAmount = 0
         self._batchRequest.numBalanceInquirys = 0
-        self._batchRequest.merchantSdk = '9.12.0'
+        self._batchRequest.merchantSdk = '9.12.1'
 
         __tmpDir = self.config.batchRequestFolder+'/tmp'
         self._maxTransactionsPerBatch = int(getattr(self.config, 'maxTransactionsPerBatch', '10000'))

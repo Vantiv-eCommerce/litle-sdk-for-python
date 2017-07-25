@@ -3,7 +3,7 @@
 #from distutils.core import setup
 from setuptools import setup, find_packages
 setup(name='LitleSdkPython',
-      version='9.12.0',
+      version='9.12.1',
       description='Vantiv eCommerce SDK for Python',
       author='Vantiv eCommerce',
       author_email='SDKSupport@vantiv.com',
