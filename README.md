@@ -1,6 +1,6 @@
 litle-sdk-for-python
 ====================
-
+### NOTE: [vantiv-sdk-for-python](https://github.com/Vantiv/vantiv-sdk-for-python) is the preferred SDK for connecting to Vantiv 
 About Vantiv eCommerce
 ------------
 [Vantiv eCommerce](https://developer.vantiv.com/community/ecommerce) powers the payment processing engines for leading companies that sell directly to consumers through  internet retail, direct response marketing (TV, radio and telephone), and online services. Vantiv eCommerce is the leading authority in card-not-present (CNP) commerce, transaction processing and merchant services.
