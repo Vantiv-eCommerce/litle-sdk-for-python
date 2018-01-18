@@ -52,7 +52,7 @@ class Configuration(object):
         if (target == "Prelive"):
             return 'https://payments.vantivprelive.com/vap/communicator/online'
         elif(target == "Sandbox"):
-            return 'https://www.testlitle.com/sandbox/communicator/online'
+            return 'https://www.testvantivcnp.com/sandbox/communicator/online'
         elif(target == "Postlive"):
             return 'https://payments.vantivpostlive.com/vap/communicator/online'
         elif(target == "Prod"):
