@@ -224,12 +224,65 @@ class TestAuth(unittest.TestCase):
         card = litleXmlFields.cardType()
         card.number = "4100000000000000"
         card.expDate = "1210"
-        card.type='VI'
+        card.type = 'VI'
         
         authorization.card = card
-        litleXml =  litleOnlineRequest(config)
+        litleXml = litleOnlineRequest(config)
         response = litleXml.sendRequest(authorization)
         self.assertEquals('Approved', response.message)
+
+    def test_auth_with_processing_type(self):
+        authorization = litleXmlFields.authorization()
+        authorization.id = '12345'
+        authorization.reportGroup = 'Default'
+        authorization.orderId = '67890'
+        authorization.amount = 10000
+        authorization.orderSource = 'ecommerce'
+        authorization.processingType = 'initialInstallment'
+        authorization.originalNetworkTransactionId = '9876543210'
+        authorization.originalTransactionAmount = 53698
+
+        card = litleXmlFields.cardType()
+        card.number = '4100000000000000'
+        card.expDate = '1210'
+        card.type = 'VI'
+        authorization.card = card
+
+        litleXml = litleOnlineRequest(config)
+        response = litleXml.sendRequest(authorization)
+        self.assertEquals('Approved', response.message)
+
+    def test_auth_with_processing_type_COF(self):
+        authorization = litleXmlFields.authorization()
+        authorization.id = '12345'
+        authorization.reportGroup = 'Default'
+        authorization.orderId = '67890'
+        authorization.amount = 10000
+        authorization.orderSource = 'ecommerce'
+        authorization.processingType = 'initialCOF'
+        authorization.originalNetworkTransactionId = '9876543210'
+        authorization.originalTransactionAmount = 53698
+
+        card = litleXmlFields.cardType()
+        card.number = '4100000000000000'
+        card.expDate = '1210'
+        card.type = 'VI'
+        authorization.card = card
+
+        litleXml = litleOnlineRequest(config)
+        response = litleXml.sendRequest(authorization)
+        self.assertEquals('Approved', response.message)
+
+        authorization.processingType = 'merchantInitiatedCOF'
+        litleXml = litleOnlineRequest(config)
+        response = litleXml.sendRequest(authorization)
+        self.assertEquals('Approved', response.message)
+
+        authorization.processingType = 'cardholderInitiatedCOF'
+        litleXml = litleOnlineRequest(config)
+        response = litleXml.sendRequest(authorization)
+        self.assertEquals('Approved', response.message)
+
 def suite():
     suite = unittest.TestSuite()
     suite = unittest.TestLoader().loadTestsFromTestCase(TestAuth)

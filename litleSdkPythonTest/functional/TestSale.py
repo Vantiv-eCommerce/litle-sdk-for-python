@@ -104,6 +104,60 @@ class TestSale(unittest.TestCase):
         self.assertEquals("Approved",response.message)
         self.assertEquals(107,response.applepayResponse.transactionAmount)
 
+    def test_sale_with_processing_type(self):
+        transaction = litleXmlFields.sale()
+        transaction.id = '12345'
+        transaction.reportGroup = 'Default'
+        transaction.orderId = '67890'
+        transaction.amount = 10000
+        transaction.orderSource = 'ecommerce'
+        transaction.processingType = 'initialInstallment'
+        transaction.originalNetworkTransactionId = '9876543210'
+        transaction.originalTransactionAmount = 53698
+        transaction.id = 'ThisIsID'
+
+        card = litleXmlFields.cardType()
+        card.number = '4100000000000000'
+        card.expDate = '1210'
+        card.type = 'VI'
+        transaction.card = card
+
+        litleXml = litleOnlineRequest(config)
+        response = litleXml.sendRequest(transaction)
+        self.assertEquals("Approved", response.message)
+
+    def test_sale_with_processing_type_COF(self):
+        transaction = litleXmlFields.sale()
+        transaction.id = '12345'
+        transaction.reportGroup = 'Default'
+        transaction.orderId = '67890'
+        transaction.amount = 10000
+        transaction.orderSource = 'ecommerce'
+        transaction.processingType = 'initialCOF'
+        transaction.originalNetworkTransactionId = '9876543210'
+        transaction.originalTransactionAmount = 53698
+        transaction.id = 'ThisIsID'
+
+        card = litleXmlFields.cardType()
+        card.number = '4100000000000000'
+        card.expDate = '1210'
+        card.type = 'VI'
+        transaction.card = card
+
+        litleXml = litleOnlineRequest(config)
+        response = litleXml.sendRequest(transaction)
+        self.assertEquals("Approved", response.message)
+
+        transaction.processingType = 'merchantInitiatedCOF'
+        litleXml = litleOnlineRequest(config)
+        response = litleXml.sendRequest(transaction)
+        self.assertEquals("Approved", response.message)
+
+        transaction.processingType = 'cardholderInitiatedCOF'
+        litleXml = litleOnlineRequest(config)
+        response = litleXml.sendRequest(transaction)
+        self.assertEquals("Approved", response.message)
+
 def suite():
     suite = unittest.TestSuite()
     suite = unittest.TestLoader().loadTestsFromTestCase(TestSale)

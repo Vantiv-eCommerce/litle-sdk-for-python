@@ -79,8 +79,8 @@ class litleOnlineRequest:
     def _createTxn(self, transaction):
         litleOnline = litleXmlFields.litleOnlineRequest()
         litleOnline.merchantId = self.MerchantId
-        litleOnline.version = '8.29'
-        litleOnline.merchantSdk = '8.29.1'
+        litleOnline.version = '8.31'
+        litleOnline.merchantSdk = '8.31.0'
         authentication = litleXmlFields.authentication()
         authentication.user = self.User
         authentication.password =  self.Password 

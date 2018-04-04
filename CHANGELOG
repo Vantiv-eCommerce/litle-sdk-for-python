@@ -1,5 +1,10 @@
 = LitleOnline CHANGELOG
 
+== Version 8.31.0
+* Feature: XML upgrade to v8.31
+* Feature: Added support for processingType
+* Feature: Added support for COF
+
 == Version 8.29.1
 HTTP timeout set to 500ms
 

@@ -183,6 +183,96 @@ class TestCaptureGivenAuth(unittest.TestCase):
         litleXml =  litleOnlineRequest(config)
         response = litleXml.sendRequest(CaptureGivenAuth)
         self.assertEquals("Approved",response.message)
+
+    def test_simple_capture_given_auth_with_processing_type(self):
+        transaction = litleXmlFields.captureGivenAuth()
+        transaction.orderId= '12344'
+        transaction.amount = 106
+        transaction.orderSource = 'ecommerce'
+        transaction.processingType = 'initialInstallment'
+        transaction.id = 'ThisIsID'
+
+        # Create authInformation
+        authInformation = litleXmlFields.authInformation()
+        authInformation.authDate = datetime.datetime.now().strftime("%Y-%m-%d")
+        authInformation.authCode = '543216'
+        authInformation.authAmount = 12345
+        transaction.authInformation = authInformation
+
+        # Create cardType object
+        card = litleXmlFields.cardType()
+        card.number = '4100000000000000'
+        card.expDate = '1210'
+        card.type = 'VI'
+        # The type of card is cardType
+        transaction.card = card
+        litleXml = litleOnlineRequest(config)
+        response = litleXml.sendRequest(transaction)
+        self.assertEquals("Approved", response.message)
+
+    def test_simple_capture_given_auth_with_processing_type_COF(self):
+        transaction = litleXmlFields.captureGivenAuth()
+        transaction.orderId= '12344'
+        transaction.amount = 106
+        transaction.orderSource = 'ecommerce'
+        transaction.processingType = 'initialCOF'
+        transaction.id = 'ThisIsID'
+
+        # Create authInformation
+        authInformation = litleXmlFields.authInformation()
+        authInformation.authDate = datetime.datetime.now().strftime("%Y-%m-%d")
+        authInformation.authCode = '543216'
+        authInformation.authAmount = 12345
+        transaction.authInformation = authInformation
+
+        # Create cardType object
+        card = litleXmlFields.cardType()
+        card.number = '4100000000000000'
+        card.expDate = '1210'
+        card.type = 'VI'
+        # The type of card is cardType
+        transaction.card = card
+        litleXml = litleOnlineRequest(config)
+        response = litleXml.sendRequest(transaction)
+        self.assertEquals("Approved", response.message)
+
+        transaction.processingType = 'merchantInitiatedCOF'
+        litleXml = litleOnlineRequest(config)
+        response = litleXml.sendRequest(transaction)
+        self.assertEquals("Approved", response.message)
+
+        transaction.processingType = 'cardholderInitiatedCOF'
+        litleXml = litleOnlineRequest(config)
+        response = litleXml.sendRequest(transaction)
+        self.assertEquals("Approved", response.message)
+
+
+    def test_simple_capture_given_auth_with_original_network_transaction_id(self):
+        transaction = litleXmlFields.captureGivenAuth()
+        transaction.orderId= '12344'
+        transaction.amount = 106
+        transaction.orderSource = 'ecommerce'
+        transaction.originalNetworkTransactionId = '987654321098765432109876543210'
+        transaction.originalTransactionAmount = 1066
+        transaction.id = 'ThisIsID'
+
+        # Create authInformation
+        authInformation = litleXmlFields.authInformation()
+        authInformation.authDate = datetime.datetime.now().strftime("%Y-%m-%d")
+        authInformation.authCode = '543216'
+        authInformation.authAmount = 12345
+        transaction.authInformation = authInformation
+
+        # Create cardType object
+        card = litleXmlFields.cardType()
+        card.number = '4100000000000000'
+        card.expDate = '1210'
+        card.type = 'VI'
+        # The type of card is cardType
+        transaction.card = card
+        litleXml = litleOnlineRequest(config)
+        response = litleXml.sendRequest(transaction)
+        self.assertEquals("Approved", response.message)
    
 def suite():
     suite = unittest.TestSuite()
